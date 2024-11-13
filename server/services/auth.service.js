@@ -28,10 +28,10 @@ async function alreadyExists(email){
     let extant = false;
     const extantUser = await userModel.User.findOne({where: {email: email}});
     if(extantUser === null){
-        console.log(`No existing record found for unique identifier: ${email}`);
+        console.log(`\nNo existing record found for unique identifier: ${email}\n`);
     } else {
         extant = true;
-        console.log(`Exisiting User record found with unique identifier: ${email}`);
+        console.log(`\nExisiting User record found with unique identifier: ${email}\n`);
     }
     return extant;
 }

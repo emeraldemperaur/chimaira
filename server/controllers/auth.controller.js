@@ -20,7 +20,6 @@ const authController = {
     async signin(req, res, next){
         try{
             const { email, password } = req.body;
-            console.log(`\n\nUSER OBJECT EMIL: ${email}`)
             const user = await servicesIndex._authServices.signInWithUIDAndPassword(email, password);
             const token = servicesIndex._authServices.genAuthToken(user);
             

@@ -8,7 +8,7 @@ const authRouter = express.Router();
 authRouter.post('/register', authController.register);
 authRouter.post('/signin', authController.signin);
 authRouter.get('/isauth', auth(), authController.isauth);
-authRouter.post('/setrole',  auth(), authController.setrole);
+authRouter.post('/setrole',  auth('createAny', 'test'), authController.setrole);
 
 
 module.exports = {authRouter}
