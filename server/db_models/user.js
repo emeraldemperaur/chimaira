@@ -67,16 +67,6 @@ const User = dataSource.define(
                 }
 
             },
-            beforeUpdate: async(user) => {
-                if(user.password){
-                    const salt = await bcrypt.genSalt(10, 'a');
-                    user.password = bcrypt.hashSync(user.password, salt);
-                }
-                if(!validator.isEmail(user.email)){
-                    throw new apiErrors.ApiError(HttpStatusCode.BadRequest, 'Invalid User Email');
-                }
-
-            },
         }
     }
 

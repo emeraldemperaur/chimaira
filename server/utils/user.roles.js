@@ -9,20 +9,27 @@ const rootPrivileges = {
 
 let userPrivileges = {
     root: {
-        test: rootPrivileges
+        test: rootPrivileges,
+        profile: rootPrivileges
     },
     admin: {
-        test: rootPrivileges
+        test: rootPrivileges,
+        profile: rootPrivileges
     },
     user: {
         test: {
             'read:any' : ['*']
+        },
+        profile: {
+            'read:own' : ['*'],
+            'update:own' : ['*'],
         }
     },
     mecha: {
         test: {
             'read:any' : ['*']
-        }
+        },
+        profile: rootPrivileges
     }
 }
 

@@ -6,12 +6,17 @@ const bcrypt = require('bcrypt');
 const { findUserbyUUID, userServices } = require('./user.service');
 const { apiErrors } = require('../middleware/apiError');
 const { HttpStatusCode } = require('axios');
+const { Op } = require('sequelize');
+
 
 
 const createUser = async(email, uuid, password, firstName, lastName, role) =>{
     try{
-        if(await alreadyExists(email)){
+        if(await alreadyExists(email, uuid)){
             throw new apiErrors.ApiError(HttpStatusCode.BadRequest, 'Sorry that unique identifier has already been taken');
+        }
+        if(!['root', 'admin', 'user', 'mecha'].includes(role)){
+            throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Sorry the specified user role '${role}' is not acceptable`);
         }
         const newUser = await userModel.User.create({
             email: email, uuid: uuid, password: password, firstName: firstName,
@@ -24,14 +29,14 @@ const createUser = async(email, uuid, password, firstName, lastName, role) =>{
 }
 
 
-async function alreadyExists(email){
+async function alreadyExists(email, uuid){
     let extant = false;
-    const extantUser = await userModel.User.findOne({where: {email: email}});
+    const extantUser = await userModel.User.findOne({where: {[Op.or]: [ {email: email}, {uuid: uuid}]}});
     if(extantUser === null){
-        console.log(`\nNo existing record found for unique identifier: ${email}\n`);
+        console.log(`\nNo existing record found for unique identifier: ${email} (${uuid})\n`);
     } else {
         extant = true;
-        console.log(`\nExisiting User record found with unique identifier: ${email}\n`);
+        console.log(`\nExisiting User record found with unique identifier: ${email} (${uuid})\n`);
     }
     return extant;
 }
