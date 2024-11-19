@@ -9,5 +9,7 @@ userRouter.route('/profile')
 .get(auth('readOwn', 'profile'), userController.fetchprofile)
 .patch(auth('updateOwn', 'profile'), userController.updateprofile)
 
+userRouter.patch('/email', auth('updateOwn', 'profile'), userController.updateprofileemail)
+
 
 module.exports = {userRouter}

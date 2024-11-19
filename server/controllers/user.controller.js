@@ -21,6 +21,22 @@ const userController = {
         }catch(error){
             next(error);
         }
+    },
+    async updateprofileemail(req, res, next){
+        try{
+            const user = await servicesIndex._userServices.updateUserProfileEmail(req);
+            const token = servicesIndex._authServices.genAuthToken(user);
+
+            //email service
+
+            res.cookie('x-access-token', token)
+            .status(HttpStatusCode.Ok).send({
+                user,
+                token
+            })
+        }catch(error){
+            next(error);
+        }
     }
 }
 

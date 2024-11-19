@@ -5,6 +5,7 @@ const { apiErrors } = require('../middleware/apiError');
 const { HttpStatusCode } = require('axios');
 require('dotenv').config();
 const bcrypt = require('bcrypt');
+const { Op } = require('sequelize');
 
 
 
@@ -49,10 +50,33 @@ async function updateUserProfile(req){
     }
 }
 
+async function updateUserProfileEmail(req){
+    try{
+        const isUser = await userModel.User.findOne({ where: {email: req.body.newemail}});
+        if(isUser){
+            throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Extant User Record with email (${req.body.newemail}) already exists on database`);
+        }
+        const extantUser = await userModel.User.findOne({ where: {[Op.or]: [{email: req.user.email}, {id: req.user.id}]}});
+        if(!extantUser){
+            throw new apiErrors.ApiError(HttpStatusCode.NotFound, `Extant User Record with email (${req.body.newemail}) not found on database`);
+        }
+        if(extantUser){
+            await extantUser.update({
+                email: req.body.newemail,
+                verified: false
+            })
+            return extantUser.save();
+        }
+    }catch(error){
+        throw error;
+    }
+}
+
 const userServices = {
     findUserbyUUID,
     findUserbyID,
-    updateUserProfile
+    updateUserProfile,
+    updateUserProfileEmail
 }
 
 module.exports = {userServices}
