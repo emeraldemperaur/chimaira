@@ -10,6 +10,7 @@ const authController = {
             const token = servicesIndex._authServices.genAuthToken(user);
 
             // EMAIL VERIFICATION
+            servicesIndex._emailServices.registerEmail(email, user);
 
             res.cookie('x-access-token', token)
             .status(201).send({user, token})

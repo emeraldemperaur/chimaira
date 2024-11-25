@@ -7,9 +7,10 @@ const userRouter = express.Router();
 //User CRUD
 userRouter.route('/profile')
 .get(auth('readOwn', 'profile'), userController.fetchprofile)
-.patch(auth('updateOwn', 'profile'), userController.updateprofile)
+.patch(auth('updateOwn', 'profile'), userController.updateprofile);
 
-userRouter.patch('/email', auth('updateOwn', 'profile'), userController.updateprofileemail)
+userRouter.patch('/email', auth('updateOwn', 'profile'), userController.updateprofileemail);
 
+userRouter.get('/verify', userController.verifyaccount);
 
 module.exports = {userRouter}

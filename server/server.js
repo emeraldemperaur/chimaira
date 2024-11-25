@@ -38,7 +38,7 @@ appServer.use((err, req, res, next) => {
     apiErrors.handleError(err, res);
 });
  
-const port = process.env.PORT || 3001;
+const port = process.env.SERVER_PORT || 3001;
 appServer.listen(port, ()=>{
     console.log(`\n\x1b[34m=======================\n\x1b[34mChímaira Middleware Log\n\x1b[34m=======================\n \x1b[0m`);
     console.log(`\x1b[33mChimera (server) is running on port ${port}\x1b[0m\n`);

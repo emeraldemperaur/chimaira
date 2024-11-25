@@ -67,6 +67,11 @@ const User = dataSource.define(
                 }
 
             },
+            beforeUpdate: async (user) => {
+                if(!validator.isEmail(user.email)){
+                    throw new apiErrors.ApiError(HttpStatusCode.BadRequest, 'Invalid User Email');
+                }
+            }
         }
     }
 

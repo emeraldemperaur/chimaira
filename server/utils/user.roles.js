@@ -23,6 +23,7 @@ let userPrivileges = {
         profile: {
             'read:own' : ['*'],
             'update:own' : ['*'],
+            'delete:own' : ['*']
         }
     },
     mecha: {

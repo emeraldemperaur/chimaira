@@ -10,7 +10,7 @@ const { Op } = require('sequelize');
 
 
 async function findUserbyUUID(uuid){
-    const user = await userModel.User.findOne({where: {email: uuid}});
+    const user = await userModel.User.findOne({where: {[Op.or]: [{email: uuid}, {uuid: uuid}]}});
     if (user === null){
         throw new Error(`UUID: ${uuid} not found on database`);
     }else {
@@ -72,11 +72,23 @@ async function updateUserProfileEmail(req){
     }
 }
 
+const genRegisterToken = (user) =>{
+    const userObject = {sub: Buffer.from(user.uuid, 'utf8').toString('hex'), email: user.email}
+    const token = jwt.sign(userObject, process.env.DB_CODEX, {expiresIn: '13h'});
+    return token;
+}
+
+const validateToken = (token) => {
+    return jwt.verify(token, process.env.DB_CODEX);
+}
+
 const userServices = {
     findUserbyUUID,
     findUserbyID,
     updateUserProfile,
-    updateUserProfileEmail
+    updateUserProfileEmail,
+    genRegisterToken,
+    validateToken
 }
 
 module.exports = {userServices}
