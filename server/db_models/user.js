@@ -5,7 +5,7 @@ const validator = require('validator');
 const { apiErrors } = require('../middleware/apiError');
 const { HttpStatusCode } = require('axios');
 
-//const db = require('./database');
+
 
 //DataSource
 const dataSource = dbSQLize;

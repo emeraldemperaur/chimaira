@@ -9,6 +9,9 @@ const { User } = require('./db_models/user');
 const { apiErrors } = require('./middleware/apiError');
 const appRoutes = require('./routes');
 const { jwtStrategy } = require('./middleware/passport');
+const { Locker } = require('./db_models/entitymodelL');
+const { Group } = require('./db_models/entitymodelG');
+const { LockerGroup } = require('./db_models/entitymodelS');
 
 //DataSource
 const dataSource = db.dbSQLize;
@@ -16,6 +19,9 @@ dataSource.authenticate()
 .then(() => {
     console.log(`\n\x1b[32mSuccessfully connected to 'Chimera' (${process.env.DB_TYPE}) database!\x1b[0m\n`)
     User.sync({force: true});
+    Locker.sync({force: true});
+    Group.sync({force: true});
+    LockerGroup.sync({force: true});
 })
 .catch((error) => console.log(`\x1b[31mFailed to connect to 'Chimera' database: ${error.original}\x1b[0m`));
 

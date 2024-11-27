@@ -58,10 +58,11 @@ const registerEmail = async(email, user) => {
     try{
         const eToken = userServices.genRegisterToken(user);
         let mailFactory = new Mailgen({
-            theme: 'default',
+            theme: 'salted',
             product: {
                 name: 'Chimera',
-                link: `${process.env.SMTP_BASE_URL}`
+                link: `${process.env.SMTP_BASE_URL}`,
+                logo: null,
             }
         });
         const outputTemplate = {
@@ -76,7 +77,13 @@ const registerEmail = async(email, user) => {
                         link: `${process.env.SMTP_DOMAIN}api/user/verify/?validation=${eToken}`
                     }
                 },
-                outro: 'Need help, or have question?'
+                goToAction: {
+                    text: 'Validate Account',
+                    link: 'https://mailgen.com/confirm?s=d9729feb74992cc3482b350163a1a010',
+                    description: 'Validate your Chimera user account'
+                },
+                signature: false,
+                outro: ['Need help, or have questions?', 'Just reply to this email, we\'d be happy to help.']
             }
         }
         let emailOutput = mailFactory.generate(outputTemplate);
@@ -84,6 +91,12 @@ const registerEmail = async(email, user) => {
             from: process.env.EMAIL_ADDRESS,
             to: email,
             subject: 'Welcome to Chimera - Verify User Account',
+            dsn: {
+                id: user.uuid,
+                return: 'headers',
+                notify: ['failure', 'delay', 'success'],
+                recipient: process.env.DSN_EMAIL_ADDRESS
+            },
             html: emailOutput
         }
         await smtpTransporter.sendMail(message);
