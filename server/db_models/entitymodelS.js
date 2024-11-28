@@ -21,6 +21,11 @@ const LockerGroup = dataSource.define(
         name: {
             type: DataTypes.STRING(33),
             allowNull: false
+        },
+        tags: {
+            type: DataTypes.JSON,
+            defaultValue: [],
+            allowNull: false
         }
     },
     {
