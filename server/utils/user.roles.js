@@ -7,14 +7,27 @@ const rootPrivileges = {
     'delete:any' : ['*']
 }
 
+const ownRights = {
+    'create:own' : ['*'],
+    'read:own' : ['*'],
+    'update:own' : ['*'],
+    'delete:own' : ['*']
+}
+
 let userPrivileges = {
     root: {
         test: rootPrivileges,
-        profile: rootPrivileges
+        profile: rootPrivileges,
+        group: rootPrivileges,
+        locker: rootPrivileges,
+        lockergroup: rootPrivileges
     },
     admin: {
         test: rootPrivileges,
-        profile: rootPrivileges
+        profile: rootPrivileges,
+        group: rootPrivileges,
+        locker: rootPrivileges,
+        lockergroup: rootPrivileges
     },
     user: {
         test: {
@@ -24,13 +37,19 @@ let userPrivileges = {
             'read:own' : ['*'],
             'update:own' : ['*'],
             'delete:own' : ['*']
-        }
+        },
+        group: rootPrivileges,
+        locker: rootPrivileges,
+        lockergroup: ownRights
     },
     mecha: {
         test: {
             'read:any' : ['*']
         },
-        profile: rootPrivileges
+        profile: rootPrivileges,
+        group: rootPrivileges,
+        locker: rootPrivileges,
+        lockergroup: rootPrivileges
     }
 }
 

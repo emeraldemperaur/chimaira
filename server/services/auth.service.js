@@ -12,11 +12,11 @@ const { Op } = require('sequelize');
 
 const createUser = async(email, uuid, password, firstName, lastName, role) =>{
     try{
-        if(await alreadyExists(email, uuid)){
-            throw new apiErrors.ApiError(HttpStatusCode.BadRequest, 'Sorry that unique identifier has already been taken');
-        }
         if(!['root', 'admin', 'user', 'mecha'].includes(role)){
             throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Sorry the specified user role '${role}' is not acceptable`);
+        }
+        if(await alreadyExists(email, uuid)){
+            throw new apiErrors.ApiError(HttpStatusCode.BadRequest, 'Sorry that unique identifier has already been taken');
         }
         const newUser = await userModel.User.create({
             email: email, uuid: uuid, password: password, firstName: firstName,

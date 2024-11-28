@@ -43,7 +43,7 @@ const Locker = dataSource.define(
         },
         lastLockedOn: {
             type: DataTypes.DATE,
-            allowNull: false
+            allowNull: true
         },
         createdOn: {
             type: DataTypes.DATE,

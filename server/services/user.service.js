@@ -22,9 +22,9 @@ async function findUserbyUUID(uuid){
 async function findUserbyID(id){
     const user = await userModel.User.findOne({where: { id: id}});
     if(user === null){
-        throw new apiErrors.ApiError(HttpStatusCode.NotFound, `Exisiting User Record (ID: ${id}) not found on database`)
+        throw new apiErrors.ApiError(HttpStatusCode.NotFound, `Existing User Record (ID: ${id}) not found on database`)
     }else {
-        console.log(`Exisiting User Record found for ID: ${user.id}`);
+        console.log(`Existing User Record found for ID: ${user.id}`);
     }
     return user;
 }

@@ -17,6 +17,10 @@ const LockerGroup = dataSource.define(
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
+        },
+        name: {
+            type: DataTypes.STRING(33),
+            allowNull: false
         }
     },
     {
