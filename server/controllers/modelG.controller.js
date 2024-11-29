@@ -20,6 +20,17 @@ const modelGController = {
         }catch(error){
             next(error);
         }
+    },
+    async findgroupbyId(req, res, next){
+        try{
+            const id = req.params.id;
+            const group = await servicesIndex._modelGServices.findGroupbyID(id, req.user);
+            if(group){
+                res.status(HttpStatusCode.Ok).json(group);
+            }
+        }catch(error){
+            next(error);
+        }
     }
 }
 module.exports = {modelGController}

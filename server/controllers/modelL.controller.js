@@ -20,6 +20,17 @@ const modelLController = {
         }catch(error){
             next(error);
         }
+    },
+    async findlockerbyId(req, res, next){
+        try{
+            const id = req.params.id;
+            const locker = await servicesIndex._modelLServices.findLockerbyID(id, req.user);
+            if(locker){
+                res.status(HttpStatusCode.Ok).json(locker);
+            }
+        }catch(error){
+            next(error);
+        }
     }
 }
 module.exports = {modelLController}

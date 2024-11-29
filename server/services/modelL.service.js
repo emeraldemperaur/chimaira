@@ -7,7 +7,8 @@ require('dotenv').config();
 const bcrypt = require('bcrypt');
 const { Op } = require('sequelize');
 
-async function findLockerbyID(id){
+async function findLockerbyID(id, user){
+    if(['unauthorizedrolename'].includes(user.role)) throw new apiErrors.ApiError(HttpStatusCode.Unauthorized, 'User Access Unauthorized');
     const locker = await lockerModel.Locker.findOne({where: { id: id}});
     if(locker === null){
         throw new apiErrors.ApiError(HttpStatusCode.NotFound, `Existing Locker Record (ID: ${id}) not found on database`)

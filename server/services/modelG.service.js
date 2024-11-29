@@ -7,7 +7,8 @@ require('dotenv').config();
 const bcrypt = require('bcrypt');
 const { Op } = require('sequelize');
 
-async function findGroupbyID(id){
+async function findGroupbyID(id, user){
+    if(['unauthorizedrolename'].includes(user.role)) throw new apiErrors.ApiError(HttpStatusCode.Unauthorized, 'User Access Unauthorized');
     const group = await groupModel.Group.findOne({where: { id: id}});
     if(group === null){
         throw new apiErrors.ApiError(HttpStatusCode.NotFound, `Existing Group Record (ID: ${id}) not found on database`)

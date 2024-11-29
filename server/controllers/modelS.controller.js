@@ -20,6 +20,17 @@ const modelSController = {
         }catch(error){
             next(error);
         }
+    },
+    async findlockergroupbyId(req, res, next){
+        try{
+            const id = req.params.id;
+            const lockergroup = await servicesIndex._modelSServices.findLockerGroupbyID(id, req.user);
+            if(lockergroup){
+                res.status(HttpStatusCode.Ok).json(lockergroup);
+            }
+        }catch(error){
+            next(error);
+        }
     }
 }
 module.exports = {modelSController}

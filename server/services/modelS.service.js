@@ -7,7 +7,8 @@ require('dotenv').config();
 const bcrypt = require('bcrypt');
 const { Op } = require('sequelize');
 
-async function findLockerGroupbyID(id){
+async function findLockerGroupbyID(id, user){
+    if(['unauthorizedrolename'].includes(user.role)) throw new apiErrors.ApiError(HttpStatusCode.Unauthorized, 'User Access Unauthorized');
     const lockergroup = await lockerGroupModel.LockerGroup.findOne({where: { id: id}});
     if(lockergroup === null){
         throw new apiErrors.ApiError(HttpStatusCode.NotFound, `Existing Locker Group Record (ID: ${id}) not found on database`)
