@@ -18,6 +18,17 @@ async function findLockerbyID(id, user){
     return locker;
 }
 
+async function findLockerNamebyID(id){
+    const locker = await lockerModel.Locker.findOne({where: { id: id}});
+    if(locker === null){
+        throw new apiErrors.ApiError(HttpStatusCode.NotFound, `Existing Locker Record (ID: ${id}) not found on database`)
+    }else {
+        console.log(`Existing Locker Record found for ID: ${locker.id}`);
+    }
+    return locker.name;
+}
+
+
 async function createLocker(body){
     try{
         if(await alreadyExists(body.name)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, 'Sorry that locker name is already taken');
@@ -63,7 +74,8 @@ async function alreadyExists(name){
 const modelLServices = {
    findLockerbyID,
    createLocker,
-   fetchLockers
+   fetchLockers,
+   findLockerNamebyID
 }
 
 module.exports = {modelLServices}

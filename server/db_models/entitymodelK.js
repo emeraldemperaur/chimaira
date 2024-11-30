@@ -4,49 +4,47 @@ const bcrypt = require('bcrypt');
 const validator = require('validator');
 const { apiErrors } = require('../middleware/apiError');
 const { HttpStatusCode } = require('axios');
-const { Group } = require('./entitymodelG');
-const { Locker } = require('./entitymodelL');
+const { generatePIN, mjolnirTools } = require('../utils/mjolnir');
 
 
 
 //DataSource
 const dataSource = dbSQLize;
 
-const LockerGroup = dataSource.define(
-    'LockerGroup',
+const Key = dataSource.define(
+    'Key',
     {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
         },
-        name: {
-            type: DataTypes.STRING(33),
+        keycode: {
+            type: DataTypes.INTEGER,
+            defaultValue: () => mjolnirTools.generatePIN(),
             allowNull: false
         },
-        tags: {
-            type: DataTypes.JSON,
-            defaultValue: [],
+        createdOn: {
+            type: DataTypes.DATE,
+            defaultValue: DataTypes.NOW,
             allowNull: false
         }
     },
     {
         tableName: null,
         hooks: {
-            beforeCreate: async (lockergroup) => {
-              
+            beforeCreate: async (key) => {
+             
+
             },
-            beforeUpdate: async (lockergroup) => {
+            beforeUpdate: async (key) => {
                 
             },
-            afterUpdate: async (lockergroup) => {
+            afterUpdate: async (key) => {
                 
             },
         }
     }
 )
 
-LockerGroup.belongsTo(Group, { foreignKey: 'groupId', })
-LockerGroup.belongsTo(Locker, { foreignKey: 'lockerId', })
-
-module.exports = {LockerGroup}
+module.exports = {Key}

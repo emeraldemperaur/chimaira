@@ -4,16 +4,14 @@ const bcrypt = require('bcrypt');
 const validator = require('validator');
 const { apiErrors } = require('../middleware/apiError');
 const { HttpStatusCode } = require('axios');
-const { Group } = require('./entitymodelG');
-const { Locker } = require('./entitymodelL');
 
 
 
 //DataSource
 const dataSource = dbSQLize;
 
-const LockerGroup = dataSource.define(
-    'LockerGroup',
+const Chain = dataSource.define(
+    'Chain',
     {
         id: {
             type: DataTypes.INTEGER,
@@ -24,29 +22,27 @@ const LockerGroup = dataSource.define(
             type: DataTypes.STRING(33),
             allowNull: false
         },
-        tags: {
-            type: DataTypes.JSON,
-            defaultValue: [],
+        createdOn: {
+            type: DataTypes.DATE,
+            defaultValue: DataTypes.NOW,
             allowNull: false
         }
     },
     {
         tableName: null,
         hooks: {
-            beforeCreate: async (lockergroup) => {
-              
+            beforeCreate: async (chain) => {
+             
+
             },
-            beforeUpdate: async (lockergroup) => {
+            beforeUpdate: async (chain) => {
                 
             },
-            afterUpdate: async (lockergroup) => {
+            afterUpdate: async (chain) => {
                 
             },
         }
     }
 )
 
-LockerGroup.belongsTo(Group, { foreignKey: 'groupId', })
-LockerGroup.belongsTo(Locker, { foreignKey: 'lockerId', })
-
-module.exports = {LockerGroup}
+module.exports = {Chain}

@@ -18,6 +18,28 @@ async function findLockerGroupbyID(id, user){
     return lockergroup;
 }
 
+async function findLockerGroupsbyGroupID(id, user){
+    if(['unauthorizedrolename'].includes(user.role)) throw new apiErrors.ApiError(HttpStatusCode.Unauthorized, 'User Access Unauthorized');
+    const lockergroups = await lockerGroupModel.LockerGroup.findAll({where: { groupId: id}, include: { all: true }});
+    if(lockergroups.length === 0){
+        throw new apiErrors.ApiError(HttpStatusCode.NotFound, `Existing Locker Group Records (groupId: ${id}) not found on database`)
+    }else {
+        console.log(`Existing Locker Group Records found for (groupId: ${id})`);
+    }
+    return lockergroups;
+}
+
+async function findLockerGroupsbyLockerID(id, user){
+    if(['unauthorizedrolename'].includes(user.role)) throw new apiErrors.ApiError(HttpStatusCode.Unauthorized, 'User Access Unauthorized');
+    const lockergroups = await lockerGroupModel.LockerGroup.findAll({where: { lockerId: id}, include: { all: true }});
+    if(lockergroups.length === 0){
+        throw new apiErrors.ApiError(HttpStatusCode.NotFound, `Existing Locker Group Records (lockerId: ${id}) not found on database`)
+    }else {
+        console.log(`Existing Locker Group Records found for (lockerId: ${id})`);
+    }
+    return lockergroups;
+}
+
 async function createLockerGroup(body){
     try{
         if(await alreadyExists(body.name)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, 'Sorry that lockergroup name is already taken');
@@ -61,6 +83,8 @@ async function alreadyExists(name){
 
 const modelSServices = {
    findLockerGroupbyID,
+   findLockerGroupsbyGroupID,
+   findLockerGroupsbyLockerID,
    createLockerGroup,
    fetchLockerGroups
 }

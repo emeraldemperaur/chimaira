@@ -18,6 +18,16 @@ async function findGroupbyID(id, user){
     return group;
 }
 
+async function findGroupNamebyID(id){
+    const group = await groupModel.Group.findOne({where: { id: id}});
+    if(group === null){
+        throw new apiErrors.ApiError(HttpStatusCode.NotFound, `Existing Group Record (ID: ${id}) not found on database`)
+    }else {
+        console.log(`Existing Group Record found for ID: ${group.id}`);
+    }
+    return group.name;
+}
+
 async function createGroup(body){
     try{
         if(await alreadyExists(body.name)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, 'Sorry that group name is already taken');
@@ -61,6 +71,7 @@ async function alreadyExists(name){
 }
 const modelGServices = {
    findGroupbyID,
+   findGroupNamebyID,
    createGroup,
    fetchGroups
 }

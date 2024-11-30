@@ -13,5 +13,10 @@ modelSRouter.route('/lockergroup')
 modelSRouter.route('/lockergroup/:id')
 .get(auth('readAny', 'lockergroup'), modelSController.findlockergroupbyId)
 
+modelSRouter.route('/lockergroup/group/:id')
+.get(auth('readAny', 'lockergroup'), modelSController.findlockergroupsbyGroupId)
+
+modelSRouter.route('/lockergroup/locker/:id')
+.get(auth('readAny', 'lockergroup'), modelSController.findlockergroupsbyLockerId)
 
 module.exports = {modelSRouter}

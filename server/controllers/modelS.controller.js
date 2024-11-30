@@ -31,6 +31,24 @@ const modelSController = {
         }catch(error){
             next(error);
         }
+    },
+    async findlockergroupsbyGroupId(req, res, next){
+        try{
+            const id = req.params.id;
+            const lockergroup = await servicesIndex._modelSServices.findLockerGroupsbyGroupID(id, req.user);
+            res.status(HttpStatusCode.Ok).json(lockergroup);
+        }catch(error){
+            next(error);
+        }
+    },
+    async findlockergroupsbyLockerId(req, res, next){
+        try{
+            const id = req.params.id;
+            const lockergroup = await servicesIndex._modelSServices.findLockerGroupsbyLockerID(id, req.user);
+            res.status(HttpStatusCode.Ok).json(lockergroup);
+        }catch(error){
+            next(error);
+        }
     }
 }
 module.exports = {modelSController}
