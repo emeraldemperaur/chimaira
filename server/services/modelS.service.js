@@ -9,7 +9,7 @@ const { Op } = require('sequelize');
 
 async function findLockerGroupbyID(id, user){
     if(['unauthorizedrolename'].includes(user.role)) throw new apiErrors.ApiError(HttpStatusCode.Unauthorized, 'User Access Unauthorized');
-    const lockergroup = await lockerGroupModel.LockerGroup.findOne({where: { id: id}});
+    const lockergroup = await lockerGroupModel.LockerGroup.findOne({where: { id: id}, include: { all: true }});
     if(lockergroup === null){
         throw new apiErrors.ApiError(HttpStatusCode.NotFound, `Existing Locker Group Record (ID: ${id}) not found on database`)
     }else {
@@ -22,7 +22,9 @@ async function createLockerGroup(body){
     try{
         if(await alreadyExists(body.name)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, 'Sorry that lockergroup name is already taken');
         const lockergroup = await lockerGroupModel.LockerGroup.create({
-            name: body.name
+            name: body.name,
+            groupId: body.groupId,
+            lockerId: body.lockerId
         })
         return lockergroup;
     }catch(error){

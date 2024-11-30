@@ -51,7 +51,13 @@ const initModelSValidator = [
         .isLength({min: 3}).withMessage(`You need to provide a valid 'name' property/value`),
     check('tags')
         .trim().not().isEmpty().withMessage(`You need to provide a 'tags' property/value`)
-        .isJSON().withMessage(`You need to provide a valid json 'tags' property/value`)
+        .isJSON().withMessage(`You need to provide a valid json 'tags' property/value`),
+    check('groupId')
+        .trim().not().isEmpty().withMessage(`You need to provide a 'groupId' property/value`)
+        .isInt().withMessage(`You need to provide a valid 'groupId' property/value`),
+    check('lockerId')
+        .trim().not().isEmpty().withMessage(`You need to provide a 'lockerId' property/value`)
+        .isInt().withMessage(`You need to provide a valid 'lockerId' property/value`)
     ,
     (req, res, next) => {
         const errors = validationResult(req)

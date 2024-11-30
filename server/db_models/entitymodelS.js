@@ -4,6 +4,8 @@ const bcrypt = require('bcrypt');
 const validator = require('validator');
 const { apiErrors } = require('../middleware/apiError');
 const { HttpStatusCode } = require('axios');
+const { Group } = require('./entitymodelG');
+const { Locker } = require('./entitymodelL');
 
 
 
@@ -45,5 +47,7 @@ const LockerGroup = dataSource.define(
     }
 )
 
+LockerGroup.belongsTo(Group, { foreignKey: 'groupId', })
+LockerGroup.belongsTo(Locker, { foreignKey: 'lockerId', })
 
 module.exports = {LockerGroup}
