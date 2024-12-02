@@ -29,12 +29,12 @@ const Group = dataSource.define(
         uuid1: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV1,
-            allowNull: false
+            allowNull: true
         },
         uuid2: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
-            allowNull: false
+            allowNull: true
         },
         private: {
             type: DataTypes.BOOLEAN,
@@ -49,6 +49,7 @@ const Group = dataSource.define(
     },
     {
         tableName: null,
+        paranoid: false,
         hooks: {
             beforeCreate: async (group) => {
              

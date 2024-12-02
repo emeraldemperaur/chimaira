@@ -13,4 +13,8 @@ userRouter.patch('/email', auth('updateOwn', 'profile'), userController.updatepr
 
 userRouter.get('/verify', userController.verifyaccount);
 
+userRouter.route('/profile/:id')
+.delete(auth('deleteAny', 'profile'), userController.deleteprofilebyId)
+
+
 module.exports = {userRouter}

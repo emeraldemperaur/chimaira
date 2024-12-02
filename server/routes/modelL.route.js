@@ -12,6 +12,13 @@ modelLRouter.route('/locker')
 
 modelLRouter.route('/locker/:id')
 .get(auth('readAny', 'locker'), modelLController.findlockerbyId)
+.patch(auth('updateAny', 'locker'), modelLController.updatelockerbyId)
+.delete(auth('deleteAny', 'locker'), modelLController.deletelockerbyId)
+
+
+modelLRouter.route('/locker/:propertyName/:propertyValue')
+.get(auth('readAny', 'locker'), modelLController.findlockersbyProperty)
+
 
 
 

@@ -31,6 +31,40 @@ const modelLController = {
         }catch(error){
             next(error);
         }
+    },
+    async findlockersbyProperty(req, res, next){
+        try{
+            const propertyName = req.params.propertyName;
+            const propertyValue = req.params.propertyValue;
+            const lockers = await servicesIndex._modelLServices.findLockersbyProperty(propertyName, propertyValue, req.user);
+            if(lockers){
+                res.status(HttpStatusCode.Ok).json(lockers);
+            }
+        }catch(error){
+            next(error);
+        }
+    },
+    async updatelockerbyId(req, res, next){
+        try{
+            const id = req.params.id;
+            const locker = await servicesIndex._modelLServices.updateLockerbyID(id, req);
+            if(locker){
+                res.status(HttpStatusCode.Ok).json(locker);
+            }
+        }catch(error){
+            next(error);
+        }
+    },
+    async deletelockerbyId(req, res, next){
+        try{
+            const id = req.params.id;
+            const locker = await servicesIndex._modelLServices.deleteLockerbyID(id, req);
+            if(locker){
+                res.status(HttpStatusCode.Ok).json(locker);
+            }
+        }catch(error){
+            next(error);
+        }
     }
 }
 module.exports = {modelLController}

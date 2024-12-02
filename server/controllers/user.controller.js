@@ -57,6 +57,17 @@ const userController = {
         }catch(error){
             next(error);
         }
+    },
+    async deleteprofilebyId(req, res, next){
+        try{
+            const id = req.params.id;
+            const user = await servicesIndex._userServices.deleteUserProfileByID(id, req);
+            if(user){
+                res.status(HttpStatusCode.Ok).json(user);
+            }
+        }catch(error){
+            next(error);
+        }
     }
 }
 module.exports = {userController}

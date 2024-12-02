@@ -12,6 +12,11 @@ modelGRouter.route('/group')
 
 modelGRouter.route('/group/:id')
 .get(auth('readAny', 'group'), modelGController.findgroupbyId)
+.patch(auth('updateAny', 'group'), modelGController.updategroupbyId)
+.delete(auth('deleteAny', 'group'), modelGController.deletegroupbyId)
+
+modelGRouter.route('/group/:propertyName/:propertyValue')
+.get(auth('readAny', 'group'), modelGController.findgroupsbyProperty)
 
 
 

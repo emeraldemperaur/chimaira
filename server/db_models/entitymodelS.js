@@ -27,11 +27,12 @@ const LockerGroup = dataSource.define(
         tags: {
             type: DataTypes.JSON,
             defaultValue: [],
-            allowNull: false
+            allowNull: true
         }
     },
     {
         tableName: null,
+        paranoid: false,
         hooks: {
             beforeCreate: async (lockergroup) => {
               
@@ -46,7 +47,7 @@ const LockerGroup = dataSource.define(
     }
 )
 
-LockerGroup.belongsTo(Group, { foreignKey: 'groupId', })
-LockerGroup.belongsTo(Locker, { foreignKey: 'lockerId', })
+LockerGroup.belongsTo(Group, { foreignKey: 'groupId', onDelete: 'RESTRICT'})
+LockerGroup.belongsTo(Locker, { foreignKey: 'lockerId', onDelete: 'RESTRICT'})
 
 module.exports = {LockerGroup}

@@ -31,6 +31,41 @@ const modelGController = {
         }catch(error){
             next(error);
         }
+    },
+    async findgroupsbyProperty(req, res, next){
+        try{
+            const propertyName = req.params.propertyName;
+            const propertyValue = req.params.propertyValue;
+            console.log(`\nCHECK INPUTS: ${propertyName}: ${propertyValue}\n`)
+            const groups = await servicesIndex._modelGServices.findGroupsbyProperty(propertyName, propertyValue, req.user);
+            if(groups){
+                res.status(HttpStatusCode.Ok).json(groups);
+            }
+        }catch(error){
+            next(error);
+        }
+    },
+    async updategroupbyId(req, res, next){
+        try{
+            const id = req.params.id;
+            const group = await servicesIndex._modelGServices.updateGroupbyID(id, req);
+            if(group){
+                res.status(HttpStatusCode.Ok).json(group);
+            }
+        }catch(error){
+            next(error);
+        }
+    },
+    async deletegroupbyId(req, res, next){
+        try{
+            const id = req.params.id;
+            const group = await servicesIndex._modelGServices.deleteGroupbyID(id, req);
+            if(group){
+                res.status(HttpStatusCode.Ok).json(group);
+            }
+        }catch(error){
+            next(error);
+        }
     }
 }
 module.exports = {modelGController}

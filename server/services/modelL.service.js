@@ -58,6 +58,96 @@ async function fetchLockers(){
     }
 }
 
+async function findLockersbyProperty(propertyName, propertyValue, user){
+    if(!['name', 'owner', 'uuid1', 'uuid2', 'locked', 'lastLockedOn', 'createdOn'].includes(propertyName)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid Locker propertyName (${propertyName}) provided.`)
+    try{
+        if(['unauthorizedrolename'].includes(user.role)) throw new apiErrors.ApiError(HttpStatusCode.Unauthorized, 'User Access Unauthorized');
+        var lockers = [];
+        var startDate;
+        var endDate;
+        switch(propertyName) {
+            case 'name':
+              lockers = await lockerModel.Locker.findAll({where: { name: propertyValue}});
+              break;
+            case 'owner':
+              lockers = await lockerModel.Locker.findAll({where: { owner: propertyValue}});
+              break;
+            case 'uuid1':
+              lockers = await lockerModel.Locker.findAll({where: { uuid1: propertyValue}});
+              break;
+            case 'uuid2':
+              lockers = await lockerModel.Locker.findAll({where: { uuid2: propertyValue}});
+              break;
+            case 'locked':
+              lockers = await lockerModel.Locker.findAll({where: { locked: propertyValue}});
+              break;
+            case 'lastLockedOn':
+              endDate = new Date(new Date(propertyValue).toISOString());
+              endDate.setDate(endDate.getDate() + 1);
+              startDate = new Date(endDate.getDate() - 1);
+              lockers = await lockerModel.Locker.findAll({where: { lastLockedOn:{ [Op.lt]: endDate, [Op.gt]: startDate } }});
+              break;
+            case 'createdOn':
+              endDate = new Date(new Date(propertyValue).toISOString());
+              endDate.setDate(endDate.getDate() + 1);
+              startDate = new Date(endDate.getDate() - 1);
+              lockers = await lockerModel.Locker.findAll({where: { createdOn:{ [Op.lt]: endDate, [Op.gt]: startDate } }});
+              break;
+            default:
+              lockers = await lockerModel.Locker.findAll({where: { name: propertyValue}});
+          }
+          if(lockers.length === 0){
+            console.log(`Existing Locker Records not found on database`);
+            throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No Locker Records (${propertyName}: ${propertyValue}) found on database`);
+          }else{ console.log(`(${lockers.length}) Existing Locker Records [${propertyName}: ${propertyValue}] found on database`); }
+        return lockers;
+    }catch(error){
+        throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No Locker Records [${propertyName}: ${propertyValue}] found on database`)
+    }
+}
+
+
+async function updateLockerbyID(id, req){
+    if(['unauthorizedrolename'].includes(req.user.role)) throw new apiErrors.ApiError(HttpStatusCode.Unauthorized, 'User Access Unauthorized');
+    await exantUpdate(id, req.body.name)
+    const locker = await lockerModel.Locker.findOne({where: { id: id}});
+    if(locker === null){
+        throw new apiErrors.ApiError(HttpStatusCode.NotFound, `Existing Locker Record (ID: ${id}) not found on database`)
+    }else if(locker) {
+        console.log(`Existing Locker Record found for ID: ${locker.id}`);
+        await locker.update({
+            name: req.body.name,
+            owner: req.body.owner,
+            uuid1: req.body.uuid1,
+            uuid2: req.body.uuid2  
+        });
+        await locker.save();
+        console.log(`Updated Existing Locker Record (ID: ${locker.id}) on database`);
+    }
+    return locker;
+}
+
+async function deleteLockerbyID(id, req){
+    if(['unauthorizedrolename'].includes(req.user.role)) throw new apiErrors.ApiError(HttpStatusCode.Unauthorized, 'User Access Unauthorized');
+    const locker = await lockerModel.Locker.findOne({where: { id: id}});
+    if(locker === null){
+        throw new apiErrors.ApiError(HttpStatusCode.NotFound, `Existing Locker Record (ID: ${id}) not found on database`)
+    }else if(locker) {
+        console.log(`Existing Locker Record found for ID: ${locker.id}`);
+        await locker.destroy();
+        console.log(`Deleted Existing Locker Record (ID: ${locker.id}) on database`);
+    }
+    return locker;
+}
+
+async function exantUpdate(id, name){
+    const locker = await lockerModel.Locker.findOne({where: {name: name}});
+    if(locker && locker.id != id){
+        console.log(`Update blocked. Extant Locker Record found with identifier: ${locker.name}`);
+        throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Update blocked. Extant Locker Record found with identifier: ${locker.name}`)
+    }
+}
+
 
 async function alreadyExists(name){
     let extant = false;
@@ -75,7 +165,11 @@ const modelLServices = {
    findLockerbyID,
    createLocker,
    fetchLockers,
-   findLockerNamebyID
+   findLockersbyProperty,
+   findLockerNamebyID,
+   updateLockerbyID,
+   deleteLockerbyID
+
 }
 
 module.exports = {modelLServices}

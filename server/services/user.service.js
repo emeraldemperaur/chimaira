@@ -6,6 +6,7 @@ const { HttpStatusCode } = require('axios');
 require('dotenv').config();
 const bcrypt = require('bcrypt');
 const { Op } = require('sequelize');
+const { use } = require('passport');
 
 
 
@@ -72,6 +73,23 @@ async function updateUserProfileEmail(req){
     }
 }
 
+async function deleteUserProfileByID(id, req){
+    try{
+        if(['unauthorizedrolename'].includes(req.user.role)) throw new apiErrors.ApiError(HttpStatusCode.Unauthorized, 'User Access Unauthorized');
+        const user = await userModel.User.findOne({ where: { id: id }});
+        if(user === null){
+            throw new apiErrors.ApiError(HttpStatusCode.NotFound, `Existing User Profile (ID: ${id}) not found on database`)
+        }else if(user) {
+            console.log(`Existing User Profile found for ID: ${user.id}`);
+            await user.destroy();
+            console.log(`Deleted Existing User Profile (ID: ${user.id}) from database`);
+        }
+        return user;
+    }catch(error){
+        throw new apiErrors.ApiError(HttpStatusCode.NotFound, 'Extant User Profile not found on database')
+    }
+}
+
 const genRegisterToken = (user) =>{
     const userObject = {sub: Buffer.from(user.uuid, 'utf8').toString('hex'), email: user.email}
     const token = jwt.sign(userObject, process.env.DB_CODEX, {expiresIn: '13h'});
@@ -88,7 +106,8 @@ const userServices = {
     updateUserProfile,
     updateUserProfileEmail,
     genRegisterToken,
-    validateToken
+    validateToken,
+    deleteUserProfileByID
 }
 
 module.exports = {userServices}

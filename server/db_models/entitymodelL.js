@@ -53,6 +53,7 @@ const Locker = dataSource.define(
     },
     {
         tableName: null,
+        paranoid: false,
         hooks: {
             beforeCreate: async (locker) => {
 
