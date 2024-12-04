@@ -13,7 +13,17 @@ const modelGController = {
     },
     async fetchgroups(req, res, next){
         try{
-            const groups = await servicesIndex._modelGServices.fetchGroups();
+            const groups = await servicesIndex._modelGServices.fetchGroups(req);
+            if(groups){
+                res.status(HttpStatusCode.Ok).json(groups);
+            }
+        }catch(error){
+            next(error);
+        }
+    },
+    async fetchgrouppages(req, res, next){
+        try{
+            const groups = await servicesIndex._modelGServices.fetchGroupPages(req);
             if(groups){
                 res.status(HttpStatusCode.Ok).json(groups);
             }
@@ -37,7 +47,7 @@ const modelGController = {
             const propertyName = req.params.propertyName;
             const propertyValue = req.params.propertyValue;
             console.log(`\nCHECK INPUTS: ${propertyName}: ${propertyValue}\n`)
-            const groups = await servicesIndex._modelGServices.findGroupsbyProperty(propertyName, propertyValue, req.user);
+            const groups = await servicesIndex._modelGServices.findGroupsbyProperty(req, propertyName, propertyValue);
             if(groups){
                 res.status(HttpStatusCode.Ok).json(groups);
             }
@@ -57,6 +67,28 @@ const modelGController = {
         }
     },
     async deletegroupbyId(req, res, next){
+        try{
+            const id = req.params.id;
+            const group = await servicesIndex._modelGServices.deleteGroupbyID(id, req);
+            if(group){
+                res.status(HttpStatusCode.Ok).json(group);
+            }
+        }catch(error){
+            next(error);
+        }
+    },
+    async bulkdeletegroups(req, res, next){
+        try{
+            const id = req.params.id;
+            const group = await servicesIndex._modelGServices.bulkDeleteGroups(req);
+            if(group){
+                res.status(HttpStatusCode.Ok).json(group);
+            }
+        }catch(error){
+            next(error);
+        }
+    },
+    async bulkcreategroups(req, res, next){
         try{
             const id = req.params.id;
             const group = await servicesIndex._modelGServices.deleteGroupbyID(id, req);

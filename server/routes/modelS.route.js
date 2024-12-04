@@ -10,6 +10,9 @@ modelSRouter.route('/lockergroup')
 .post(auth('createAny', 'lockergroup'), expressValidator.initModelSValidator, modelSController.createlockergroup)
 .get(auth('readAny', 'lockergroup'), modelSController.fetchlockergroups)
 
+modelSRouter.route('/page')
+.get(auth('readAny', 'lockergroup'), modelSController.fetchlockergrouppages)
+
 modelSRouter.route('/lockergroup/:id')
 .get(auth('readAny', 'lockergroup'), modelSController.findlockergroupbyId)
 .patch(auth('updateAny', 'lockergroup'), modelSController.updatelockergroupbyId)
@@ -24,5 +27,10 @@ modelSRouter.route('/lockergroup/locker/:id')
 
 modelSRouter.route('/lockergroup/:propertyName/:propertyValue')
 .get(auth('readAny', 'lockergroup'), modelSController.findlockergroupsbyProperty)
+
+//Bulk CRUD
+modelSRouter.route('/lockergroup')
+.post(auth('createAny', 'lockergroup'), modelSController.bulkcreatelockergroups)
+.delete(auth('deleteAny', 'lockergroup'), modelSController.bulkdeletelockergroups)
 
 module.exports = {modelSRouter}

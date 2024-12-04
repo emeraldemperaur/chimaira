@@ -13,9 +13,19 @@ const modelSController = {
     },
     async fetchlockergroups(req, res, next){
         try{
-            const lockergroups = await servicesIndex._modelSServices.fetchLockerGroups();
+            const lockergroups = await servicesIndex._modelSServices.fetchLockerGroups(req);
             if(lockergroups){
                 res.status(HttpStatusCode.Ok).json(lockergroups);
+            }
+        }catch(error){
+            next(error);
+        }
+    },
+    async fetchlockergrouppages(req, res, next){
+        try{
+            const groups = await servicesIndex._modelSServices.fetchLockerGroupPages(req);
+            if(groups){
+                res.status(HttpStatusCode.Ok).json(groups);
             }
         }catch(error){
             next(error);
@@ -36,7 +46,7 @@ const modelSController = {
         try{
             const propertyName = req.params.propertyName;
             const propertyValue = req.params.propertyValue;
-            const lockergroups = await servicesIndex._modelSServices.findLockerGroupsbyProperty(propertyName, propertyValue, req.user);
+            const lockergroups = await servicesIndex._modelSServices.findLockerGroupsbyProperty(req, propertyName, propertyValue);
             if(lockergroups){
                 res.status(HttpStatusCode.Ok).json(lockergroups);
             }
@@ -79,6 +89,26 @@ const modelSController = {
             const locker = await servicesIndex._modelSServices.deleteLockerGroupbyID(id, req);
             if(locker){
                 res.status(HttpStatusCode.Ok).json(locker);
+            }
+        }catch(error){
+            next(error);
+        }
+    },
+    async bulkdeletelockergroups(req, res, next){
+        try{
+            const lockergroups = await servicesIndex._modelSServices.bulkDeleteLockerGroups(req);
+            if(lockergroups){
+                res.status(HttpStatusCode.Ok).json(lockergroups);
+            }
+        }catch(error){
+            next(error);
+        }
+    },
+    async bulkcreatelockergroups(req, res, next){
+        try{
+            const lockergroups = await servicesIndex._modelSServices.bulkCreateLockerGroups(req);
+            if(lockergroups){
+                res.status(HttpStatusCode.Ok).json(lockergroups);
             }
         }catch(error){
             next(error);

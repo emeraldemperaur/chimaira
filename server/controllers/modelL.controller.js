@@ -13,9 +13,19 @@ const modelLController = {
     },
     async fetchlockers(req, res, next){
         try{
-            const lockers = await servicesIndex._modelLServices.fetchLockers();
+            const lockers = await servicesIndex._modelLServices.fetchLockers(req);
             if(lockers){
                 res.status(HttpStatusCode.Ok).json(lockers);
+            }
+        }catch(error){
+            next(error);
+        }
+    },
+    async fetchlockerpages(req, res, next){
+        try{
+            const groups = await servicesIndex._modelLServices.fetchLockerPages(req);
+            if(groups){
+                res.status(HttpStatusCode.Ok).json(groups);
             }
         }catch(error){
             next(error);
@@ -36,7 +46,7 @@ const modelLController = {
         try{
             const propertyName = req.params.propertyName;
             const propertyValue = req.params.propertyValue;
-            const lockers = await servicesIndex._modelLServices.findLockersbyProperty(propertyName, propertyValue, req.user);
+            const lockers = await servicesIndex._modelLServices.findLockersbyProperty(req, propertyName, propertyValue);
             if(lockers){
                 res.status(HttpStatusCode.Ok).json(lockers);
             }
@@ -61,6 +71,26 @@ const modelLController = {
             const locker = await servicesIndex._modelLServices.deleteLockerbyID(id, req);
             if(locker){
                 res.status(HttpStatusCode.Ok).json(locker);
+            }
+        }catch(error){
+            next(error);
+        }
+    },
+    async bulkdeletelockers(req, res, next){
+        try{
+            const lockers = await servicesIndex._modelLServices.bulkDeleteLockers(req);
+            if(lockers){
+                res.status(HttpStatusCode.Ok).json(lockers);
+            }
+        }catch(error){
+            next(error);
+        }
+    },
+    async bulkcreatelockers(req, res, next){
+        try{
+            const lockers = await servicesIndex._modelLServices.bulkCreateLockers(req);
+            if(lockers){
+                res.status(HttpStatusCode.Ok).json(lockers);
             }
         }catch(error){
             next(error);

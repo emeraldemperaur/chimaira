@@ -6,7 +6,7 @@ const { HttpStatusCode } = require('axios');
 require('dotenv').config();
 const bcrypt = require('bcrypt');
 const { Op } = require('sequelize');
-const { use } = require('passport');
+const { mjolnirTools } = require('../utils/mjolnir');
 
 
 
@@ -28,6 +28,125 @@ async function findUserbyID(id){
         console.log(`Existing User Record found for ID: ${user.id}`);
     }
     return user;
+}
+
+async function fetchAllUserProfiles(req){
+    if(!['id', 'email', 'firstName', 'lastName', 'uuid', 'role', 'verified', 'createdOn', undefined]
+        .includes(req.query.sortby)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid User Profile propertyName (${req.query.sortby}) provided.`);
+    if(!['id', 'email', 'firstName', 'lastName', 'uuid', 'role', 'verified', 'createdOn', undefined]
+        .includes(req.query.filterby)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid User Profile propertyName (${req.query.filterby}) provided.`);
+    if(!['ASC', 'DESC', undefined]
+        .includes(req.query.order)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid User Profile propertyName (${req.query.order}) provided.`);
+    const sortby = req.query.sortby || 'id';
+    const order = req.query.order || 'DESC';
+    const limit = req.query.limit || 100;
+    const skip = req.query.skip || 0;
+    try{
+        const users = await userModel.User.findAll({offset: skip, limit: limit, order: [[sortby, order]]});
+        if(users.length === 0) throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No User Profile records found on database`);
+        else console.log(`(${users.length}) User Profile records found on database`);
+        return users;
+    }catch(error){
+        throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No User Profile records found on database`)
+    }
+}
+
+async function fetchUserProfilePages(req){
+    if(!['id', 'email', 'firstName', 'lastName', 'uuid', 'role', 'verified', 'createdOn', undefined].includes(req.query.sortby)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid LockerGroup propertyName (${req.query.sortby}) provided.`);
+    if(!['id', 'email', 'firstName', 'lastName', 'uuid', 'role', 'verified', 'createdOn', undefined].includes(req.query.filterby)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid LockerGroup propertyName (${req.query.filterby}) provided.`);
+    if(!['ASC', 'DESC', undefined].includes(req.query.order)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid User Profile propertyName (${req.query.order}) provided.`);
+    var dataResponse;
+    const page = req.query.page || 0;
+    const size = req.query.size || 10;
+    const sortby = req.query.sortby || 'id';
+    const order = req.query.order || 'DESC';
+    const filterby = req.query.filterby || 'id';
+    const keyword = req.query.keyword || null;
+    try{
+        const { limit, offset } = await mjolnirTools.getPagination(page, size);
+        var startDate;
+        var endDate;
+        switch(filterby) {
+            case 'email':
+                await userModel.User.findAndCountAll({include: { all: true }, where: { email: keyword}, offset: offset, limit: limit, order: [[sortby, order]]})
+                .then(async (resultData) => {
+                    if(resultData.count === 0) throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No User Profile Records found on database`);
+                    dataResponse = await mjolnirTools.getPaginateData(resultData, page, limit);
+                    console.log(`${resultData.count} User Profile records found on database`);
+                })
+              .catch((error) => { throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No User Profile Records found on database`) });
+              break;
+            case 'firstName':
+                await userModel.User.findAndCountAll({include: { all: true }, where: { firstName: keyword}, offset: offset, limit: limit, order: [[sortby, order]]})
+                .then(async (resultData) => {
+                    if(resultData.count === 0) throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No User Profile Records found on database`);
+                    dataResponse = await mjolnirTools.getPaginateData(resultData, page, limit);
+                    console.log(`${resultData.count} User Profile records found on database`);
+                })
+                .catch((error) => { throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No User Profile Records found on database`) });
+              break;
+            case 'lastName':
+                await userModel.User.findAndCountAll({include: { all: true }, where: { lastName: keyword}, offset: offset, limit: limit, order: [[sortby, order]]})
+                .then(async (resultData) => {
+                    if(resultData.count === 0) throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No User Profile Records found on database`);
+                    dataResponse = await mjolnirTools.getPaginateData(resultData, page, limit);
+                    console.log(`${resultData.count} User Profile records found on database`);
+                })
+                .catch((error) => { throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No User Profile Records found on database`) });
+              break;
+            case 'uuid':
+                await userModel.User.findAndCountAll({include: { all: true }, where: { uuid: keyword}, offset: offset, limit: limit, order: [[sortby, order]]})
+                .then(async (resultData) => {
+                    if(resultData.count === 0) throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No User Profile Records found on database`);
+                    dataResponse = await mjolnirTools.getPaginateData(resultData, page, limit);
+                    console.log(`${resultData.count} User Profile records found on database`);
+                })
+                .catch((error) => { throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No User Profile Records found on database`) });
+                break;
+             case 'role':
+                await userModel.User.findAndCountAll({include: { all: true }, where: { role: keyword}, offset: offset, limit: limit, order: [[sortby, order]]})
+                .then(async (resultData) => {
+                    if(resultData.count === 0) throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No User Profile Records found on database`);
+                    dataResponse = await mjolnirTools.getPaginateData(resultData, page, limit);
+                    console.log(`${resultData.count} User Profile records found on database`);
+                })
+                .catch((error) => { throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No User Profile Records found on database`) });
+                break;
+            case 'verified':
+                await userModel.User.findAndCountAll({include: { all: true }, where: { verified: keyword}, offset: offset, limit: limit, order: [[sortby, order]]})
+                .then(async (resultData) => {
+                    if(resultData.count === 0) throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No User Profile Records found on database`);
+                    dataResponse = await mjolnirTools.getPaginateData(resultData, page, limit);
+                    console.log(`${resultData.count} User Profile records found on database`);
+                })
+                .catch((error) => { throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No User Profile Records found on database`) });
+                break;
+            case 'createdOn':
+                endDate = new Date(new Date(keyword).toISOString());
+                endDate.setDate(endDate.getDate() + 1);
+                startDate = new Date(endDate.getDate() - 1);  
+                await userModel.User.findAndCountAll({include: { all: true }, where: { createdOn: { [Op.lt]: endDate, [Op.gt]: startDate }}, 
+                    offset: offset, limit: limit, order: [[sortby, order]]})
+                .then(async (resultData) => {
+                    if(resultData.count === 0) throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No User Profile Records found on database`);
+                    dataResponse = await mjolnirTools.getPaginateData(resultData, page, limit);
+                    console.log(`${resultData.count} User Profile records found on database`);
+                })
+                .catch((error) => { throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No User Profile Records found on database`) });
+                break;
+            default:
+                await userModel.User.findAndCountAll({include: { all: true }, offset: offset, limit: limit, order: [[sortby, order]]})
+                .then(async (resultData) => {
+                    if(resultData.count === 0) throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No User Profile Records found on database`);
+                    dataResponse = await mjolnirTools.getPaginateData(resultData, page, limit);
+                    console.log(`${resultData.count} User Profile records found on database`);
+                })
+                .catch((error) => { throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No User Profile Records found on database`) });
+          }
+        return dataResponse;
+    }catch(error){
+        throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No User Profile Records found on database`)
+    }
 }
 
 async function updateUserProfile(req){
@@ -103,6 +222,8 @@ const validateToken = (token) => {
 const userServices = {
     findUserbyUUID,
     findUserbyID,
+    fetchAllUserProfiles,
+    fetchUserProfilePages,
     updateUserProfile,
     updateUserProfileEmail,
     genRegisterToken,

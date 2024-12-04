@@ -7,6 +7,7 @@ require('dotenv').config();
 const bcrypt = require('bcrypt');
 const { Op } = require('sequelize');
 const e = require('express');
+const { mjolnirTools } = require('../utils/mjolnir');
 
 async function findGroupbyID(id, user){
     if(['unauthorizedrolename'].includes(user.role)) throw new apiErrors.ApiError(HttpStatusCode.Unauthorized, 'User Access Unauthorized');
@@ -45,10 +46,16 @@ async function createGroup(body){
     }
 }
 
-async function fetchGroups(){
+async function fetchGroups(req){
+    if(!['name', 'creator', 'uuid1', 'uuid2', 'private', 'createdOn', undefined].includes(req.query.sortby)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid Group propertyName (${req.query.sortby}) provided.`);
+    if(!['ASC', 'DESC', undefined].includes(req.query.order)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid Group propertyName (${req.query.order}) provided.`);
+    const sortby = req.query.sortby || 'id';
+    const order = req.query.order || 'DESC';
+    const limit = req.query.limit || 100;
+    const skip = req.query.skip || 0;
     try{
-        const groups = await groupModel.Group.findAll();
-        if(groups === null){
+        const groups = await groupModel.Group.findAll({offset: skip, limit: limit, order: [[sortby, order]]});
+        if(groups.length === 0){
             throw new apiErrors.ApiError(HttpStatusCode.NotFound, 'No Group records found on database')
         }else {
             console.log(`(${groups.length}) Group records found on database`);
@@ -59,37 +66,42 @@ async function fetchGroups(){
     }
 }
 
-async function findGroupsbyProperty(propertyName, propertyValue, user){
-    if(!['name', 'creator', 'uuid1', 'uuid2', 'private', 'createdOn'].includes(propertyName)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid Group propertyName (${propertyName}) provided.`)
+async function findGroupsbyProperty(req, propertyName, propertyValue){
+    if(!['name', 'creator', 'uuid1', 'uuid2', 'private', 'createdOn', undefined].includes(propertyName)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid Group propertyName (${propertyName}) provided.`);
+    if(!['ASC', 'DESC', undefined].includes(req.query.order)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid Group propertyName (${req.query.order}) provided.`);
+    const sortby = req.query.sortby || 'id';
+    const order = req.query.order || 'DESC';
+    const limit = req.query.limit || 100;
+    const skip = req.query.skip || 0;
     try{
-        if(['unauthorizedrolename'].includes(user.role)) throw new apiErrors.ApiError(HttpStatusCode.Unauthorized, 'User Access Unauthorized');
+        if(['unauthorizedrolename'].includes(req.user.role)) throw new apiErrors.ApiError(HttpStatusCode.Unauthorized, 'User Access Unauthorized');
         var groups = [];
         var startDate;
         var endDate;
         switch(propertyName) {
             case 'name':
-              groups = await groupModel.Group.findAll({where: { name: propertyValue}});
+              groups = await groupModel.Group.findAll({where: { name: propertyValue}, offset: skip, limit: limit, order: [[sortby, order]]});
               break;
             case 'creator':
-              groups = await groupModel.Group.findAll({where: { creator: propertyValue}});
+              groups = await groupModel.Group.findAll({where: { creator: propertyValue}, offset: skip, limit: limit, order: [[sortby, order]]});
               break;
             case 'uuid1':
-              groups = await groupModel.Group.findAll({where: { uuid1: propertyValue}});
+              groups = await groupModel.Group.findAll({where: { uuid1: propertyValue}, offset: skip, limit: limit, order: [[sortby, order]]});
               break;
             case 'uuid2':
-              groups = await groupModel.Group.findAll({where: { uuid2: propertyValue}});
+              groups = await groupModel.Group.findAll({where: { uuid2: propertyValue}, offset: skip, limit: limit, order: [[sortby, order]]});
               break;
             case 'private':
-              groups = await groupModel.Group.findAll({where: { private: propertyValue}});
+              groups = await groupModel.Group.findAll({where: { private: propertyValue}, offset: skip, limit: limit, order: [[sortby, order]]});
               break;
             case 'createdOn':
               endDate = new Date(new Date(propertyValue).toISOString());
               endDate.setDate(endDate.getDate() + 1);
               startDate = new Date(endDate.getDate() - 1);
-              groups = await groupModel.Group.findAll({where: { createdOn:{ [Op.lt]: endDate, [Op.gt]: startDate } }});
+              groups = await groupModel.Group.findAll({where: { createdOn:{ [Op.lt]: endDate, [Op.gt]: startDate } }, offset: skip, limit: limit, order: [[sortby, order]]});
               break;
             default:
-              groups = await groupModel.Group.findAll({where: { name: propertyValue}});
+              groups = await groupModel.Group.findAll({where: { name: propertyValue}, offset: skip, limit: limit, order: [[sortby, order]]});
           }
           if(groups.length === 0){
             console.log(`Existing Group Records not found on database`);
@@ -98,6 +110,96 @@ async function findGroupsbyProperty(propertyName, propertyValue, user){
         return groups;
     }catch(error){
         throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No Group Records [${propertyName}: ${propertyValue}] found on database`)
+    }
+}
+
+async function fetchGroupPages(req){
+    if(req.query.page === undefined || "") throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid 'page' query provided (${req.query.page})`);
+    if(!['name', 'creator', 'uuid1', 'uuid2', 'private', 'createdOn', undefined].includes(req.query.sortby)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid Group propertyName (${req.query.sortby}) provided.`);
+    if(!['name', 'creator', 'uuid1', 'uuid2', 'private', 'createdOn', undefined].includes(req.query.filterby)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid Group propertyName (${req.query.filterby}) provided.`);
+    if(!['ASC', 'DESC', undefined].includes(req.query.order)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid Group propertyName (${req.query.order}) provided.`);
+    var dataResponse;
+    const page = req.query.page || 0;
+    const size = req.query.size || 10;
+    const sortby = req.query.sortby || 'id';
+    const order = req.query.order || 'DESC';
+    const filterby = req.query.filterby || 'id';
+    const keyword = req.query.keyword || null;
+    try{
+        const { limit, offset } = await mjolnirTools.getPagination(page, size);
+        var startDate;
+        var endDate;
+        switch(filterby) {
+            case 'name':
+              await groupModel.Group.findAndCountAll({where: { name: keyword}, offset: offset, limit: limit, order: [[sortby, order]]})
+              .then(async (resultData) => {
+                if(resultData.count === 0) throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No Group Records found on database`);
+                dataResponse = await mjolnirTools.getPaginateData(resultData, page, limit);
+                console.log(`${resultData.count} Group records found on database`);
+              })
+              .catch((error) => { throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No Group Records found on database`) });
+              break;
+            case 'creator':
+             await groupModel.Group.findAndCountAll({where: { creator: keyword}, offset: offset, limit: limit, order: [[sortby, order]]})
+              .then(async (resultData) => {
+                if(resultData.count === 0) throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No Group Records found on database`);
+                dataResponse = await mjolnirTools.getPaginateData(resultData, page, limit);
+                console.log(`${resultData.count} Group records found on database`);
+              })
+              .catch((error) => { throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No Group Records found on database`) });
+              break;
+            case 'uuid1':
+             await groupModel.Group.findAndCountAll({where: { uuid1: keyword}, offset: offset, limit: limit, order: [[sortby, order]]})
+              .then(async (resultData) => {
+                if(resultData.count === 0) throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No Group Records found on database`);
+                dataResponse = await mjolnirTools.getPaginateData(resultData, page, limit);
+                console.log(`${resultData.count} Group records found on database`);
+              })
+              .catch((error) => { throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No Group Records found on database`) });
+              break;
+            case 'uuid2':
+             await groupModel.Group.findAndCountAll({where: { uuid2: keyword}, offset: offset, limit: limit, order: [[sortby, order]]})
+              .then(async (resultData) => {
+                if(resultData.count === 0) throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No Group Records found on database`);
+                dataResponse = await mjolnirTools.getPaginateData(resultData, page, limit);
+                console.log(`${resultData.count} Group records found on database`)
+              })
+              .catch((error) => { throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No Group Records found on database`) });
+              break;
+            case 'private':
+             await groupModel.Group.findAndCountAll({where: { private: keyword}, offset: offset, limit: limit, order: [[sortby, order]]})
+              .then(async (resultData) => {
+                if(resultData.count === 0) throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No Group Records found on database`);
+                dataResponse = await mjolnirTools.getPaginateData(resultData, page, limit);
+                console.log(`${resultData.count} Group records found on database`)
+                
+              })
+              .catch((error) => { throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No Group Records found on database`) });
+              break;
+            case 'createdOn':
+              endDate = new Date(new Date(keyword).toISOString());
+              endDate.setDate(endDate.getDate() + 1);
+              startDate = new Date(endDate.getDate() - 1);             
+             await groupModel.Group.findAndCountAll({where: { createdOn: { [Op.lt]: endDate, [Op.gt]: startDate }}, offset: offset, limit: limit, order: [[sortby, order]]})
+              .then(async (resultData) => {
+                if(resultData.count === 0) throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No Group Records found on database`);
+                dataResponse = await mjolnirTools.getPaginateData(resultData, page, limit);
+                console.log(`${resultData.count} Group records found on database`);
+              })
+              .catch((error) => { throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No Group Records found on database`) });
+               break;
+            default:
+             await groupModel.Group.findAndCountAll({offset: offset, limit: limit, order: [[sortby, order]]})
+              .then(async (resultData) => {
+                if(resultData.count === 0) throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No Group Records found on database`);
+                dataResponse = await mjolnirTools.getPaginateData(resultData, page, limit);
+                console.log(`${resultData.count} Group records found on database`);
+              })
+              .catch((error) => { throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No Group Records found on database`) });
+          }
+        return dataResponse;
+    }catch(error){
+        throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No Group Records found on database`)
     }
 }
 
@@ -156,14 +258,54 @@ async function exantUpdate(id, name){
     }
 }
 
+async function exantBulkUpdate(name){
+    const extantGroups = await groupModel.Group.findAll();
+    for(let group in extantGroups){
+        console.log(`Update blocked. Extant Group Record found with identifier: ${group.name}`);
+        if(group.name == name){ throw new apiErrors.ApiError(HttpStatusCode.BadRequest, 
+            `Update blocked. Extant Group Record found with identifier: ${group.name}`);
+        }
+    }
+}
+
+async function bulkCreateGroups(req){
+    if(['unauthorizedrolename'].includes(req.user.role)) throw new apiErrors.ApiError(HttpStatusCode.Unauthorized, 'User Access Unauthorized');
+    try{
+        let groupDataPayload = [...req.body];
+        for(let group in groupDataPayload){
+            exantBulkUpdate(group.name);
+        }
+        const groups = await groupModel.Group.bulkCreate(groupDataPayload);
+        return groups;
+    }catch(error){
+        throw error;
+    }
+}
+
+async function bulkDeleteGroups(req){   
+    try{
+        if(['unauthorizedrolename'].includes(req.user.role)) throw new apiErrors.ApiError(HttpStatusCode.Unauthorized, 'User Access Unauthorized');
+        const group = await groupModel.Group.destroy({ truncate: true });
+        if(group < 1){
+            throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No exisitng Group Record found on database`)
+        } else if (group > 0) console.log(`Bulk Deleted (${group}) Group Records from database`);
+        return {action: 'bulkDelete', status: 'complete', entity: 'group', bulkDeleted: group}    
+    }catch(error){
+        throw error;
+    }
+}
+
 const modelGServices = {
    findGroupbyID,
    findGroupNamebyID,
    findGroupsbyProperty,
    createGroup,
    fetchGroups,
+   fetchGroupPages,
    updateGroupbyID,
-   deleteGroupbyID
+   deleteGroupbyID,
+   bulkCreateGroups,
+   bulkDeleteGroups
 }
 
 module.exports = {modelGServices}

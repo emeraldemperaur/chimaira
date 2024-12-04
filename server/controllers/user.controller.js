@@ -13,6 +13,26 @@ const userController = {
             next(error);
         }
     },
+    async fetchuserprofiles(req, res, next){
+        try{
+            const users = await servicesIndex._userServices.fetchAllUserProfiles(req);
+            if(users){
+                res.status(HttpStatusCode.Ok).json(users);
+            }
+        }catch(error){
+            next(error);
+        }
+    },
+    async fetchuserprofilepages(req, res, next){
+        try{
+            const users = await servicesIndex._userServices.fetchUserProfilePages(req);
+            if(users){
+                res.status(HttpStatusCode.Ok).json(users);
+            }
+        }catch(error){
+            next(error);
+        }
+    },
     async updateprofile(req, res, next){
         try{
             const user = await servicesIndex._userServices.updateUserProfile(req);
@@ -64,6 +84,26 @@ const userController = {
             const user = await servicesIndex._userServices.deleteUserProfileByID(id, req);
             if(user){
                 res.status(HttpStatusCode.Ok).json(user);
+            }
+        }catch(error){
+            next(error);
+        }
+    },
+    async bulkdeleteuserprofiles(req, res, next){
+        try{
+            const users = await servicesIndex._userServices.bulkDeleteUserProfiles(req);
+            if(users){
+                res.status(HttpStatusCode.Ok).json(users);
+            }
+        }catch(error){
+            next(error);
+        }
+    },
+    async bulkcreateuserprofiles(req, res, next){
+        try{
+            const users = await servicesIndex._userServices.bulkCreateUserProfiles(req);
+            if(users){
+                res.status(HttpStatusCode.Ok).json(users);
             }
         }catch(error){
             next(error);
