@@ -1,4 +1,9 @@
+import { useEffect } from "react";
+
 const Authentication = () => {
+    useEffect(() => {
+        //Runs only on the first render
+      }, []);
     return(
         <>
         <div style={{marginTop:'69px'}}>

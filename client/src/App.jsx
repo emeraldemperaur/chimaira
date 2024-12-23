@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Route, Routes, BrowserRouter} from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Route, Routes, BrowserRouter, useLocation} from 'react-router-dom'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -15,9 +15,15 @@ import Documentation from './components/documentation'
 import Configuration from './components/configuration'
 
 function App() {
+  const location = useLocation();
+  const hideMenu = ['/', '/login', '/logout'].includes(location.pathname);
+  useEffect(()=> {
+    document.body.style = 'background: #ffffff'
+  }, [hideMenu])
+  
   return (
    <>
-   <HeaderNavigation/>
+   {hideMenu ? <></> : <HeaderNavigation/>}
    <Routes>
     <Route path='/' element={<Authentication/>}/>
     <Route path='dashboard' element={<Dashboard/>}/>
