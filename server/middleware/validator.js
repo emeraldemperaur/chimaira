@@ -23,6 +23,37 @@ const initModelGValidator = [
     }
 ]
 
+const initUserValidator = [
+    check('email')
+        .trim().not().isEmpty().withMessage(`You need to provide a 'email' property/value`)
+        .isEmail().withMessage(`You need to provide a valid 'email' property/value`),
+    check('password')
+        .trim().not().isEmpty().withMessage(`You need to provide a 'password' property/value`)
+        .isLength({min: 3}).withMessage(`You need to provide a valid 'password' property/value`),
+    check('firstName')
+        .trim().not().isEmpty().withMessage(`You need to provide a 'firstName' property/value`)
+        .isLength({min: 3}).withMessage(`You need to provide a valid 'firstName' property/value`),
+    check('lastName')
+        .trim().not().isEmpty().withMessage(`You need to provide a 'lastName' property/value`)
+        .isLength({min: 3}).withMessage(`You need to provide a valid 'lastName' property/value`),
+    check('uuid')
+        .trim().not().isEmpty().withMessage(`You need to provide a 'uuid' property/value`)
+        .isLength({min: 3}).withMessage(`You need to provide a valid 'uuid' property/value`),
+    check('role')
+        .trim().not().isEmpty().withMessage(`You need to provide a 'role' property/value`)
+        .isLength({min: 3, max: 6}).withMessage(`You need to provide a valid 'role' property/value`)
+    ,
+    (req, res, next) => {
+        const errors = validationResult(req)
+        if(!errors.isEmpty()){
+            return res.status(HttpStatusCode.BadRequest).json({
+                errors: errors.array()
+            })
+        }
+        next();
+    }
+]
+
 const initModelLValidator = [
     check('name')
         .trim().not().isEmpty().withMessage(`You need to provide a 'name' property/value`)
@@ -73,7 +104,8 @@ const initModelSValidator = [
 const expressValidator = {
     initModelGValidator,
     initModelLValidator,
-    initModelSValidator
+    initModelSValidator,
+    initUserValidator
 }
 
 module.exports = { expressValidator }

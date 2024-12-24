@@ -1,6 +1,7 @@
 const express = require('express');
 const { xss } = require('express-xss-sanitizer');
 const passport = require('passport');
+const cors = require('cors')
 const appServer = express();
 const bodyParser = require('body-parser');
 require('dotenv').config();
@@ -18,7 +19,7 @@ const dataSource = db.dbSQLize;
 dataSource.authenticate()
 .then(async () => {
     console.log(`\n\x1b[32mSuccessfully connected to 'Chimera' (${process.env.DB_TYPE}) database!\x1b[0m\n`)
-    //await User.sync({force: true});
+    await User.sync({alter: true});
     //await Locker.sync({force: true});
     //await Group.sync({force: true});
     //await LockerGroup.sync({force: true});
@@ -35,6 +36,9 @@ appServer.use(xss());
 //Passport Authentication Middleware
 appServer.use(passport.initialize());
 passport.use('jwt', jwtStrategy);
+
+//CORS Middleware
+appServer.use(cors({ origin: ['http://localhost:5173'] }));
 
 //Route Handler
 appServer.use('/api', appRoutes.router);

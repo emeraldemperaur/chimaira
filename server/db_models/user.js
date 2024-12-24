@@ -34,6 +34,11 @@ const User = dataSource.define(
             type: DataTypes.STRING(33),
             allowNull: false
         },
+        fullName: {
+            type: DataTypes.STRING(33),
+            defaultValue: "",
+            allowNull: false
+        },
         uuid: {
             type: DataTypes.STRING(13),
             allowNull: false
@@ -62,12 +67,18 @@ const User = dataSource.define(
                     const salt = await bcrypt.genSalt(10, 'a');
                     user.password = bcrypt.hashSync(user.password, salt);
                 }
+                if(user.firstName && user.lastName){
+                    user.fullName = `${user.firstName} ${user.lastName}`
+                }
                 if(!validator.isEmail(user.email)){
                     throw new apiErrors.ApiError(HttpStatusCode.BadRequest, 'Invalid User Email');
                 }
 
             },
             beforeUpdate: async (user) => {
+                if(user.firstName && user.lastName){
+                    user.fullName = `${user.firstName} ${user.lastName}`
+                }
                 if(!validator.isEmail(user.email)){
                     throw new apiErrors.ApiError(HttpStatusCode.BadRequest, 'Invalid User Email');
                 }

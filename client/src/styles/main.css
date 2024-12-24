@@ -440,6 +440,7 @@ img{
   display: block;
   margin: auto;
   margin-top: 3px;
+  margin-bottom: 69px;
   background: #ffffff;
   color: #000000;
   font-weight: bold;
@@ -457,6 +458,7 @@ img{
   display: block;
   margin: auto;
   margin-top: 3px;
+  margin-bottom: 69px;
   background: #ffffff;
   color: #000000;
   font-weight: bold;
@@ -498,6 +500,7 @@ img{
 .login-form-title{
   font-family: 'Montserrat';
   letter-spacing: 0.13em;
+  margin-top: 33px;
 }
 
 

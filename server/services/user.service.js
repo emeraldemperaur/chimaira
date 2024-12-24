@@ -13,7 +13,7 @@ const { mjolnirTools } = require('../utils/mjolnir');
 async function findUserbyUUID(uuid){
     const user = await userModel.User.findOne({where: {[Op.or]: [{email: uuid}, {uuid: uuid}]}});
     if (user === null){
-        throw new Error(`UUID: ${uuid} not found on database`);
+        throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `No existing user account found for\n${uuid}`);
     }else {
         console.log(`Existing User record found with unique identifier: ${user.email} `)
     }

@@ -13,6 +13,8 @@
     "@emotion/react": "^11.13.5",
     "@emotion/styled": "^11.13.5",
     "@fontsource-variable/cinzel": "^5.1.0",
+    "@fontsource-variable/inter": "^5.1.0",
+    "@fontsource-variable/karla": "^5.1.0",
     "@fontsource-variable/montserrat": "^5.1.0",
     "@fontsource/roboto": "^5.1.0",
     "@mui/icons-material": "^6.1.10",
@@ -35,11 +37,13 @@
     "react-router-bootstrap": "^0.26.3",
     "react-router-dom": "^6.27.0",
     "react-toastify": "^10.0.6",
+    "universal-cookie": "^7.2.2",
     "yup": "^1.4.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
     "@types/react": "^18.3.12",
+    "@types/react-cookies": "^0.1.4",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.3",
     "eslint": "^9.13.0",

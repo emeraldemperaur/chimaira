@@ -6,15 +6,20 @@ import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 import '@fontsource-variable/montserrat'
 import '@fontsource-variable/cinzel'
+import '@fontsource-variable/inter';
+import '@fontsource-variable/karla';
 import './index.css'
 import App from './App.jsx'
 import { Provider } from "react-redux"
 import { BrowserRouter } from 'react-router-dom'
+import { applicationStore } from './store/index.js'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <Provider store={applicationStore}>
     <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <App />
     </BrowserRouter>
-  </StrictMode>,
+    </Provider>
+  </StrictMode>
 )
