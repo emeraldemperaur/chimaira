@@ -20,7 +20,7 @@ const HeaderNavigation = () => {
             <li><NavLink style={({ isActive }) => isActive ? {background:'#000000', color: '#ffffff'} : {}} to="lockergroup">Locker Group</NavLink></li>
             <li><NavLink style={({ isActive }) => isActive ? {background:'#000000', color: '#ffffff'} : {}} to="settings">Settings</NavLink></li>
             <li>
-            <NavLink style={({ isActive }) => isActive ? {background:'#000000', color: '#ffffff'} : {}} to="profile" className="desktop-item">Account</NavLink>
+            <NavLink style={({ isActive }) => isActive ? {background:'#000000', color: '#ffffff'} : {}} to="profile" className="desktop-item"><i className="fa-regular fa-user"></i></NavLink>
             <input type="checkbox" id="showDrop"/>
             <label htmlFor="showDrop" className="mobile-item">Account</label>
             <ul className="drop-menu">
