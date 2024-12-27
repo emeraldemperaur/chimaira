@@ -4,7 +4,7 @@ import Container from 'react-bootstrap/Container';
 import '../documentation/documentation.css'
 import { useEffect } from 'react';
 
-const Documentation = () => {
+const Documentation = ({users}) => {
     useEffect(() => {
         window.addEventListener('DOMContentLoaded', () => {
 

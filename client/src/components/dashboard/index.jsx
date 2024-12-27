@@ -1,9 +1,13 @@
-const Dashboard = () => {
+import { useEffect } from "react";
+import TitleRibbon from "../artisan/pagetitle_ribbon";
+
+const Dashboard = ({users}) => {
+    useEffect(()=> {
+
+    }, [users.data.firstName])
     return(
         <>
-        <div style={{marginTop:'69px'}}>
-        <h2>Dashboard</h2>
-        </div>
+        <TitleRibbon title='Dashboard' username={users.data.firstName}/>
         </>
     )
 }

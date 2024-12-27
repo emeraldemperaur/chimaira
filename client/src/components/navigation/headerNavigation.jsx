@@ -1,15 +1,24 @@
 import '../../styles/main.css'
-import {NavLink} from 'react-router-dom'
+import {NavLink, useNavigate} from 'react-router-dom'
 import React, { useState } from "react";
+import { useDispatch } from 'react-redux';
+import { signOutUser } from '../../store/actions/users';
 
-const HeaderNavigation = () => {
+const HeaderNavigation = ({users}) => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const userSignOut = () =>{
+        console.log(`Signing Out User:${users.data.uuid}`);
+        dispatch(signOutUser());
+        setTimeout(() => { navigate('/logout')}, 111);
+    }
 
     return(
         <>
         <div className='header-menu'>
         <nav>
         <div className="wrapper">
-            <div className="logo"><NavLink to="/">Chímaira</NavLink></div>
+            <div className="logo"><NavLink to="/">Chím<em>ai</em>ra</NavLink></div>
             <input type="radio" name="slider" id="menu-btn"/>
             <input type="radio" name="slider" id="close-btn"/>
             <ul className="nav-links">
@@ -24,9 +33,9 @@ const HeaderNavigation = () => {
             <input type="checkbox" id="showDrop"/>
             <label htmlFor="showDrop" className="mobile-item">Account</label>
             <ul className="drop-menu">
-            <li><NavLink style={({ isActive }) => isActive ? {background:'#000000', color: '#ffffff'} : {}} to="profile">Username</NavLink></li>
-            <li><NavLink style={({ isActive }) => isActive ? {background:'#000000', color: '#ffffff'} : {}} to="documentation" href="#">Documentation</NavLink></li>
-            <li><NavLink style={({ isActive }) => isActive ? {background:'#000000', color: '#ffffff'} : {}} to="logout">Sign Out</NavLink></li>
+            <li><NavLink style={({ isActive }) => isActive ? {background:'#000000', color: '#ffffff'} : {}} to="profile"><i className="fa-solid fa-user"></i> {users.data.firstName}</NavLink></li>
+            <li><NavLink style={({ isActive }) => isActive ? {background:'#000000', color: '#ffffff'} : {}} to="documentation"><i className="fa-solid fa-lightbulb"></i> Help</NavLink></li>
+            <li><NavLink style={({ isActive }) => isActive ? {background:'#000000', color: '#ffffff'} : {}} to="logout" onClick={() => userSignOut()}><i className="fa-solid fa-door-open"></i> Sign Out</NavLink></li>
             </ul>
             </li>
             </ul>

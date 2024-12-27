@@ -1,9 +1,13 @@
-const Profile = () => {
+import { useEffect } from "react";
+import TitleRibbon from "../artisan/pagetitle_ribbon";
+
+const Profile = ({user}) => {
+    useEffect(()=> {
+
+    }, [])
     return(
         <>
-        <div style={{marginTop:'69px'}}>
-        <h2>User Profile</h2>
-        </div>
+        <TitleRibbon title='Account Profile'/>
         </>
     )
 }

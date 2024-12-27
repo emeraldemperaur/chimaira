@@ -1,9 +1,18 @@
-const Configuration = () => {
+import { useEffect } from "react";
+import FloatingAction from "../artisan/floating_action_button";
+import TitleRibbon from "../artisan/pagetitle_ribbon";
+
+const Configuration = ({users}) => {
+    useEffect(()=> {
+
+    }, [])
+    const onActionClick = () =>{
+        console.log('On Action clicked -- Settings')
+    }
     return(
         <>
-        <div style={{marginTop:'69px'}}>
-        <h2>Settings</h2>
-        </div>
+        <TitleRibbon title='Settings'/>
+        <FloatingAction icon={<i className="fa-solid fa-plus"></i>} onClickFunction={onActionClick}/>
         </>
     )
 }

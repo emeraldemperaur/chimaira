@@ -1,9 +1,18 @@
-const Locker = () => {
+import { useEffect } from "react";
+import FloatingAction from "../artisan/floating_action_button";
+import TitleRibbon from "../artisan/pagetitle_ribbon";
+
+const Locker = ({users}) => {
+    useEffect(()=> {
+
+    }, [])
+    const onActionClick = () =>{
+        console.log('On Action clicked -- Locker')
+    }
     return(
         <>
-        <div style={{marginTop:'69px'}}>
-        <h2>Locker</h2>        
-        </div>
+        <TitleRibbon title='Locker'/>
+        <FloatingAction icon={<i className="fa-solid fa-plus"></i>} onClickFunction={onActionClick}/>
         </>
     )
 }

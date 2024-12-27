@@ -1,0 +1,64 @@
+.fab-btn{
+    width: 70px;
+    height: 70px;
+    background-color: #000000;
+    border-radius: 50%;
+    box-shadow: 0 6px 10px 0 #666;
+    font-size: 30px;
+    line-height: 70px;
+    color: #ffffff;
+    text-align: center;
+    position: fixed;
+    right: 50px;
+    bottom: 50px;
+    transition: all 0.1s ease-in-out;
+}
+
+.fab-btn:hover{
+    box-shadow: 0 6px 14px 0 #666;
+    transform: scale(1.05);
+
+}
+
+.title-ribbon{
+    padding-top: 69px;
+    margin: 0px;
+    width: 100%;
+    background-color: #000000;
+}
+
+.page-title{
+    font-family: 'Montserrat';
+    font-weight: 400;
+    letter-spacing: 0.13em;
+    color: #ffffff;
+    font-size: 1.777rem;
+    text-align: end;
+    text-transform: uppercase;
+    margin-left: 33px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    float: left;
+    text-decoration: none !important;
+}
+
+.title-greeting{
+    font-family: 'Montserrat';
+    font-weight: 400;
+    letter-spacing: 0.33em;
+    color: #ffffff;
+    font-size: 1.2rem;
+    text-align: end;
+    text-transform: capitalize;
+    margin-right: 33px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    float: right;
+    text-decoration: none !important;
+}
+
+hr.solid{
+    box-shadow: rgb(0,0,0 / 50%) 0px -6px 6px -6px;
+    border-top: 1px solid #666;
+    width: max-content;
+}

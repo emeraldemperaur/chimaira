@@ -5,15 +5,18 @@ import { getAuthorizationCookie, removeAuthorizationCookie } from '../../compone
 
 export const registerUser = createAsyncThunk(
     'users/registerUser',
-    async({uuid, email, password, firstName, lastName, role}, {dispatch}) => {
+    async({uuid, emailSignUp, passwordSignUp, confirmPasswordSignUp, firstName, lastName, role}, {dispatch}) => {
         try{
             const httpRequest = await axios.post('/api/auth/register', {
-                email: email.trim(),
-                password: password.trim(),
-                
+                email: emailSignUp.trim(),
+                password: passwordSignUp.trim(),
+                firstName: 'Meka',
+                lastName: 'Godzilla',
+                role: 'root',
+                uuid: 'Tester' + Math.floor(Math.random() * 100).toString()
             });
         // show success notification
-        dispatch(successGlobal(`User account (${uuid}) created successfully`));
+        dispatch(successGlobal(`User account (${emailSignUp}) created successfully`));
         return { data: httpRequest.data.user, auth: true }
         }catch(error){
         // show success notification
@@ -25,22 +28,22 @@ export const registerUser = createAsyncThunk(
 
 export const signInUser = createAsyncThunk(
     'users/signInUser',
-    async({email, password}, {dispatch}) => {
+    async({emailSignIn, passwordSignIn}, {dispatch}) => {
         try{
-            console.log(`Signed In Checker ${email}`)
+            console.log(`Signed In Checker ${emailSignIn}`)
 
             const httpRequest = await axios.post('/api/auth/signin', {
-                email: email.trim(),
-                password: password.trim()
+                email: emailSignIn.trim(),
+                password: passwordSignIn.trim()
             });
         // show success notification
         dispatch(successGlobal(`Authentication successful`));
-        console.log(`Signed In ${email}`)
+        console.log(`Signed In ${emailSignIn}`)
         return { data: httpRequest.data.user, auth: true }
         }catch(error){
         // show success notification
         dispatch(errorGlobal(error.response.data.message));
-        console.log(`Sign In for ${email} failed\nError: ${error.response.data.message}`)
+        console.log(`Sign In for ${emailSignIn} failed\nError: ${error.response.data.message}`)
         throw error;
         }
     }

@@ -19,13 +19,14 @@ import { ToastContainer } from 'react-toastify'
 import { useDispatch, useSelector } from 'react-redux'
 import { clearNotifications } from './store/reducers/notifications'
 import { isAuthenticated } from './store/actions/users'
+import Virgil from './components/artisan/virgil'
 
 function App() {
   const location = useLocation();
   const hideMenu = ['/', '/login', '/logout'].includes(location.pathname);
   const notifications = useSelector( state => state.notifications);
   const notificationsDispatch = useDispatch();
-  //const cookie = getAuthorizationCookie()
+  const userstore = useSelector( state => state.users );
   useEffect(()=> {
     let { global } = notifications;
     if(notifications && global.error){
@@ -57,18 +58,18 @@ function App() {
   
   return (
    <>
-   {hideMenu ? <></> : <HeaderNavigation/>}
-   <ToastContainer/>
+   {hideMenu ? <></> : <HeaderNavigation users={userstore}/>}
+   <ToastContainer stacked/>
    <Routes>
-    <Route path='/' element={<Authentication/>}/>
-    <Route path='dashboard' element={<Dashboard/>}/>
-    <Route path='group' element={<Group/>}/>
-    <Route path='locker' element={<Locker/>}/>
-    <Route path='lockergroup' element={<LockerGroup/>}/>
-    <Route path='settings' element={<Configuration/>}/>
-    <Route path='profile' element={<Profile/>}/>
-    <Route path='documentation' element={<Documentation/>}/>
-    <Route path='logout' element={<Authentication/>}/>
+    <Route path='/' element={<Authentication users={userstore}/>}/>
+    <Route path='dashboard' element={<Virgil><Dashboard users={userstore}/></Virgil>}/>
+    <Route path='group' element={<Virgil><Group users={userstore}/></Virgil>}/>
+    <Route path='locker' element={<Virgil><Locker users={userstore}/></Virgil>}/>
+    <Route path='lockergroup' element={<Virgil><LockerGroup users={userstore}/></Virgil>}/>
+    <Route path='settings' element={<Virgil><Configuration users={userstore}/></Virgil>}/>
+    <Route path='profile' element={<Virgil><Profile users={userstore}/></Virgil>}/>
+    <Route path='documentation' element={<Virgil><Documentation users={userstore}/></Virgil>}/>
+    <Route path='logout' element={<Authentication users={userstore}/>}/>
    </Routes>
    </>
   )
