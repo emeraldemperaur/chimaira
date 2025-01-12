@@ -1,4 +1,4 @@
-# Chímaira
+# Chímaira /kaɪˈmɪərə/
 ## Client-Server AI Web Application Boilerplate Template
 
 ### Overview
