@@ -15,7 +15,7 @@
 ```
 #### Option 1: Docker Container 
 ```bash
-docker compose up --force-recreate -d notificationservice
+docker compose up conjureschimera
 ```
 
 #### Option 2: Local
