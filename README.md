@@ -9,7 +9,6 @@
 #### Prerequisites/System Requirements
 ```
 > NodeJS 20+
-> 16GB RAM
 > Docker Desktop (for local container deployment)
 > PostgreSQL Database server (for non SQLite data persistence)
 > OpenAI, Anthropic, xAI API service account/key
@@ -36,6 +35,7 @@ npm run start
 ### System Design & Architecture
 #### Synopsis
 <ul>
+<li>Neumorphism Design UI Components</li>
 <li>Agentic RAG Request roles - Explorer, Translator, Historian, Engineer, Artificer, Treasurer</li>
 <li>Reusable Context profiles</li>
 <li>Dynamic Context models (Query Models)</li>
@@ -47,4 +47,4 @@ npm run start
 #### Architecture
 
 ### Toolstack
-<p align="justify">JavaScript, Typescript, Material UI, ReactJS, Axios, Redux, Bcrypt, Passport.js, Access Control, Formik, Yup, Luxon, Express, Nodemailer, Sequelize, SQLite, PostgreSQL, Pinecone, ChromaDB, Langchain, Huggingface, OpenAI and Anthropic LLM APIs.</p>
+<p align="justify">JavaScript, Typescript, Material UI, ReactJS, Axios, Redux, Bcrypt, Passport.js, Access Control, Formik, Yup, Luxon, Express, Nodemailer, Sequelize, SQLite, PostgreSQL, Pinecone, ChromaDB, Langchain, Huggingface, N8N, OpenAI, xAI and Anthropic LLM APIs.</p>
