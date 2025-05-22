@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const Merlin = (props) => {
     let location = useLocation();
@@ -10,6 +11,10 @@ const Merlin = (props) => {
         </>
     )
 
+}
+
+Merlin.propTypes = {
+  children: PropTypes.object.isRequired,
 }
 
 export default Merlin

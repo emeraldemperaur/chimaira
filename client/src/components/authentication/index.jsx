@@ -1,29 +1,23 @@
 import { useEffect, useState } from "react";
 import developerLogo from '../../assets/me-dev-logo-white.png'
 import '../../styles/main.css'
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { registerUser, signInUser } from "../../store/actions/users";
-import { ToastContainer } from "react-toastify";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
 import Merlin from "../artisan/merlin";
+import PropTypes from 'prop-types';
+
 
 const Authentication = ({users}) => {
 	const [signIn, setSignIn] = useState(true);
-	const [userExists, setUserExists] = useState(false);
-	const [validUser, setValidUser] = useState(false);
-	const [signedUp, setSignedUp] = useState(false);
-	let navigate = useNavigate();
+
 	//Redux -- Notifications
-	const notifications = useSelector( state => state.notifications )
 	const dispatch = useDispatch();
-	let confirmpassword;
+	
 	useEffect(()=> {
-		confirmpassword = document.getElementById('confirmpassword');
 	}, [signIn])
 
 	const schemaDefinition = (isSignIn) => {
@@ -68,13 +62,10 @@ const Authentication = ({users}) => {
 		}
 	}
 
-
-    useEffect(() => {
-        //Runs only on the first render
-      }, []);
 	const toggleLogin = () => {
 		setSignIn(!signIn);
 	}  
+	
     return(
         <>		
 		<Merlin users={users}>
@@ -125,6 +116,10 @@ const Authentication = ({users}) => {
 		</Merlin>
         </>
     )
+}
+
+Authentication.propTypes = {
+  users: PropTypes.object.isRequired
 }
 
 export default Authentication;

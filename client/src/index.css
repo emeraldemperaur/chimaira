@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
 :root{
 --toastify-color-info: #3498db !important;
 --toastify-color-success: #056608 !important;
@@ -9,6 +10,10 @@
 --toastify-font-family: 'Montserrat' !important;
 --toastify-text-color-light: #242424 !important;
 
+}
+
+body {
+    overflow-x: hidden;
 }
 
 ::-webkit-scrollbar-track {

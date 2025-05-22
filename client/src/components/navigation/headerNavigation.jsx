@@ -1,8 +1,9 @@
 import '../../styles/main.css'
 import {NavLink, useNavigate} from 'react-router-dom'
-import React, { useState } from "react";
 import { useDispatch } from 'react-redux';
 import { signOutUser } from '../../store/actions/users';
+import PropTypes from 'prop-types';
+
 
 const HeaderNavigation = ({users}) => {
     const dispatch = useDispatch();
@@ -24,9 +25,9 @@ const HeaderNavigation = ({users}) => {
             <ul className="nav-links">
             <label htmlFor="close-btn" className="btn close-btn"><i className="fas fa-times"></i></label>
             <li><NavLink style={({ isActive }) => isActive ? {background:'#000000', color: '#ffffff'} : {}} to="dashboard">Dashboard</NavLink></li>
-            <li><NavLink style={({ isActive }) => isActive ? {background:'#000000', color: '#ffffff'} : {}} to="group">Group</NavLink></li>
-            <li><NavLink style={({ isActive }) => isActive ? {background:'#000000', color: '#ffffff'} : {}} to="locker">Locker</NavLink></li>
-            <li><NavLink style={({ isActive }) => isActive ? {background:'#000000', color: '#ffffff'} : {}} to="lockergroup">Locker Group</NavLink></li>
+            <li><NavLink style={({ isActive }) => isActive ? {background:'#000000', color: '#ffffff'} : {}} to="context-profile">Context Profiles</NavLink></li>
+            <li><NavLink style={({ isActive }) => isActive ? {background:'#000000', color: '#ffffff'} : {}} to="query-model">Query Models</NavLink></li>
+            <li><NavLink style={({ isActive }) => isActive ? {background:'#000000', color: '#ffffff'} : {}} to="rag-artifacts">RAG Artifacts</NavLink></li>
             <li><NavLink style={({ isActive }) => isActive ? {background:'#000000', color: '#ffffff'} : {}} to="settings">Settings</NavLink></li>
             <li>
             <NavLink style={({ isActive }) => isActive ? {background:'#000000', color: '#ffffff'} : {}} to="profile" className="desktop-item"><i className="fa-regular fa-user"></i></NavLink>
@@ -45,6 +46,10 @@ const HeaderNavigation = ({users}) => {
         </div>
         </>
     )
+}
+
+HeaderNavigation.propTypes = {
+  users: PropTypes.object.isRequired
 }
 
 export default HeaderNavigation;

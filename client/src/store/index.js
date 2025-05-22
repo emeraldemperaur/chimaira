@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit"
 import UsersReducer from "./reducers/users";
-import GroupReducer from "./reducers/group";
-import LockerReducer from "./reducers/locker";
-import LockerGroupReducer from "./reducers/lockergroup";
-import NotificationsReducer, { notificationsSlice } from "./reducers/notifications";
+import ContextProfileReducer from "./reducers/contextprofile.reducer";
+import QueryModelReducer from "./reducers/querymodel.reducer";
+import RAGArtifactReducer from "./reducers/ragartifact.reducer";
+import NotificationsReducer from "./reducers/notifications";
 import SiteReducer from "./reducers/site";
 
 export const applicationStore = configureStore({
@@ -11,8 +11,8 @@ export const applicationStore = configureStore({
         users: UsersReducer,
         site: SiteReducer,
         notifications: NotificationsReducer,
-        group: GroupReducer,
-        locker: LockerReducer,
-        lockergroup: LockerGroupReducer
+        contexts: ContextProfileReducer,
+        queries: QueryModelReducer,
+        artifacts: RAGArtifactReducer
     }
 });

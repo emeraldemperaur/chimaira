@@ -10,19 +10,21 @@ const { User } = require('./db_models/user');
 const { apiErrors } = require('./middleware/apiError');
 const appRoutes = require('./routes');
 const { jwtStrategy } = require('./middleware/passport');
-const { Locker } = require('./db_models/entitymodelL');
-const { Group } = require('./db_models/entitymodelG');
-const { LockerGroup } = require('./db_models/entitymodelS');
+const { QueryModel } = require('./db_models/querymodel.model');
+const { ContextProfile } = require('./db_models/contextprofile.model');
+const { RAGArtifact } = require('./db_models/ragartifact.model');
+const { Setting } = require('./db_models/settings.model');
 
 //DataSource
 const dataSource = db.dbSQLize;
 dataSource.authenticate()
 .then(async () => {
     console.log(`\n\x1b[32mSuccessfully connected to 'Chimera' (${process.env.DB_TYPE}) database!\x1b[0m\n`)
-    await User.sync({alter: true});
-    //await Locker.sync({force: true});
-    //await Group.sync({force: true});
-    //await LockerGroup.sync({force: true});
+    //await User.sync({force: true});
+    await QueryModel.sync( {force: true} );
+    await ContextProfile.sync( {force: true} );
+    await RAGArtifact.sync( {force: true} );
+    await Setting.sync({ force: true });
     //dataSource.sync({force: true});
 })
 .catch((error) => console.log(`\x1b[31mFailed to connect to 'Chimera' database: ${error.original}\x1b[0m`));

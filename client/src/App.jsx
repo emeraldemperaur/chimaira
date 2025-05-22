@@ -1,25 +1,23 @@
-import { useEffect, useState } from 'react'
-import { Route, Routes, BrowserRouter, useLocation} from 'react-router-dom'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect } from 'react'
+import { Route, Routes, useLocation} from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
 import 'react-toastify/dist/ReactToastify.min.css';
 import HeaderNavigation from './components/navigation/headerNavigation'
 import Authentication from './components/authentication'
 import Dashboard from './components/dashboard'
-import Group from './components/group'
-import Locker from './components/locker'
-import LockerGroup from './components/lockergroup'
 import Profile from './components/profile'
 import Documentation from './components/documentation'
 import Configuration from './components/configuration'
-import { getAuthorizationCookie, renderToastNotification } from './components/artisan/vinci'
+import { renderToastNotification } from './components/artisan/vinci'
 import { ToastContainer } from 'react-toastify'
 import { useDispatch, useSelector } from 'react-redux'
 import { clearNotifications } from './store/reducers/notifications'
 import { isAuthenticated } from './store/actions/users'
 import Virgil from './components/artisan/virgil'
+import RAGArtifacts from './components/rag-artifacts';
+import ContextProfiles from './components/context-profiles';
+import QueryModels from './components/query-models';
 
 function App() {
   const location = useLocation();
@@ -50,22 +48,22 @@ function App() {
       notificationsDispatch(clearNotifications());
     }
     document.body.style = 'background: #ffffff';
-  }, [hideMenu, notifications]);
+  }, [hideMenu, notifications, notificationsDispatch]);
 
   useEffect(()=> {
     notificationsDispatch(isAuthenticated())
-  }, [])
+  }, [notificationsDispatch])
   
   return (
    <>
    {hideMenu ? <></> : <HeaderNavigation users={userstore}/>}
-   <ToastContainer stacked/>
+   <ToastContainer style={{zIndex: 999999}} stacked/>
    <Routes>
     <Route path='/' element={<Authentication users={userstore}/>}/>
     <Route path='dashboard' element={<Virgil><Dashboard users={userstore}/></Virgil>}/>
-    <Route path='group' element={<Virgil><Group users={userstore}/></Virgil>}/>
-    <Route path='locker' element={<Virgil><Locker users={userstore}/></Virgil>}/>
-    <Route path='lockergroup' element={<Virgil><LockerGroup users={userstore}/></Virgil>}/>
+    <Route path='context-profile' element={<Virgil><ContextProfiles users={userstore}/></Virgil>}/>
+    <Route path='query-model' element={<Virgil><QueryModels users={userstore}/></Virgil>}/>
+    <Route path='rag-artifacts' element={<Virgil><RAGArtifacts users={userstore}/></Virgil>}/>
     <Route path='settings' element={<Virgil><Configuration users={userstore}/></Virgil>}/>
     <Route path='profile' element={<Virgil><Profile users={userstore}/></Virgil>}/>
     <Route path='documentation' element={<Virgil><Documentation users={userstore}/></Virgil>}/>

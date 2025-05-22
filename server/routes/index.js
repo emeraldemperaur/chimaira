@@ -1,9 +1,9 @@
 const express = require('express');
 const { authRouter } = require('./auth.route');
 const { userRouter } = require('./user.route');
-const { modelGRouter } = require('./modelG.route');
-const { modelLRouter } = require('./modelL.route');
-const { modelSRouter } = require('./modelS.route');
+const { contextProfileRouter } = require('./contextprofile.route');
+const { queryModelRouter } = require('./querymodel.route');
+const { ragArtifactRouter } = require('./ragartifact.route');
 const router = express.Router();
 
 const routesIndex = [
@@ -16,16 +16,16 @@ const routesIndex = [
         route: userRouter
     },
     {
-        path: '/group',
-        route: modelGRouter
+        path: '/context',
+        route: contextProfileRouter
     },
     {
-        path: '/locker',
-        route: modelLRouter
+        path: '/query',
+        route: queryModelRouter
     },
     {
-        path: '/lockergroup',
-        route: modelSRouter
+        path: '/rag',
+        route: ragArtifactRouter
     }
 ]
 

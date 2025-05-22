@@ -8,6 +8,7 @@ import '@fontsource-variable/montserrat'
 import '@fontsource-variable/cinzel'
 import '@fontsource-variable/inter';
 import '@fontsource-variable/karla';
+import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import './index.css'
 import App from './App.jsx'
 import { Provider } from "react-redux"

@@ -1,25 +1,25 @@
 const { authServices } = require("./auth.service");
 const { emailServices } = require("./email.service");
-const { modelGServices } = require("./modelG.service");
-const { modelLServices } = require("./modelL.service");
-const { modelSServices } = require("./modelS.service");
+const { contextProfileServices } = require("./contextprofile.service");
+const { queryModelServices } = require("./querymodel.service");
+const { ragArtifactServices } = require("./ragartifact.service");
 const { userServices } = require("./user.service");
 
 
 const _authServices = authServices;
 const _userServices = userServices;
 const _emailServices = emailServices;
-const _modelGServices = modelGServices;
-const _modelLServices = modelLServices;
-const _modelSServices = modelSServices
+const _contexProfileService = contextProfileServices;
+const _queryModelServices = queryModelServices;
+const _ragArticactServices = ragArtifactServices;
 
 const servicesIndex = {
     _authServices,
     _userServices,
     _emailServices,
-    _modelGServices,
-    _modelLServices,
-    _modelSServices
+    _contexProfileService,
+    _queryModelServices,
+    _ragArticactServices
 }
 
 module.exports = {servicesIndex}

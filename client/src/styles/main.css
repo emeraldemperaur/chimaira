@@ -7,7 +7,7 @@
 .header-menu nav{
   position: fixed;
   top: 0px !important;
-  z-index: 99 !important;
+  z-index: 99999 !important;
   width: 100% !important;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2) !important;
   background: #ffffff !important;
@@ -297,6 +297,20 @@
   display: none !important;
 }
 
+.gradient-background{
+  background: radial-gradient(#ffffff, #dadada);
+}
+
+.agentics-heading{
+  text-align: center;
+  margin-top: 23px;
+  margin-bottom: 23px;
+  font-size: 26px;
+  font-family: 'Oswald';
+  font-weight: 400;
+  letter-spacing: 0.96em;
+  text-transform: uppercase;
+}
 
 img{
 	width: 100%;
@@ -546,5 +560,199 @@ img{
     margin-top: -3px;
 }
 
+#footer {
+  margin-top: 33px;
+   margin-bottom: 10px;
+}
 
+.footer{
+  text-align: center;
+  font-family: 'Montserrat';
+  font-size: 13px;
+  text-align: center;
+  font-weight: 500;
+  letter-spacing: 0.23em;
+  margin-bottom: unset !important;
+}
 
+.footer-img{
+  width: 96px;
+  height: 96px;
+  display: block;
+  margin:auto;
+}
+
+.neumorph-card{
+  width: 190px;
+  height: 254px;
+  border-radius: 50px;
+  background: #e0e0e0;
+  box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
+}
+
+.info-card > .info-card-row {
+  width: 100%;
+  max-width: 100%;
+  padding-top: 30px;
+  margin-bottom: 0;
+}
+
+.info-card .infocard-card-row .view {
+  background: transparent;
+  box-shadow: 6px 6px 14px 0 rgba(0, 0, 0, 0.2),
+    -8px -8px 18px 0 rgba(255, 255, 255, 0.55);
+  border-radius: 40px;
+  padding: 4px 30px 20px;
+  min-height: 380px;
+}
+
+.profile-info-name{
+  font-size: 33px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.23em;
+  margin-top: 9px;
+}
+
+.profile-info-email{
+  font-family: 'Montserrat';
+  font-weight: 400;
+  letter-spacing: 0.21em;
+  margin-top: -16px;
+  text-transform: uppercase;
+}
+
+.profile-info-uuid{
+  margin-top: -13px;
+  letter-spacing: 0.13em;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.profile-info-permissions{
+    font-size: 21px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.69em;
+    margin-top: 13px;
+}
+
+.profile-info-role{
+  margin-top: -13px;
+  letter-spacing: 0.33em;
+  font-weight: 400;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+.permissions-list{
+  font-family: 'Oswald';
+  letter-spacing: 0.13em;
+  font-weight: 300;
+}
+
+.no-records-found{
+    font-family: 'Montserrat';
+    font-weight: 400;
+    color: #999 !important;
+    text-decoration: none;
+    letter-spacing: 0.33em;
+}
+
+.neo-modal-title{
+  letter-spacing: 0.13em !important;
+  text-transform: capitalize;
+}
+
+.neo-modal-body{
+    background: radial-gradient(#ffffff, #dadada) !important;
+}
+
+.modal-viewer-title{
+    font-family: 'Montserrat';
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 0.13em;
+    color: #000000;
+}
+
+.modal-viewer-text{
+    font-family: 'Montserrat';
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: 0.09em;
+    color: #999;
+}
+
+.model-viewer-tag{
+    font-family: 'Montserrat';
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0.09em;
+    color: #999 !important;
+    text-decoration: none !important;
+}
+
+.model-viewer-editby{
+    font-family: 'Montserrat';
+    font-size: 23px;
+    font-weight: 400;
+    letter-spacing: 0.23em;
+    color: #999 !important;  
+}
+
+.modal-neo-title{
+    font-size: 21px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.09em !important;
+    margin-top: 3px !important;
+}
+
+.modal-neo-date{
+    font-size: 21px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.33em !important;
+    text-transform: uppercase !important;
+}
+
+.modal-viewer-category{
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.33em;
+  color: #999;
+  font-family: 'Montserrat';
+}
+
+.modal-viewer-url{
+    font-family: 'Montserrat';
+    font-size: 16px;
+    letter-spacing: 0.09em;
+    font-weight: 400;
+    color: #999;
+}
+
+.modal-viewer-date{
+    font-family: 'Montserrat';
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    color: #999;
+}
+
+.modal-viewer-boolean{
+    font-family: 'Montserrat';
+    font-size: 33px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.33em;
+    color: #999;
+}
+
+.neo-card-fill{
+  width: -webkit-fill-available !important;
+  width: -moz-available !important;
+}
+
+.modal-buffer{
+  margin-top: 96px;
+}

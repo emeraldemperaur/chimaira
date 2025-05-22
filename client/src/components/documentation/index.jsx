@@ -3,9 +3,14 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import '../documentation/documentation.css'
 import { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import developerLogo from '../../assets/me-dev-logo-black.png'
+
 
 const Documentation = ({users}) => {
+    document.body.style.background = `#ffffff`;
     useEffect(() => {
+        document.body.style.background = `#ffffff`;
         window.addEventListener('DOMContentLoaded', () => {
 
             const observer = new IntersectionObserver(entries => {
@@ -25,7 +30,7 @@ const Documentation = ({users}) => {
             });
             
         });
-      }, []);
+      }, [users]);
 
     return(
         <>
@@ -103,6 +108,9 @@ const Documentation = ({users}) => {
                     <h2 className="section-title">{`<Designer/Developer>`}</h2>
                     <p className="section-text">…</p>
                 </section>
+                 <p className="footer">BUILD BY</p>
+              <img className="footer-img" src={developerLogo}/>
+              <br/>
             </div>
             <nav className="section-nav">
                 <ol>
@@ -128,6 +136,7 @@ const Documentation = ({users}) => {
 
                 </ol>
             </nav>
+             
             </main>
 
             </Col>
@@ -135,6 +144,11 @@ const Documentation = ({users}) => {
         </Container>
         </>
     )
+}
+
+
+Documentation.propTypes = {
+  users: PropTypes.object.isRequired
 }
 
 export default Documentation;

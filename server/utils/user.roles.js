@@ -18,16 +18,16 @@ let userPrivileges = {
     root: {
         test: rootPrivileges,
         profile: rootPrivileges,
-        group: rootPrivileges,
-        locker: rootPrivileges,
-        lockergroup: rootPrivileges
+        context: rootPrivileges,
+        query: rootPrivileges,
+        rag: rootPrivileges
     },
     admin: {
         test: rootPrivileges,
         profile: rootPrivileges,
-        group: rootPrivileges,
-        locker: rootPrivileges,
-        lockergroup: rootPrivileges
+        context: rootPrivileges,
+        query: rootPrivileges,
+        rag: rootPrivileges
     },
     user: {
         test: {
@@ -38,19 +38,44 @@ let userPrivileges = {
             'update:own' : ['*'],
             'delete:own' : ['*']
         },
-        group: rootPrivileges,
-        locker: rootPrivileges,
-        lockergroup: ownRights
+        context: rootPrivileges,
+        query: rootPrivileges,
+        rag: rootPrivileges
     },
     mecha: {
         test: {
             'read:any' : ['*']
         },
         profile: rootPrivileges,
-        group: rootPrivileges,
-        locker: rootPrivileges,
-        lockergroup: rootPrivileges
-    }
+        context: rootPrivileges,
+        query: rootPrivileges,
+        rag: rootPrivileges
+    },
+    guest: {
+        test: {
+            'read:any' : ['*']
+        },
+        profile: {
+            'read:own' : ['*'],
+            'update:own' : ['*'],
+            'delete:own' : ['*']
+        },
+        context:  {
+            'read:own' : ['*'],
+            'update:own' : ['*'],
+            'delete:own' : ['*']
+        },
+        query:  {
+            'read:own' : ['*'],
+            'update:own' : ['*'],
+            'delete:own' : ['*']
+        },
+        rag:  {
+            'read:own' : ['*'],
+            'update:own' : ['*'],
+            'delete:own' : ['*']
+        }
+    },
 }
 
 const roles = new AccessControl(userPrivileges);

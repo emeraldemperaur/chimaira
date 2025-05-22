@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { errorGlobal, successGlobal } from '../reducers/notifications';

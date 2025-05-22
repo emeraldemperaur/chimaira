@@ -61,6 +61,9 @@ const User = dataSource.define(
 
     },
     {
+        
+        tableName: 'Users',
+        paranoid: false,
         hooks: {
             beforeCreate: async (user) => {
                 if(user.password){

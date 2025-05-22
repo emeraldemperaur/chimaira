@@ -1,15 +1,50 @@
 # Chímaira /kaɪˈmɪərə/
-## Client-Server AI Web Application Boilerplate Template
+## Agentic RAG (Retrieval-Augmented Generation) Web Application
 
 ### Overview
-<p align="justify">Chimaira is a boilerplate client-server web application template built to facilitate rapid application development of enterprise applications incorporating reusable core app functionalities such as User Profiles, Authentication, Access Control, Data Models, APIServices/Controllers/Routes, themed UI Component Library and AI integration utilizing vector embeddings. Built using Material UI, React, JavaScript, Typescript, Axios, Redux, Bcrypt, Passport.js, Access Control, Formik, Yup, Luxon, Express, Nodemailer, Sequelize, SQLite, PostgreSQL and third party API's to facilitate generative AI capabilities via IBM, OpenAI and Anthropic LLMs.</p>
+<p align="justify">Chím<em>ai</em>ra is a RAG architecture based web application.</p>
 
 ![alt text](/illiad/authenticationscreenshot.png)
 
 #### Prerequisites/System Requirements
 ```
-> 
-> 
-> 
-
+> NodeJS 20+
+> 16GB RAM
+> Docker Desktop (for local container deployment)
+> PostgreSQL Database server (for non SQLite data persistence)
+> OpenAI, Anthropic, xAI API service account/key
 ```
+#### Option 1: Docker Container 
+```bash
+docker compose up --force-recreate -d notificationservice
+```
+
+#### Option 2: Local
+```bash
+npm install && npm install -g nodemon
+```
+```bash
+# Development build
+npm run dev
+```
+```bash
+# or Production build
+npm install pm2
+npm run start
+```
+
+### System Design & Architecture
+#### Synopsis
+<ul>
+<li>Agentic RAG Request roles - Explorer, Translator, Historian, Engineer, Artificer, Treasurer</li>
+<li>Reusable Context profiles</li>
+<li>Dynamic Context models (Query Models)</li>
+<li>Passport.js JWT User Authentication & Access Control</li>
+<li>Nodemailer SMTP Transport - Email Notification(s)</li>
+<li>Open AI, Anthropic, xAI & N8N API Integration</li>
+</ul>
+
+#### Architecture
+
+### Toolstack
+<p align="justify">JavaScript, Typescript, Material UI, ReactJS, Axios, Redux, Bcrypt, Passport.js, Access Control, Formik, Yup, Luxon, Express, Nodemailer, Sequelize, SQLite, PostgreSQL, Pinecone, ChromaDB, Langchain, Huggingface, OpenAI and Anthropic LLM APIs.</p>

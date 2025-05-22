@@ -1,0 +1,15 @@
+.artifact-table-head{
+    background: transparent !important;
+    font-family: 'Montserrat';
+    letter-spacing: 0.13em;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    color: #000000 !important;
+}
+
+.modal-z-index{
+    z-index: 9999999 !important;
+}
+
+
+

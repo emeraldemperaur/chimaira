@@ -8,7 +8,7 @@ export const siteSlice = createSlice({
 
     },
     extraReducers: (builder) => {
-
+        builder
     }
 })
 
