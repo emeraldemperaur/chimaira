@@ -9,3 +9,9 @@ export const userGreeting = (userName) => {
     if(currentTime.hour >= 23 && currentTime.hour < 24) greeting = `Good Evening, ${userName}`
     return greeting;
 }
+
+export const getDateTime = () => {
+    let dateTime = DateTime.now().setZone('Canada/Mountain');
+    console.log(`Chronos timestamp generated: ${dateTime}`)
+    return dateTime;
+}

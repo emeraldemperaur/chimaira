@@ -39,7 +39,7 @@ npm run start
 <li>Agentic RAG Request roles - Explorer, Translator, Historian, Engineer, Artificer, Treasurer</li>
 <li>Reusable Context profiles</li>
 <li>Dynamic Context models (Query Models)</li>
-<li>Passport.js JWT User Authentication & Access Control</li>
+<li>Passport.js JWT User Authentication & Role Based Access Control</li>
 <li>Nodemailer SMTP Transport - Email Notification(s)</li>
 <li>Open AI, Anthropic, xAI & N8N API Integration</li>
 </ul>

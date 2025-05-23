@@ -124,6 +124,8 @@ const ContextTable = ({ contextProfileList }) => {
                         name: 'Alpha Context Profile',
                         category: 'Person',
                         isQueryCommand: true,
+                        documentUrl: 'mekaegwim.ca/resume.pdf',
+                        targetUrl: 'https//:openai.ai',
                         prologue: "This is the test prologue for UI test",
                         createdOn: '03 July 2025'
                     }

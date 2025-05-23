@@ -23,6 +23,10 @@ const ContextProfile = dataSource.define(
             type: DataTypes.STRING(33),
             allowNull: false
         },
+        category: {
+            type: DataTypes.STRING(33),
+            allowNull: false
+        },
         prologue: {
             type: DataTypes.STRING(33),
             allowNull: false

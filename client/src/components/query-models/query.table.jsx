@@ -10,7 +10,7 @@ import { renderToastNotification } from '../artisan/vinci';
 
 
 
-const QueryTable = ({ queryModelList }) => {
+const QueryTable = ({ queryModelList, user }) => {
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
     const [isEditOpen, setIsEditOpen] = useState(false);
     const toggleDeleteOpen = () => setIsDeleteOpen(!isDeleteOpen);
@@ -121,11 +121,11 @@ const QueryTable = ({ queryModelList }) => {
                             }
                          }/>}/>
         <QueryModal marginTop='0px' size="fullscreen" mode={2} toggleOpen={toggleEditOpen} isOpen={isEditOpen} setIsOpen={setIsEditOpen} query={{name: 'Omega Query Model'}}
-                queryBody={<QueryEditor handleSubmit={onQueryUpdate} toggleOpen={toggleEditOpen} query={
+                queryBody={<QueryEditor user={user} isEdit={true} handleSubmit={onQueryUpdate} toggleOpen={toggleEditOpen} query={
                             {
                                 name: 'Omega Query Model',
                                 type: 'Query Model',
-                                tags: ['one', 'two', 'three'],
+                                tags: [false, true, true, false],
                                 jsonQueryDefinition: {},
                                 isEdited: true,
                                 editedBy: 'System',
@@ -138,7 +138,8 @@ const QueryTable = ({ queryModelList }) => {
 }
 
 QueryTable.propTypes = {
-    queryModelList: PropTypes.array.isRequired
+    queryModelList: PropTypes.array.isRequired,
+    user: PropTypes.object.isRequired
 }
 
 export default QueryTable;

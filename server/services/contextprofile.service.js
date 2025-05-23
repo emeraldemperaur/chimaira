@@ -51,7 +51,7 @@ async function createContextProfile(body){
 }
 
 async function fetchContextProfiles(req){
-    if(!['id', 'name', 'prologue', 'documentUrl', 'targetUrl', 'isQueryCommand', 'createdOn', undefined].includes(req.query.sortby)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid Context Profile propertyName (${req.query.sortby}) provided.`);
+    if(!['id', 'name', 'category', 'prologue', 'documentUrl', 'targetUrl', 'isQueryCommand', 'createdOn', undefined].includes(req.query.sortby)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid Context Profile propertyName (${req.query.sortby}) provided.`);
     if(!['ASC', 'DESC', undefined].includes(req.query.order)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid Context Profile propertyName (${req.query.order}) provided.`);
     const sortby = req.query.sortby || 'id';
     const order = req.query.order || 'DESC';
@@ -71,7 +71,7 @@ async function fetchContextProfiles(req){
 }
 
 async function findContextProfilesbyProperty(req, propertyName, propertyValue){
-    if(!['id', 'name', 'prologue', 'documentUrl', 'targetUrl', 'isQueryCommand', 'createdOn', undefined].includes(propertyName)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid Group propertyName (${propertyName}) provided.`);
+    if(!['id', 'name', 'category', 'prologue', 'documentUrl', 'targetUrl', 'isQueryCommand', 'createdOn', undefined].includes(propertyName)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid Group propertyName (${propertyName}) provided.`);
     if(!['ASC', 'DESC', undefined].includes(req.query.order)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid Context Profile propertyName (${req.query.order}) provided.`);
     const sortby = req.query.sortby || 'id';
     const order = req.query.order || 'DESC';
@@ -88,6 +88,9 @@ async function findContextProfilesbyProperty(req, propertyName, propertyValue){
               break;
             case 'prologue':
               contextProfiles = await contextProfileModel.ContextProfile.findAll({where: { prologue: propertyValue}, offset: skip, limit: limit, order: [[sortby, order]]});
+              break;
+            case 'category':
+              contextProfiles = await contextProfileModel.ContextProfile.findAll({where: { category: propertyValue}, offset: skip, limit: limit, order: [[sortby, order]]});
               break;
             case 'documentUrl':
               contextProfiles = await contextProfileModel.ContextProfile.findAll({where: { documentUrl: propertyValue}, offset: skip, limit: limit, order: [[sortby, order]]});
@@ -119,7 +122,7 @@ async function findContextProfilesbyProperty(req, propertyName, propertyValue){
 
 async function fetchContextProfilePages(req){
     if(req.query.page === undefined || "") throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid 'page' query provided (${req.query.page})`);
-    if(!['id', 'name', 'prologue', 'documentUrl', 'targetUrl', 'isQueryCommand', 'createdOn', undefined].includes(req.query.sortby)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid Context Profile propertyName (${req.query.sortby}) provided.`);
+    if(!['id', 'name', 'category', 'prologue', 'documentUrl', 'targetUrl', 'isQueryCommand', 'createdOn', undefined].includes(req.query.sortby)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid Context Profile propertyName (${req.query.sortby}) provided.`);
     if(!['id', 'name', 'prologue', 'documentUrl', 'targetUrl', 'isQueryCommand', 'createdOn', undefined].includes(req.query.filterby)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid Context Profile propertyName (${req.query.filterby}) provided.`);
     if(!['ASC', 'DESC', undefined].includes(req.query.order)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid Context Profile propertyName (${req.query.order}) provided.`);
     var dataResponse;
@@ -136,6 +139,15 @@ async function fetchContextProfilePages(req){
         switch(filterby) {
             case 'name':
               await contextProfileModel.ContextProfile.findAndCountAll({where: { name: keyword}, offset: offset, limit: limit, order: [[sortby, order]]})
+              .then(async (resultData) => {
+                if(resultData.count === 0) throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No Context Profile records found on database`);
+                dataResponse = await mjolnirTools.getPaginateData(resultData, page, limit);
+                console.log(`${resultData.count} Context Profile records found on database`);
+              })
+              .catch((error) => { throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No Context Profile records found on database`) });
+              break;
+            case 'category':
+             await contextProfileModel.ContextProfile.findAndCountAll({where: { category: keyword}, offset: offset, limit: limit, order: [[sortby, order]]})
               .then(async (resultData) => {
                 if(resultData.count === 0) throw new apiErrors.ApiError(HttpStatusCode.NotFound, `No Context Profile records found on database`);
                 dataResponse = await mjolnirTools.getPaginateData(resultData, page, limit);

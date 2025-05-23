@@ -31,7 +31,7 @@ const QueryModels = ({users}) => {
         <RecordsCount recordsCount={69}/>
         <Row>
             <Col style={{paddingLeft: '33px', paddingRight: '33px'}} size={12}>
-                <NeoCard component={<><QueryTable queryModelList={[]}/></>}/>
+                <NeoCard component={<><QueryTable user={users.data} queryModelList={[]}/></>}/>
              </Col>
         </Row>
         <QueryModal size="xl" mode={1} toggleOpen={toggleOpen} isOpen={isOpen} setIsOpen={setIsOpen} query={{name: 'Omega Query Model'}}
