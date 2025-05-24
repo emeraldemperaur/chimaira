@@ -12,8 +12,8 @@ import Configuration from './components/configuration'
 import { renderToastNotification } from './components/artisan/vinci'
 import { ToastContainer } from 'react-toastify'
 import { useDispatch, useSelector } from 'react-redux'
-import { clearNotifications } from './store/reducers/notifications'
-import { isAuthenticated } from './store/actions/users'
+import { clearNotifications } from './store/reducers/notifications.reducer'
+import { isAuthenticated } from './store/actions/users.actions'
 import Virgil from './components/artisan/virgil'
 import RAGArtifacts from './components/rag-artifacts';
 import ContextProfiles from './components/context-profiles';

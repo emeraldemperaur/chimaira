@@ -7,7 +7,7 @@ const ragArtifactRouter = express.Router();
 
 //ModelS CRUD
 ragArtifactRouter.route('/rag')
-.post(auth('createAny', 'rag'), expressValidator.initModelSValidator, ragArtifactController.createragartifact)
+.post(auth('createAny', 'rag'), expressValidator.initArtifactValidator, ragArtifactController.createragartifact)
 .get(auth('readAny', 'rag'), ragArtifactController.fetchragartifacts)
 
 ragArtifactRouter.route('/page')
@@ -19,10 +19,10 @@ ragArtifactRouter.route('/rag/:id')
 .delete(auth('deleteAny', 'rag'), ragArtifactController.deleteragartifactbyId)
 
 
-ragArtifactRouter.route('/rag/contex/:id')
+ragArtifactRouter.route('/ragcontex/:id')
 .get(auth('readAny', 'rag'), ragArtifactController.findragartifactsbyContextId)
 
-ragArtifactRouter.route('/rag/query/:id')
+ragArtifactRouter.route('/ragquery/:id')
 .get(auth('readAny', 'rag'), ragArtifactController.findragartifactsbyQueryId)
 
 ragArtifactRouter.route('/rag/:propertyName/:propertyValue')

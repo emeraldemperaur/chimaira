@@ -50,8 +50,8 @@ async function createQueryModel(req){
 }
 
 async function fetchQueryModels(req){
-    if(!['name', 'type', 'tags', 'isEdited', 'editedBy', 'editedOn', 'createdOn', undefined].includes(req.query.sortby)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid Group propertyName (${req.query.sortby}) provided.`);
-    if(!['ASC', 'DESC', undefined].includes(req.query.order)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid Locker propertyName (${req.query.order}) provided.`);
+    if(!['id', 'name', 'type', 'tags', 'isEdited', 'editedBy', 'editedOn', 'createdOn', undefined].includes(req.query.sortby)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid Query Model propertyName (${req.query.sortby}) provided.`);
+    if(!['ASC', 'DESC', undefined].includes(req.query.order)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid Query Model propertyName (${req.query.order}) provided.`);
     const sortby = req.query.sortby || 'id';
     const order = req.query.order || 'DESC';
     const limit = req.query.limit || 100;
@@ -70,7 +70,7 @@ async function fetchQueryModels(req){
 }
 
 async function findQueryModelsbyProperty(req, propertyName, propertyValue){
-    if(!['name', 'type', 'tags', 'isEdited', 'editedBy', 'editedOn', 'createdOn'].includes(propertyName)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid Locker propertyName (${propertyName}) provided.`);
+    if(!['id', 'name', 'type', 'tags', 'isEdited', 'editedBy', 'editedOn', 'createdOn'].includes(propertyName)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid Locker propertyName (${propertyName}) provided.`);
     if(!['ASC', 'DESC', undefined].includes(req.query.order)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid Query Model propertyName (${req.query.order}) provided.`);
     const sortby = req.query.sortby || 'id';
     const order = req.query.order || 'DESC';
@@ -124,8 +124,8 @@ async function findQueryModelsbyProperty(req, propertyName, propertyValue){
 
 async function fetchQueryModelPages(req){
     if(req.query.page === undefined) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid 'page' query provided (${req.query.page})`);
-    if(!['name', 'type', 'tags', 'isEdited', 'editedBy', 'editedOn', 'createdOn', undefined].includes(req.query.sortby)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid Query Model propertyName (${req.query.sortby}) provided.`);
-    if(!['name', 'type', 'tags', 'isEdited', 'editedBy', 'editedOn', 'createdOn', undefined].includes(req.query.filterby)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid Query Model propertyName (${req.query.filterby}) provided.`);
+    if(!['id', 'name', 'type', 'tags', 'isEdited', 'editedBy', 'editedOn', 'createdOn', undefined].includes(req.query.sortby)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid Query Model propertyName (${req.query.sortby}) provided.`);
+    if(!['id', 'name', 'type', 'tags', 'isEdited', 'editedBy', 'editedOn', 'createdOn', undefined].includes(req.query.filterby)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid Query Model propertyName (${req.query.filterby}) provided.`);
     if(!['ASC', 'DESC', undefined].includes(req.query.order)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, `Invalid Query Model propertyName (${req.query.order}) provided.`);
     var dataResponse;
     const page = req.query.page || 0;
@@ -232,19 +232,18 @@ async function updateQueryModelbyID(id, req){
     if(querymodel === null){
         throw new apiErrors.ApiError(HttpStatusCode.NotFound, `Existing Query Model record (ID: ${id}) not found on database`)
     }else if(querymodel) {
-        console.log(`Existing Query Model record found for ID: ${locker.id}`);
+        console.log(`Existing Query Model record found for ID: ${querymodel.id}`);
         await querymodel.update({
-            name: body.name,
-            type: body.type,
-            tags: body.tags,
-            jsonQueryDefinition: body.jsonQueryDefinition,
-            isEdited: body.isEdited,
-            editedBy: req.user.id,
-            editedOn: chronosTools.getDateTime(),
-            createdOn: querymodel.createdOn
+            name: req.body.name,
+            type: req.body.type,
+            tags: req.body.tags,
+            jsonQueryDefinition: req.body.jsonQueryDefinition,
+            isEdited: true,
+            editedBy: req.user.uuid,
+            editedOn: chronosTools.getDateTime()
         });
         await querymodel.save();
-        console.log(`Updated Existing Query Model record (ID: ${locker.id}) on database`);
+        console.log(`Updated Existing Query Model record (ID: ${querymodel.id}) on database`);
     }
     return querymodel;
 }
@@ -259,7 +258,7 @@ async function deleteQueryModelbyID(id, req){
         await querymodel.destroy();
         console.log(`Deleted Existing Query Model record (ID: ${querymodel.id}) on database`);
     }
-    return locker;
+    return querymodel;
 }
 
 async function exantUpdate(id, name){

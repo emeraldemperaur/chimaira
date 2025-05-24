@@ -113,8 +113,6 @@ const QueryEditor = ({ query, toggleOpen, handleSubmit, isEdit=false, user={} })
                             </div>
                         </Col>
                     </Row>
-                    {query.jsonQueryDefinition ? 
-                    <>
                     <Row style={{marginTop: '3px', marginBottom: '3px'}}>
                         <Col size={12}>
                             <p className="modal-neo-title modal-viewer-title">QUERY DEFINITION</p>
@@ -123,8 +121,6 @@ const QueryEditor = ({ query, toggleOpen, handleSubmit, isEdit=false, user={} })
                             <a className="neo-form-error">{errors.queryjsondefinition && touched.queryjsondefinition && errors.queryjsondefinition}</a>
                         </Col>
                     </Row>
-                    </>
-                    : <></>} 
                     <hr/>
                     <Row style={{marginTop: '13px', marginBottom: '13px'}}>
                             <Col size={3}>

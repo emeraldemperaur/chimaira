@@ -57,7 +57,7 @@ const queryModelController = {
     async updatequerymodelbyId(req, res, next){
         try{
             const id = req.params.id;
-            const querymodel = await servicesIndex._queryModelServices.updateLockerbyID(id, req);
+            const querymodel = await servicesIndex._queryModelServices.updateQueryModelbyID(id, req);
             if(querymodel){
                 res.status(HttpStatusCode.Ok).json(querymodel);
             }

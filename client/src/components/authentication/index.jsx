@@ -4,7 +4,7 @@ import '../../styles/main.css'
 import { useDispatch } from "react-redux";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { registerUser, signInUser } from "../../store/actions/users";
+import { registerUser, signInUser } from "../../store/actions/users.actions";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Merlin from "../artisan/merlin";

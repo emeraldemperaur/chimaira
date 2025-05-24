@@ -15,7 +15,7 @@ const ContextModal = ({ toggleOpen, isOpen, setIsOpen, context, mode, contextBod
         {mode == 1 ? 
         <>
             <MDBModal className="modal-z-index" open={isOpen} tabIndex='-1' setOpen={setIsOpen}>
-                <MDBModalDialog style={{marginTop: '96px'}}  size={size}>
+                <MDBModalDialog  size={size}>
                     <MDBModalContent>
                         <MDBModalHeader className="neo-modal-body">
                             <MDBModalTitle className='neo-modal-title'>{context ?
@@ -40,9 +40,9 @@ const ContextModal = ({ toggleOpen, isOpen, setIsOpen, context, mode, contextBod
                 <MDBModalDialog size={size}>
                     <MDBModalContent>
                         <MDBModalHeader className="neo-modal-body">
-                            <MDBModalTitle className='neo-modal-title'>{context ?
+                            <MDBModalTitle className='neo-modal-title'>{context  ?
                             <><i className="fa-solid fa-pencil"></i> Edit <i className="fa-solid fa-quote-left"></i> {context.name} <i className="fa-solid fa-quote-right"></i></>
-                                :<><i className="fa-solid fa-pencil"></i> Edit <i className="fa-solid fa-quote-left"></i> Context Profile <i className="fa-solid fa-quote-right"></i></>}
+                                :<><i className="fa-solid fa-pencil"></i> New <i className="fa-solid fa-quote-left"></i> Context Profile <i className="fa-solid fa-quote-right"></i></>}
                             </MDBModalTitle>
                             <MDBBtn className='btn-close' color='none' onClick={toggleOpen}></MDBBtn>
                         </MDBModalHeader>
@@ -112,7 +112,8 @@ ContextModal.propTypes = {
     mode: PropTypes.number.isRequired,
     toggleOpen: PropTypes.func.isRequired,
     contextBody: PropTypes.object.isRequired,
-    size: PropTypes.string
+    size: PropTypes.string,
+    isEdit: PropTypes.bool
 }
 
 export default ContextModal;

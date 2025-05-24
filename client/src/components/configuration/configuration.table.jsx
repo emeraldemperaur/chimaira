@@ -1,4 +1,4 @@
-import { MDBBadge, MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
+import { MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import developerLogo from '../../assets/me-dev-logo-black.png';
 import PropTypes from "prop-types";
 import './configuration.style.css';
@@ -7,12 +7,17 @@ import ConfigurationModal from './configuration.modal';
 import { useState } from 'react';
 import ConfigurationEditor from './configuration.editor';
 import { renderToastNotification } from '../artisan/vinci';
+import ConfigurationViewer from './configuration.viewer';
 
 const ConfigurationTable = ({ configurationList }) => {
      const [isDeleteOpen, setIsDeleteOpen] = useState(false);
      const [isEditOpen, setIsEditOpen] = useState(false);
+     const [isViewOpen, setIsViewOpen] = useState(false);
+     const [configuration, setConfiguration] = useState(null);
      const toggleDeleteOpen = () => setIsDeleteOpen(!isDeleteOpen);
      const toggleEditOpen = () => setIsEditOpen(!isEditOpen);
+     const toggleViewOpen = () => setIsViewOpen(!isViewOpen);
+
 
      const onConfigurationDelete = async (configuration) => {
      console.log(`Deleted Configuration Profile Record: ${configuration.name}`);
@@ -33,7 +38,7 @@ const ConfigurationTable = ({ configurationList }) => {
             <tr>
                 <th className='configuration-table-head rolodex-heading' scope='col'>Alias</th>
                 <th className='configuration-table-head rolodex-heading' scope='col'>RAG Source</th>
-                <th className='configuration-table-head rolodex-heading' scope='col'>Key</th>
+                <th className='configuration-table-head rolodex-heading' scope='col'>URL</th>
                 <th className='configuration-table-head rolodex-heading' scope='col'>&nbsp;</th>
                 <th className='configuration-table-head rolodex-heading' scope='col'>Actions</th>
                 <th className='configuration-table-head rolodex-heading' scope='col'>&nbsp;</th>
@@ -52,49 +57,46 @@ const ConfigurationTable = ({ configurationList }) => {
                                                     className='rounded-circle'
                                                 />
                                                 <div className='ms-3'>
-                                                    <p style={{textAlign:'left'}} className='fw-bold mb-1 rolodex-name-title rolodex-table-txt'>{configuration.companyName}</p>
-                                                    <p style={{textAlign:'left'}} className='text-muted mb-0 rolodex-table-txt'>{configuration.incorporationCountry}</p>
-                                                    <p style={{textAlign:'left'}} className='text-muted mb-0 rolodex-table-txt'>{configuration.incorporationCategory}</p>
+                                                    <p style={{textAlign:'left'}} className='fw-bold mb-1 rolodex-name-title rolodex-table-txt'>{configuration.name}</p>
                                                 </div>
                                                 </div>
                                             </td>
                                             <td>
-                                                <p className='rolodex-form-region-text fw-normal mb-1'>{configuration.name}</p>
-                                                <p className='rolodex-form-market-text text-muted mb-0'>{configuration.primeStockExchange}</p>
-                                                <p className='rolodex-form-symbol-text text-muted mb-0'>{configuration.primeTickerSymbol}</p>
+                                                <p className='rolodex-form-region-text fw-normal mb-1'>{configuration.provider}</p>
                                             </td>
                                             <td>
-                                            {configuration.dualListed ?
-                                            <><MDBBadge className='rolodex-badge' color='info' pill>Dual Listed</MDBBadge><br/></>
-                                            :null}
-                                            {configuration.distributesDividends ?
-                                            <><MDBBadge className='rolodex-badge' color='info' pill>Dividends</MDBBadge><br/></>
-                                            :null}
-                                            {configuration.legendConditions ?
-                                            <><MDBBadge className='rolodex-badge' color='info' pill>Legend Conditions</MDBBadge><br/></>
-                                            :null}   
+                                            {configuration.sourceUrl ?
+                                            <><p>{configuration.sourceUrl}</p><br/></>
+                                            :null}  
                                             </td>
                                             <td>
-                                                
+                                                <div className="btn btn__modal" onClick={() => {
+                                                    console.log(`VIEW clicked`);
+                                                    setConfiguration(configuration);
+                                                    toggleViewOpen();
+                                                }}><p className="neo-action-button neo-modal-button">VIEW <i className="fa-solid fa-eye"></i></p></div>
                                             </td>
                                             <td>
-                                                <MDBBtn onClick={() => {console.log(`VIEW clicked`)}} className="rolodex-form-button" rounded size='sm'>
-                                                <i className="fa-regular fa-eye"></i> View</MDBBtn>&nbsp;
-                                                <MDBBtn onClick={() => {console.log(`EDIT clicked`)}} className="rolodex-form-button" rounded size='sm'>
-                                                <i className="fa-regular fa-pen-to-square"></i> Edit</MDBBtn>&nbsp;
-                                                <MDBBtn onClick={() => {console.log(`DELETE clicked`)}} className="rolodex-form-button" rounded size='sm'>
-                                                <i className="fa-solid fa-trash"></i> Delete</MDBBtn>
+                                                <div className="btn btn__modal" onClick={() => {
+                                                    console.log(`EDIT clicked`);
+                                                    setConfiguration(configuration);
+                                                    toggleEditOpen();
+                                                }}><p className="neo-action-button neo-modal-button">EDIT <i className="fa-solid fa-pencil"></i></p></div>
                                             </td>
                                             <td>
-                                            
+                                                <div className="btn btn__modal" onClick={() => {
+                                                    console.log(`DELETE clicked`);
+                                                    setConfiguration(configuration);
+                                                    toggleDeleteOpen();
+                                                }}><p className="neo-action-button neo-modal-button">DELETE <i className="fa-solid fa-trash"></i></p></div>
                                             </td>        
 
                                             </tr>
                                             )):<> 
                                             <tr>
                                              <th scope='col'>&nbsp;</th>
-                                             <th scope='col'><a onClick={() => toggleEditOpen()} className='no-records-found'>Edit Test</a></th>
-                                             <th scope='col'><a className='no-records-found' onClick={() => toggleDeleteOpen()}>No Records Found</a></th>
+                                             <th scope='col'>&nbsp;</th>
+                                             <th scope='col'><a className='no-records-found'>No Records Found</a></th>
                                              <th scope='col'>&nbsp;</th>
                                              <th scope='col'>&nbsp;</th>
                                              <th scope='col'>&nbsp;</th>
@@ -103,28 +105,12 @@ const ConfigurationTable = ({ configurationList }) => {
                                         }
             </MDBTableBody>
         </MDBTable>
-         <ConfigurationModal mode={3} toggleOpen={toggleDeleteOpen} isOpen={isDeleteOpen} setIsOpen={setIsDeleteOpen} configuration={{name: 'Delta Configuration Profile'}}
-                         configurationBody={<ConfigurationDelete onDeleteFunc={onConfigurationDelete} toggleOpen={toggleDeleteOpen} configuration={
-                                     {
-                                         name: 'Delta Configuration Profile',
-                                         provider: 'Open AI',
-                                         key: '@#$%(*&%$##%&Y@&#&#$!*&^)(12345-90)',
-                                         sourceUrl: "https://chat-gpt.openai.ai",
-                                         createdOn: '13 July 2025',
-                                         createdBy: 'System'
-                                     }
-                                  }/>}/>
-        <ConfigurationModal size="fullscreen" mode={2} toggleOpen={toggleEditOpen} isOpen={isEditOpen} setIsOpen={setIsEditOpen} configuration={{name: 'Delta Configuration Profile'}}
-                         configurationBody={<ConfigurationEditor handleSubmit={onConfigurationUpdate} toggleOpen={toggleEditOpen} configuration={
-                                     {
-                                         name: 'Delta Configuration Profile',
-                                         provider: 'Open AI',
-                                         key: '@#$%(*&%$##%&Y@&#&#$!*&^)(12345-90)',
-                                         sourceUrl: "https://chat-gpt.openai.ai",
-                                         createdOn: '13 July 2025',
-                                         createdBy: 'System'
-                                     }
-                                  }/>}/>
+         <ConfigurationModal mode={3} toggleOpen={toggleDeleteOpen} isOpen={isDeleteOpen} setIsOpen={setIsDeleteOpen} configuration={configuration}
+                         configurationBody={<ConfigurationDelete onDeleteFunc={onConfigurationDelete} toggleOpen={toggleDeleteOpen} configuration={configuration}/>}/>
+        <ConfigurationModal size="fullscreen" mode={2} toggleOpen={toggleEditOpen} isOpen={isEditOpen} setIsOpen={setIsEditOpen} configuration={configuration}
+                         configurationBody={<ConfigurationEditor handleSubmit={onConfigurationUpdate} toggleOpen={toggleEditOpen} configuration={configuration}/>}/>
+        <ConfigurationModal mode={1} toggleOpen={toggleEditOpen} isOpen={isEditOpen} setIsOpen={setIsEditOpen} configuration={configuration}
+                         configurationBody={<ConfigurationViewer configuration={configuration}/>}/>
         </>
     )
 }

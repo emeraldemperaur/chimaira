@@ -12,7 +12,7 @@ import ArtifactViewer from "./artifact.viewer";
 
 
 const RAGArtifacts = ({users}) => {
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
     document.body.style.background = `radial-gradient(#ffffff, #dadada)`;
     useEffect(()=> {
         document.body.style.background = `radial-gradient(#ffffff, #dadada)`;
@@ -26,7 +26,7 @@ const RAGArtifacts = ({users}) => {
     return(
         <>
         <TitleRibbon title='RAG Artifacts' username={users.data.firstName}/>
-        <RecordsCount recordsCount={6}/>
+        <RecordsCount recordsCount={0}/>
         <Row>
             <Col style={{paddingLeft: '33px', paddingRight: '33px'}} size={12}>
                 <NeoCard component={<><ArtifactTable ragArtifactList={[]}/></>}/>

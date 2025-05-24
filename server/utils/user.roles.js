@@ -1,4 +1,5 @@
 const AccessControl = require('accesscontrol');
+const { config } = require('dotenv');
 
 const rootPrivileges = {
     'create:any' : ['*'],
@@ -20,14 +21,16 @@ let userPrivileges = {
         profile: rootPrivileges,
         context: rootPrivileges,
         query: rootPrivileges,
-        rag: rootPrivileges
+        rag: rootPrivileges,
+        config: rootPrivileges
     },
     admin: {
         test: rootPrivileges,
         profile: rootPrivileges,
         context: rootPrivileges,
         query: rootPrivileges,
-        rag: rootPrivileges
+        rag: rootPrivileges,
+        config: rootPrivileges
     },
     user: {
         test: {
@@ -40,7 +43,12 @@ let userPrivileges = {
         },
         context: rootPrivileges,
         query: rootPrivileges,
-        rag: rootPrivileges
+        rag: rootPrivileges,
+        config: {
+            'read:own' : ['*'],
+            'update:own' : ['*'],
+            'delete:own' : ['*']
+        }
     },
     mecha: {
         test: {
@@ -49,7 +57,8 @@ let userPrivileges = {
         profile: rootPrivileges,
         context: rootPrivileges,
         query: rootPrivileges,
-        rag: rootPrivileges
+        rag: rootPrivileges,
+        config: rootPrivileges
     },
     guest: {
         test: {
@@ -71,6 +80,11 @@ let userPrivileges = {
             'delete:own' : ['*']
         },
         rag:  {
+            'read:own' : ['*'],
+            'update:own' : ['*'],
+            'delete:own' : ['*']
+        },
+        config: {
             'read:own' : ['*'],
             'update:own' : ['*'],
             'delete:own' : ['*']

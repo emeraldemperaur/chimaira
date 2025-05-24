@@ -267,7 +267,19 @@ hr.solid{
     font-family: 'Montserrat';
     font-weight: 500;
     letter-spacing: 0.09em;
-    color: #999;
+    color: #999 !important;
+    text-decoration: none !important;
+}
+
+.record-count-title > a{
+    font-size: 33px;
+    margin-left: 13px;
+    margin-top: 33px;
+    font-family: 'Montserrat';
+    font-weight: 500;
+    letter-spacing: 0.09em;
+    color: #999 !important;
+    text-decoration: none !important;
 }
 
 .record-count-value{

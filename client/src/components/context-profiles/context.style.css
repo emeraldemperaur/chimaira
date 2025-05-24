@@ -6,3 +6,8 @@
     text-transform: uppercase;
     color: #000000 !important;
 }
+
+.context-table-badge{
+    background-color: #000000 !important;
+    font-size: 12px !important;
+}

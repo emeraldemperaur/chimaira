@@ -1,16 +1,41 @@
 const { HttpStatusCode } = require('axios');
 const { check, validationResult } = require('express-validator');
 
-const initModelGValidator = [
+const initContextValidator = [
     check('name')
         .trim().not().isEmpty().withMessage(`You need to provide a 'name' property/value`)
         .isLength({min: 3}).withMessage(`You need to provide a valid 'name' property/value`),
-    check('creator')
-        .trim().not().isEmpty().withMessage(`You need to provide a 'creator' property/value`)
-        .isLength({min: 3}).withMessage(`You need to provide a valid 'creator' property/value`),
-    check('private')
-        .trim().not().isEmpty().withMessage(`You need to provide a 'private' property/value`)
-        .isBoolean().withMessage(`You need to provide a true or false 'private' property/value`)
+    check('prologue')
+        .trim().not().isEmpty().withMessage(`You need to provide a 'prologue' property/value`)
+        .isLength({min: 3}).withMessage(`You need to provide a valid 'prologue' property/value`),
+    check('category')
+        .trim().not().isEmpty().withMessage(`You need to provide a 'category' property/value`)
+        .isLength({min: 3}).withMessage(`You need to provide a valid 'category' property/value`),
+    check('isQueryCommand')
+        .trim().not().isEmpty().withMessage(`You need to provide a 'isQueryCommand' property/value`)
+        .isBoolean().withMessage(`You need to provide a true or false 'isQueryCommand' property/value`)
+    ,
+    (req, res, next) => {
+        const errors = validationResult(req)
+        if(!errors.isEmpty()){
+            return res.status(HttpStatusCode.BadRequest).json({
+                errors: errors.array()
+            })
+        }
+        next();
+    }
+]
+
+const initConfigurationValidator = [
+    check('name')
+        .trim().not().isEmpty().withMessage(`You need to provide a 'name' property/value`)
+        .isLength({min: 3}).withMessage(`You need to provide a valid 'name' property/value`),
+    check('provider')
+        .trim().not().isEmpty().withMessage(`You need to provide a 'provider' property/value`)
+        .isLength({min: 3}).withMessage(`You need to provide a valid 'provider' property/value`),
+    check('key')
+        .trim().not().isEmpty().withMessage(`You need to provide a 'key' property/value`)
+        .isLength({min: 3}).withMessage(`You need to provide a valid 'key' property/value`)
     ,
     (req, res, next) => {
         const errors = validationResult(req)
@@ -54,16 +79,16 @@ const initUserValidator = [
     }
 ]
 
-const initModelLValidator = [
+const initQueryValidator = [
     check('name')
         .trim().not().isEmpty().withMessage(`You need to provide a 'name' property/value`)
         .isLength({min: 3}).withMessage(`You need to provide a valid '' property/value`),
-    check('owner')
-        .trim().not().isEmpty().withMessage(`You need to provide a 'owner' property/value`)
-        .isLength({min: 3}).withMessage(`You need to provide a valid 'owner' property/value`),
-    check('locked')
-        .trim().not().isEmpty().withMessage(`You need to provide a 'locked' property/value`)
-        .isBoolean().withMessage(`You need to provide a true or false 'locked' property/value`)
+    check('type')
+        .trim().not().isEmpty().withMessage(`You need to provide a 'type' property/value`)
+        .isLength({min: 2}).withMessage(`You need to provide a valid 'type' property/value`),
+    check('tags')
+        .trim().not().isEmpty().withMessage(`You need to provide a 'tag' property/value`)
+        .isArray().withMessage(`You need to provide a true or false 'tag' property/value`)
     ,
     (req, res, next) => {
         const errors = validationResult(req)
@@ -76,19 +101,17 @@ const initModelLValidator = [
     }
 ]
 
-const initModelSValidator = [
+const initArtifactValidator = [
     check('name')
         .trim().not().isEmpty().withMessage(`You need to provide a 'name' property/value`)
         .isLength({min: 3}).withMessage(`You need to provide a valid 'name' property/value`),
-    check('tags')
-        .trim().not().isEmpty().withMessage(`You need to provide a 'tags' property/value`)
-        .isJSON().withMessage(`You need to provide a valid json 'tags' property/value`),
-    check('groupId')
-        .trim().not().isEmpty().withMessage(`You need to provide a 'groupId' property/value`)
-        .isInt().withMessage(`You need to provide a valid 'groupId' property/value`),
-    check('lockerId')
-        .trim().not().isEmpty().withMessage(`You need to provide a 'lockerId' property/value`)
-        .isInt().withMessage(`You need to provide a valid 'lockerId' property/value`)
+    check('synopsis')
+        .trim().not().isEmpty().withMessage(`You need to provide a 'synopsis' property/value`)
+        .isString().isLength({min: 6}).withMessage(`You need to provide a valid length 'synopsis' property/value`),
+    check('response')
+        .isArray().withMessage(`You need to provide a valid 'response' property/value`),
+    check('mementos')
+        .isArray().withMessage(`You need to provide a valid 'mementos' property/value`)
     ,
     (req, res, next) => {
         const errors = validationResult(req)
@@ -102,9 +125,10 @@ const initModelSValidator = [
 ]
 
 const expressValidator = {
-    initModelGValidator,
-    initModelLValidator,
-    initModelSValidator,
+    initContextValidator,
+    initConfigurationValidator,
+    initQueryValidator,
+    initArtifactValidator,
     initUserValidator
 }
 

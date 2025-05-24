@@ -1,4 +1,4 @@
-import { MDBBadge, MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
+import { MDBBadge, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import developerLogo from '../../assets/me-dev-logo-black.png';
 import PropTypes from "prop-types";
 import './query.style.css'
@@ -7,14 +7,18 @@ import QueryDelete from './query.delete';
 import { useState } from 'react';
 import QueryEditor from './query.editor';
 import { renderToastNotification } from '../artisan/vinci';
+import QueryViewer from './query.viewer';
 
 
 
 const QueryTable = ({ queryModelList, user }) => {
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
     const [isEditOpen, setIsEditOpen] = useState(false);
+    const [isViewOpen, setIsViewOpen] = useState(false);
+    const [query, setQuery] = useState(null);
     const toggleDeleteOpen = () => setIsDeleteOpen(!isDeleteOpen);
     const toggleEditOpen = () => setIsEditOpen(!isEditOpen);
+    const toggleViewOpen = () => setIsViewOpen(!isViewOpen);
 
      const onQueryDelete = async (query) => {
      console.log(`Deleted Query Model Record: ${query.name}`);
@@ -56,49 +60,55 @@ const QueryTable = ({ queryModelList, user }) => {
                                                     className='rounded-circle'
                                                 />
                                                 <div className='ms-3'>
-                                                    <p style={{textAlign:'left'}} className='fw-bold mb-1 rolodex-name-title rolodex-table-txt'>{queryModel.companyName}</p>
-                                                    <p style={{textAlign:'left'}} className='text-muted mb-0 rolodex-table-txt'>{queryModel.incorporationCountry}</p>
-                                                    <p style={{textAlign:'left'}} className='text-muted mb-0 rolodex-table-txt'>{queryModel.incorporationCategory}</p>
+                                                    <p style={{textAlign:'left'}} className='fw-bold mb-1 rolodex-name-title rolodex-table-txt'>{queryModel.name}</p>
                                                 </div>
                                                 </div>
                                             </td>
                                             <td>
-                                                <p className='rolodex-form-region-text fw-normal mb-1'>{queryModel.name}</p>
-                                                <p className='rolodex-form-market-text text-muted mb-0'>{queryModel.primeStockExchange}</p>
-                                                <p className='rolodex-form-symbol-text text-muted mb-0'>{queryModel.primeTickerSymbol}</p>
+                                                <p className='rolodex-form-region-text fw-normal mb-1'>{queryModel.type}</p>
                                             </td>
                                             <td>
-                                            {queryModel.dualListed ?
-                                            <><MDBBadge className='rolodex-badge' color='info' pill>Dual Listed</MDBBadge><br/></>
+                                            {queryModel.tags[0]  ?
+                                            <><MDBBadge className='query-table-badge' color='info' pill><i className="fa-brands fa-mandalorian"></i> Heuristic</MDBBadge><br/></>
                                             :null}
-                                            {queryModel.distributesDividends ?
-                                            <><MDBBadge className='rolodex-badge' color='info' pill>Dividends</MDBBadge><br/></>
+                                            {queryModel.tags[1]  ?
+                                            <><MDBBadge className='query-table-badge' color='info' pill><i className="fa-solid fa-icons"></i> Multimedia</MDBBadge><br/></>
                                             :null}
-                                            {queryModel.legendConditions ?
-                                            <><MDBBadge className='rolodex-badge' color='info' pill>Legend Conditions</MDBBadge><br/></>
+                                            {queryModel.tags[2] ?
+                                            <><MDBBadge className='query-table-badge' color='info' pill><i className="fa-solid fa-code"></i> Code</MDBBadge><br/></>
+                                            :null} 
+                                            {queryModel.tags[3] ?
+                                            <><MDBBadge className='query-table-badge' color='info' pill><i className="fa-solid fa-robot"></i> Automation</MDBBadge><br/></>
                                             :null}   
                                             </td>
                                             <td>
-                                                
+                                                <div className="btn btn__modal" onClick={() => {
+                                                    console.log(`VIEW clicked`);
+                                                    setQuery(queryModel);
+                                                    toggleViewOpen();
+                                                }}><p className="neo-action-button neo-modal-button">VIEW <i className="fa-solid fa-eye"></i></p></div>
                                             </td>
                                             <td>
-                                                <MDBBtn onClick={() => {console.log(`VIEW clicked`)}} className="rolodex-form-button" rounded size='sm'>
-                                                <i className="fa-regular fa-eye"></i> View</MDBBtn>&nbsp;
-                                                <MDBBtn onClick={() => {console.log(`EDIT clicked`)}} className="rolodex-form-button" rounded size='sm'>
-                                                <i className="fa-regular fa-pen-to-square"></i> Edit</MDBBtn>&nbsp;
-                                                <MDBBtn onClick={() => {console.log(`DELETE clicked`)}} className="rolodex-form-button" rounded size='sm'>
-                                                <i className="fa-solid fa-trash"></i> Delete</MDBBtn>
+                                                <div className="btn btn__modal" onClick={() => {
+                                                    console.log(`EDIT clicked`);
+                                                    setQuery(queryModel);
+                                                    toggleEditOpen();
+                                                }}><p className="neo-action-button neo-modal-button">EDIT <i className="fa-solid fa-pencil"></i></p></div>
                                             </td>
                                             <td>
-                                            
+                                                <div className="btn btn__modal" onClick={() => {
+                                                    console.log(`DELETE clicked`);
+                                                    setQuery(queryModel);
+                                                    toggleDeleteOpen();
+                                                }}><p className="neo-action-button neo-modal-button">DELETE <i className="fa-solid fa-trash"></i></p></div>
                                             </td>        
 
                                             </tr>
                                             )):<> 
                                             <tr>
                                              <th scope='col'>&nbsp;</th>
-                                             <th scope='col'><a onClick={() => toggleEditOpen()} className='no-records-found'>Edit Test</a></th>
-                                             <th scope='col'><a className='no-records-found' onClick={() => toggleDeleteOpen()}>No Records Found</a></th>
+                                             <th scope='col'>&nbsp;</th>
+                                             <th scope='col'>&nbsp;</th>
                                              <th scope='col'>&nbsp;</th>
                                              <th scope='col'>&nbsp;</th>
                                              <th scope='col'>&nbsp;</th>
@@ -107,32 +117,12 @@ const QueryTable = ({ queryModelList, user }) => {
                                         }
             </MDBTableBody>
         </MDBTable>
-        <QueryModal marginTop='96px' size="xl" mode={3} toggleOpen={toggleDeleteOpen} isOpen={isDeleteOpen} setIsOpen={setIsDeleteOpen} query={{name: 'Omega Query Model'}}
-                queryBody={<QueryDelete onDeleteFunc={onQueryDelete} toggleOpen={toggleDeleteOpen} query={
-                            {
-                                name: 'Omega Query Model',
-                                type: 'Query Model',
-                                tags: ['one', 'two', 'three'],
-                                jsonQueryDefinition: {},
-                                isEdited: true,
-                                editedBy: 'System',
-                                editedOn: '04 July 2025',
-                                createdOn: '03 July 2025'
-                            }
-                         }/>}/>
-        <QueryModal marginTop='0px' size="fullscreen" mode={2} toggleOpen={toggleEditOpen} isOpen={isEditOpen} setIsOpen={setIsEditOpen} query={{name: 'Omega Query Model'}}
-                queryBody={<QueryEditor user={user} isEdit={true} handleSubmit={onQueryUpdate} toggleOpen={toggleEditOpen} query={
-                            {
-                                name: 'Omega Query Model',
-                                type: 'Query Model',
-                                tags: [false, true, true, false],
-                                jsonQueryDefinition: {},
-                                isEdited: true,
-                                editedBy: 'System',
-                                editedOn: '04 July 2025',
-                                createdOn: '03 July 2025'
-                            }
-                         }/>}/>
+        <QueryModal marginTop='96px' size="xl" mode={3} toggleOpen={toggleDeleteOpen} isOpen={isDeleteOpen} setIsOpen={setIsDeleteOpen} query={query}
+                queryBody={<QueryDelete onDeleteFunc={onQueryDelete} toggleOpen={toggleDeleteOpen} query={query}/>}/>
+        <QueryModal isEdit={true} marginTop='0px' size="fullscreen" mode={2} toggleOpen={toggleEditOpen} isOpen={isEditOpen} setIsOpen={setIsEditOpen} query={query}
+                queryBody={<QueryEditor user={user} isEdit={true} handleSubmit={onQueryUpdate} toggleOpen={toggleEditOpen} query={query}/>}/>
+        <QueryModal  mode={1} toggleOpen={toggleViewOpen} isOpen={isViewOpen} setIsOpen={setIsViewOpen} query={query}
+                queryBody={<QueryViewer query={query}/>}/>
         </>
     )
 }

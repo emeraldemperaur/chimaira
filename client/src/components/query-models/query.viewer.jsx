@@ -24,7 +24,7 @@ const QueryViewer = ({ query }) => {
                 <p className="modal-neo-title modal-viewer-title">TAGS</p>
                 {query.tags.length > 0 ? 
                 <>
-                    {query.tags.map((tag) =>  <a key={crypto.randomUUID()} className="modal-view-neo-text model-viewer-tag"> {tag} |</a>
+                    {query.tags.map((tag) =>  <a key={crypto.randomUUID()} className="modal-view-neo-text model-viewer-tag"> {tag.toString()} |</a>
                     )}
                 </> 
                 : 

@@ -1,7 +1,7 @@
 import '../../styles/main.css'
 import {NavLink, useNavigate} from 'react-router-dom'
 import { useDispatch } from 'react-redux';
-import { signOutUser } from '../../store/actions/users';
+import { signOutUser } from '../../store/actions/users.actions';
 import PropTypes from 'prop-types';
 
 

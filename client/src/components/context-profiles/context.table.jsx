@@ -1,4 +1,4 @@
-import { MDBBadge, MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
+import { MDBBadge, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import developerLogo from '../../assets/me-dev-logo-black.png';
 import PropTypes from "prop-types";
 import './context.style.css'
@@ -7,13 +7,21 @@ import ContextDelete from './context.delete';
 import { useEffect, useState } from 'react';
 import ContextEditor from './context.editor';
 import { renderToastNotification } from '../artisan/vinci';
-
+import ContextViewer from './context.viewer';
 
 const ContextTable = ({ contextProfileList }) => {
    const [isDeleteOpen, setIsDeleteOpen] = useState(false);
    const [isEditOpen, setIsEditOpen] = useState(false);
+   const [isViewOpen, setIsViewOpen] = useState(false);
+   const [context, setContext] = useState(null);
    const toggleDeleteOpen = () => setIsDeleteOpen(!isDeleteOpen);
    const toggleEditOpen = () => setIsEditOpen(!isEditOpen);
+   const toggleViewOpen = () => setIsViewOpen(!isViewOpen);
+
+   useEffect(()=> {
+           console.log(`DATA TABLE CHECK: ${JSON.stringify(contextProfileList)}`)
+   
+       }, [contextProfileList]);
 
    const onContextDelete = async (context) => {
     console.log(`Deleted Context Profile Record: ${context.name}`);
@@ -27,9 +35,7 @@ const ContextTable = ({ contextProfileList }) => {
     toggleEditOpen();
    }
 
-   useEffect(() => {
-
-   }, [contextProfileList])
+   
     return(
         <>
         
@@ -57,49 +63,47 @@ const ContextTable = ({ contextProfileList }) => {
                                                     className='rounded-circle'
                                                 />
                                                 <div className='ms-3'>
-                                                    <p style={{textAlign:'left'}} className='fw-bold mb-1 rolodex-name-title rolodex-table-txt'>{contextProfile.companyName}</p>
-                                                    <p style={{textAlign:'left'}} className='text-muted mb-0 rolodex-table-txt'>{contextProfile.incorporationCountry}</p>
-                                                    <p style={{textAlign:'left'}} className='text-muted mb-0 rolodex-table-txt'>{contextProfile.incorporationCategory}</p>
+                                                    <p style={{textAlign:'left'}} className='fw-bold mb-1 rolodex-name-title rolodex-table-txt'>{contextProfile.name}</p>
                                                 </div>
                                                 </div>
                                             </td>
                                             <td>
-                                                <p className='rolodex-form-region-text fw-normal mb-1'>{contextProfile.name}</p>
-                                                <p className='rolodex-form-market-text text-muted mb-0'>{contextProfile.primeStockExchange}</p>
-                                                <p className='rolodex-form-symbol-text text-muted mb-0'>{contextProfile.primeTickerSymbol}</p>
+                                                <p className='rolodex-form-region-text fw-normal mb-1'>{contextProfile.category}</p>
                                             </td>
                                             <td>
-                                            {contextProfile.dualListed ?
-                                            <><MDBBadge className='rolodex-badge' color='info' pill>Dual Listed</MDBBadge><br/></>
-                                            :null}
-                                            {contextProfile.distributesDividends ?
-                                            <><MDBBadge className='rolodex-badge' color='info' pill>Dividends</MDBBadge><br/></>
-                                            :null}
-                                            {contextProfile.legendConditions ?
-                                            <><MDBBadge className='rolodex-badge' color='info' pill>Legend Conditions</MDBBadge><br/></>
-                                            :null}   
+                                            {contextProfile.isQueryCommand ?
+                                            <><MDBBadge className='context-table-badge' color='info' pill>&nbsp;&nbsp;Yes&nbsp;&nbsp;</MDBBadge><br/></>
+                                            :<><MDBBadge className='context-table-badge' color='info' pill>&nbsp;&nbsp;No&nbsp;&nbsp;</MDBBadge><br/></>}  
                                             </td>
                                             <td>
-                                                
+                                                <div className="btn btn__modal" onClick={() => {
+                                                    console.log(`VIEW clicked`);
+                                                    setContext(contextProfile);
+                                                    toggleViewOpen();
+                                                }}><p className="neo-action-button neo-modal-button">VIEW <i className="fa-solid fa-eye"></i></p></div>
                                             </td>
                                             <td>
-                                                <MDBBtn onClick={() => {console.log(`VIEW clicked`)}} className="rolodex-form-button" rounded size='sm'>
-                                                <i className="fa-regular fa-eye"></i> View</MDBBtn>&nbsp;
-                                                <MDBBtn onClick={() => {console.log(`EDIT clicked`)}} className="rolodex-form-button" rounded size='sm'>
-                                                <i className="fa-regular fa-pen-to-square"></i> Edit</MDBBtn>&nbsp;
-                                                <MDBBtn onClick={() => {console.log(`DELETE clicked`)}} className="rolodex-form-button" rounded size='sm'>
-                                                <i className="fa-solid fa-trash"></i> Delete</MDBBtn>
+                                                <div className="btn btn__modal" onClick={() => {
+                                                    console.log(`EDIT clicked`);
+                                                    setContext(contextProfile);
+                                                    toggleEditOpen();
+                                                }}><p className="neo-action-button neo-modal-button">EDIT <i className="fa-solid fa-pencil"></i></p></div>
                                             </td>
                                             <td>
-                                            
+                                            <div className="btn btn__modal" onClick={() => {
+                                                    console.log(`DELETE clicked`);
+                                                    setContext(contextProfile);
+                                                    toggleDeleteOpen();
+                                                }}><p className="neo-action-button neo-modal-button">DELETE <i className="fa-solid fa-trash"></i></p></div>
+                                
                                             </td>        
 
                                             </tr>
                                             )):<> 
                                             <tr>
                                              <th scope='col'>&nbsp;</th>
-                                             <th scope='col'><a onClick={() => toggleEditOpen()} className='no-records-found'>Edit Test</a></th>
-                                             <th scope='col'><a onClick={() => toggleDeleteOpen()} className='no-records-found'>No Records Found</a></th>
+                                             <th scope='col'>&nbsp;</th>
+                                             <th scope='col'><a className='no-records-found'>No Records Found</a></th>
                                              <th scope='col'>&nbsp;</th>
                                              <th scope='col'>&nbsp;</th>
                                              <th scope='col'>&nbsp;</th>
@@ -108,28 +112,12 @@ const ContextTable = ({ contextProfileList }) => {
                                         }
             </MDBTableBody>
         </MDBTable>
-        <ContextModal mode={3} toggleOpen={toggleDeleteOpen} isOpen={isDeleteOpen} setIsOpen={setIsDeleteOpen} context={{name: 'Alpha Context Profile'}}
-                 contextBody={<ContextDelete onDeleteFunc={onContextDelete} toggleOpen={toggleDeleteOpen} context={
-                    {
-                        name: 'Alpha Context Profile',
-                        category: 'Person',
-                        isQueryCommand: true,
-                        prologue: "This is the test prologue for UI test",
-                        createdOn: '03 July 2025'
-                    }
-                 }/>}/>
-         <ContextModal size="fullscreen" mode={2} toggleOpen={toggleEditOpen} isOpen={isEditOpen} setIsOpen={setIsEditOpen} context={{name: 'Alpha Context Profile'}}
-                 contextBody={<ContextEditor handleSubmit={onContextUpdate} toggleOpen={toggleEditOpen} context={
-                    {
-                        name: 'Alpha Context Profile',
-                        category: 'Person',
-                        isQueryCommand: true,
-                        documentUrl: 'mekaegwim.ca/resume.pdf',
-                        targetUrl: 'https//:openai.ai',
-                        prologue: "This is the test prologue for UI test",
-                        createdOn: '03 July 2025'
-                    }
-                 }/>}/>
+        <ContextModal mode={3} toggleOpen={toggleDeleteOpen} isOpen={isDeleteOpen} setIsOpen={setIsDeleteOpen} context={context}
+                 contextBody={<ContextDelete onDeleteFunc={onContextDelete} toggleOpen={toggleDeleteOpen} context={context}/>}/>
+         <ContextModal isEdit={true} size="fullscreen" mode={2} toggleOpen={toggleEditOpen} isOpen={isEditOpen} setIsOpen={setIsEditOpen} context={context}
+                 contextBody={<ContextEditor handleSubmit={onContextUpdate} toggleOpen={toggleEditOpen} context={context}/>}/>
+        <ContextModal mode={1} toggleOpen={toggleViewOpen} isOpen={isViewOpen} setIsOpen={setIsViewOpen} context={context}
+                 contextBody={<ContextViewer context={context}/>}/>
         </>
     )
 }

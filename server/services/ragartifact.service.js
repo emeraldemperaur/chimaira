@@ -46,8 +46,8 @@ async function createRAGArtifact(req){
         if(await alreadyExists(req.body.name)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, 'Sorry that RAG Artifact name is already taken');
         const ragartifact = await ragArtifactModel.RAGArtifact.create({
             name: req.body.name,
-            contextId: req.body.groupId,
-            queryId: req.body.lockerId,
+            contextId: req.body.contextId,
+            queryId: req.body.queryId,
             userId: req.user.id || req.body.userId,
             synopsis: req.body.synopsis,
             response: req.body.response
@@ -201,7 +201,7 @@ async function deleteRAGArtifactbyID(id, req){
     }else if(ragartifact) {
         console.log(`Existing RAG Artifact record found for ID: ${ragartifact.id}`);
         await ragartifact.destroy();
-        console.log(`Updated Existing RAG Artifact record (ID: ${ragartifact.id}) on database`);
+        console.log(`Deleted Existing RAG Artifact record (ID: ${ragartifact.id}) on database`);
     }
     return ragartifact;
 }

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { isAuthenticated, registerUser, signInUser, signOutUser } from '../actions/users';
+import { isAuthenticated, registerUser, signInUser, signOutUser } from '../actions/users.actions';
 
 let INIT_USER = {
     loading: false,

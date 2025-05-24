@@ -9,6 +9,7 @@ const { Op } = require('sequelize');
 const e = require('express');
 const { mjolnirTools } = require('../utils/mjolnir');
 const { chronosTools } = require('../utils/chronos');
+const { getDateTime } = require('../../client/src/utils/chronometer');
 
 async function findContextProfilebyID(id, user){
     if(['guest'].includes(user.role)) throw new apiErrors.ApiError(HttpStatusCode.Unauthorized, 'User Access Unauthorized');
@@ -36,13 +37,14 @@ async function createContextProfile(body){
         if(await alreadyExists(body.name)) throw new apiErrors.ApiError(HttpStatusCode.BadRequest, 'Sorry that Context Profile name is already taken');
         const contextProfile = await contextProfileModel.ContextProfile.create({
             name: body.name,
-            prologue: body.prolgue,
+            prologue: body.prologue,
+            category: body.category,
             documentUrl: body.documentUrl,
             targetUrl: body.targetUrl,
             codeSnippet: body.codeSnippet,
             isQueryCommand: body.isQueryCommand,
-            queryCommand: queryCommand,
-            createdOn: Date.now()
+            queryCommand: body.queryCommand,
+            createdOn: getDateTime()
         })
         return contextProfile;
     }catch(error){
@@ -229,17 +231,16 @@ async function updateContextProfilebyID(id, req){
     }else if(contextProfile) {
         console.log(`Existing Context Profile record found for ID: ${contextProfile.id}`);
         await contextProfile.update({
-            name: body.name,
-            prologue: body.prolgue,
-            documentUrl: body.documentUrl,
-            targetUrl: body.targetUrl,
-            codeSnippet: body.codeSnippet,
-            isQueryCommand: body.isQueryCommand,
-            queryCommand: queryCommand,
-            createdOn: chronosTools.getDateTime() 
+            name: req.body.name,
+            prologue: req.body.prolgue,
+            documentUrl: req.body.documentUrl,
+            targetUrl: req.body.targetUrl,
+            codeSnippet: req.body.codeSnippet,
+            isQueryCommand: req.body.isQueryCommand,
+            queryCommand: req.body.queryCommand
         });
         await contextProfile.save();
-        console.log(`Updated Existing Context Profile record (ID: ${group.id}) on database`);
+        console.log(`Updated Existing Context Profile record (ID: ${contextProfile.id}) on database`);
     }
     return contextProfile;
 }

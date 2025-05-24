@@ -21,10 +21,10 @@ dataSource.authenticate()
 .then(async () => {
     console.log(`\n\x1b[32mSuccessfully connected to 'Chimera' (${process.env.DB_TYPE}) database!\x1b[0m\n`)
     //await User.sync({force: true});
-    await QueryModel.sync( {force: true} );
-    await ContextProfile.sync( {force: true} );
-    await RAGArtifact.sync( {force: true} );
-    await Setting.sync({ force: true });
+    // await QueryModel.sync( {force: true} );
+    //await ContextProfile.sync( {force: true} );
+    //await RAGArtifact.sync( {force: true} );
+    //await Setting.sync({ force: true });
     //dataSource.sync({force: true});
 })
 .catch((error) => console.log(`\x1b[31mFailed to connect to 'Chimera' database: ${error.original}\x1b[0m`));

@@ -6,3 +6,7 @@
     text-transform: uppercase;
     color: #000000 !important;
 }
+
+.query-table-badge{
+    background-color: #999 !important;
+}

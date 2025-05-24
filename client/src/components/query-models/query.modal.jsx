@@ -40,8 +40,8 @@ const QueryModal = ({ toggleOpen, isOpen, setIsOpen, query, mode, queryBody, siz
                 <MDBModalDialog style={{marginTop:  `${marginTop} !important`}} size={size}>
                     <MDBModalContent>
                         <MDBModalHeader className="neo-modal-body">
-                            <MDBModalTitle className='neo-modal-title'>{query ?
-                            <><i className="fa-solid fa-hexagon-nodes"></i> Edit Query Model</>
+                            <MDBModalTitle className='neo-modal-title'>{query  ?
+                            <><i className="fa-solid fa-hexagon-nodes"></i> Edit {query.name}</>
                                 :<><i className="fa-solid fa-hexagon-nodes"></i> Edit Query Model</>}
                             </MDBModalTitle>
                             <MDBBtn className='btn-close' color='none' onClick={toggleOpen}></MDBBtn>
@@ -81,7 +81,7 @@ const QueryModal = ({ toggleOpen, isOpen, setIsOpen, query, mode, queryBody, siz
         : 
         <>
         <MDBModal className="modal-z-index"  open={isOpen} tabIndex='-1' setOpen={setIsOpen}>
-                <MDBModalDialog style={{marginTop:  `${marginTop} !important`}} size={size}>
+                <MDBModalDialog size={size}>
                     <MDBModalContent>
                         <MDBModalHeader className="neo-modal-body">
                             <MDBModalTitle className='neo-modal-title'>{query ?

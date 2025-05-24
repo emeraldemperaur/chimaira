@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { errorGlobal, successGlobal } from '../reducers/notifications';
+import { errorGlobal, successGlobal } from '../reducers/notifications.reducer';
 import { getAuthorizationCookie, removeAuthorizationCookie } from '../../components/artisan/vinci';
 
 export const registerUser = createAsyncThunk(
