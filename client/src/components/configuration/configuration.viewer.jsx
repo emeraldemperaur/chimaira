@@ -40,7 +40,7 @@ const ConfigurationViewer = ({ configuration }) => {
             <Col size={3}></Col>
             <Col size={3}>
                 <p className="modal-neo-title modal-viewer-title">CREATED ON</p>
-                <p className="modal-neo-date modal-viewer-date">{configuration.createdOn}</p>
+                <p className="modal-neo-date modal-viewer-date">{new Date(configuration.createdOn).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'})}</p>
             </Col>
         </Row> 
         </Container>

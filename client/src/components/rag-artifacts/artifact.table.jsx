@@ -1,5 +1,5 @@
 import { MDBBadge, MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
-import developerLogo from '../../assets/me-dev-logo-black.png';
+import artifactIcon from './icons/persona-icon.png';
 import PropTypes from "prop-types";
 import './artifact.style.css'
 import ArtifactModal from './artifact.modal';
@@ -40,9 +40,9 @@ const ArtifactTable = ({ ragArtifactList }) => {
                                             <td>
                                                 <div className='d-flex align-items-center'>
                                                 <img
-                                                    src={developerLogo}
-                                                    alt=''
-                                                    style={{ width: '69px', height: '69px' }}
+                                                    src={artifactIcon}
+                                                    alt='RAG Artifact Icon'
+                                                    style={{ width: '60px', height: '60px' }}
                                                     className='rounded-circle'
                                                 />
                                                 <div className='ms-3'>

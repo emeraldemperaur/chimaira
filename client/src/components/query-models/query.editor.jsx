@@ -75,9 +75,9 @@ const QueryEditor = ({ query, toggleOpen, handleSubmit, isEdit=false, user={} })
                             <p className="modal-neo-title modal-viewer-title">TYPE</p>
                             <Form.Select id="modeltype" name="modeltype" style={{marginLeft: '0px', width: '250px'}}
                             onChange={handleChange} onBlur={handleBlur} value={values.modeltype} className="form__input" size="lg">
-                                                                    <option>Select Type</option>
-                                                                    <option>Context Query</option>
-                                                                    <option>Query CMD</option>
+                                                                    <option key={0} value={''}>Select Type</option>
+                                                                    <option key={1} value={'CQ'}>Context Query</option>
+                                                                    <option key={2} value={'CQMD'}>Query CMD</option>
                             </Form.Select>
                             <a style={{color: '#8B0000'}} className="neo-form-error">{errors.modeltype && touched.modeltype && errors.modeltype}</a>
                         </Col>

@@ -1,5 +1,5 @@
 import { MDBBadge, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
-import developerLogo from '../../assets/me-dev-logo-black.png';
+import codeIcon from './icons/code-icon.png';
 import PropTypes from "prop-types";
 import './context.style.css'
 import ContextModal from './context.modal';
@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import ContextEditor from './context.editor';
 import { renderToastNotification } from '../artisan/vinci';
 import ContextViewer from './context.viewer';
+
 
 const ContextTable = ({ contextProfileList }) => {
    const [isDeleteOpen, setIsDeleteOpen] = useState(false);
@@ -57,9 +58,9 @@ const ContextTable = ({ contextProfileList }) => {
                                             <td>
                                                 <div className='d-flex align-items-center'>
                                                 <img
-                                                    src={developerLogo}
-                                                    alt=''
-                                                    style={{ width: '69px', height: '69px' }}
+                                                    src={codeIcon}
+                                                    alt='Context Profile Icon'
+                                                    style={{ width: '60px', height: '60px' }}
                                                     className='rounded-circle'
                                                 />
                                                 <div className='ms-3'>

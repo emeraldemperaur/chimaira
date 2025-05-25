@@ -75,9 +75,15 @@ const ConfigurationEditor = ({ configuration, toggleOpen, handleSubmit }) => {
                         <p className="modal-neo-title modal-viewer-title">PROVIDER</p>
                         <Form.Select id="configurationprovider" name="configurationprovider" style={{marginLeft: '0px', width: '250px'}}
                         onChange={handleChange} onBlur={handleBlur} value={values.configurationprovider} className="form__input" size="lg">
-                                                                <option>Select RAG source</option>
-                                                                <option>Large select 1</option>
-                                                                <option>Large select 2</option>
+                                                                <option key={0} value={''}>Select RAG source</option>
+                                                                <option key={1} value={'Open AI'}>Open AI</option>
+                                                                <option key={2} value={'Anthropic'}>Anthropic</option>
+                                                                <option key={3} value={'xAI'}>xAI</option>
+                                                                <option key={4} value={'IBM watsonx™'}>IBM watsonx™</option>
+                                                                <option key={5} value={'Deep Seek'}>Deep Seek</option>
+                                                                <option key={6} value={'N8N'}>N8N</option>
+                                                                <option key={7} value={'Github Models'}>Github Models</option>
+                                                                <option key={8} value={'Edge RAG Source'}>Edge Server</option>
                         </Form.Select>
                         <a style={{color: '#8B0000'}} className="neo-form-error">{errors.configurationprovider && touched.configurationprovider && errors.configurationprovider}</a>
                     </Col>

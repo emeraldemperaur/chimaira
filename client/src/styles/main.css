@@ -87,6 +87,14 @@
   visibility: hidden !important;
   box-shadow: 0 6px 10px rgba(0,0,0,0.15) !important;
 }
+.drop-menu{
+  top: 0 !important;
+  position: relative !important;
+}
+.drop-menu:hover{
+  display: block;
+}
+
 .header-menu .nav-links li:hover .drop-menu,
 .nav-links li:hover .mega-box{
   transition: all 0.3s ease !important;

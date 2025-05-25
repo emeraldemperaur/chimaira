@@ -13,20 +13,31 @@ import ArtifactViewer from "./artifact.viewer";
 
 const RAGArtifacts = ({users}) => {
     const [isOpen, setIsOpen] = useState(false);
+    const [searchValue, setSearchValue] = useState('');
     document.body.style.background = `radial-gradient(#ffffff, #dadada)`;
     useEffect(()=> {
         document.body.style.background = `radial-gradient(#ffffff, #dadada)`;
 
     }, [users]);
     const toggleOpen = () => setIsOpen(!isOpen);
-    /*const onActionClick = () =>{
-        console.log('On Action clicked -- Locker Group')
-    }*/
+
+    const detectSearchInput = (event) => {
+        setSearchValue(event.target.value);
+    }
+   
 
     return(
         <>
         <TitleRibbon title='RAG Artifacts' username={users.data.firstName}/>
-        <RecordsCount recordsCount={0}/>
+        <Row>
+            <Col size={6}>
+                <RecordsCount recordsCount={0}/>
+            </Col>
+            <Col style={{marginTop: '33px'}}  size={6}>
+                <input id='rag-search' style={{width: '300px', height: '50px', float: 'right',  marginRight: '33px'}} name='rag-search' type="text" className="form__input" onChange={detectSearchInput}
+                        value={searchValue} placeholder='Search...' />
+            </Col>
+        </Row>
         <Row>
             <Col style={{paddingLeft: '33px', paddingRight: '33px'}} size={12}>
                 <NeoCard component={<><ArtifactTable ragArtifactList={[]}/></>}/>

@@ -44,11 +44,11 @@
 }
 
 .title-greeting{
-    font-family: 'Montserrat';
+    font-family: 'Oswald';
     font-weight: 400;
     letter-spacing: 0.33em;
     color: #ffffff;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     text-align: end;
     text-transform: capitalize;
     margin-right: 33px;
@@ -107,6 +107,11 @@ hr.solid{
 
 .main-container:hover .ticket-container {
 	opacity: 1;
+	animation: bounceIn 0.6s linear;
+}
+
+.ticket-container-active{
+  opacity: 1;
 	animation: bounceIn 0.6s linear;
 }
 

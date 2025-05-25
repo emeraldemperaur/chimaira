@@ -15,7 +15,7 @@ const ContextModal = ({ toggleOpen, isOpen, setIsOpen, context, mode, contextBod
         {mode == 1 ? 
         <>
             <MDBModal className="modal-z-index" open={isOpen} tabIndex='-1' setOpen={setIsOpen}>
-                <MDBModalDialog  size={size}>
+                <MDBModalDialog className="modal-buffer"  size={size}>
                     <MDBModalContent>
                         <MDBModalHeader className="neo-modal-body">
                             <MDBModalTitle className='neo-modal-title'>{context ?

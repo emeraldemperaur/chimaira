@@ -1,5 +1,5 @@
 import { MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
-import developerLogo from '../../assets/me-dev-logo-black.png';
+import settingsIcon from './icons/settings-icon.png';
 import PropTypes from "prop-types";
 import './configuration.style.css';
 import ConfigurationDelete from './configuration.delete';
@@ -51,9 +51,9 @@ const ConfigurationTable = ({ configurationList }) => {
                                             <td>
                                                 <div className='d-flex align-items-center'>
                                                 <img
-                                                    src={developerLogo}
-                                                    alt=''
-                                                    style={{ width: '69px', height: '69px' }}
+                                                    src={settingsIcon}
+                                                    alt='COnfiguration Profile Icon'
+                                                    style={{ width: '60px', height: '60px' }}
                                                     className='rounded-circle'
                                                 />
                                                 <div className='ms-3'>
@@ -109,7 +109,7 @@ const ConfigurationTable = ({ configurationList }) => {
                          configurationBody={<ConfigurationDelete onDeleteFunc={onConfigurationDelete} toggleOpen={toggleDeleteOpen} configuration={configuration}/>}/>
         <ConfigurationModal size="fullscreen" mode={2} toggleOpen={toggleEditOpen} isOpen={isEditOpen} setIsOpen={setIsEditOpen} configuration={configuration}
                          configurationBody={<ConfigurationEditor handleSubmit={onConfigurationUpdate} toggleOpen={toggleEditOpen} configuration={configuration}/>}/>
-        <ConfigurationModal mode={1} toggleOpen={toggleEditOpen} isOpen={isEditOpen} setIsOpen={setIsEditOpen} configuration={configuration}
+        <ConfigurationModal mode={1} toggleOpen={toggleViewOpen} isOpen={isViewOpen} setIsOpen={setIsViewOpen} configuration={configuration}
                          configurationBody={<ConfigurationViewer configuration={configuration}/>}/>
         </>
     )

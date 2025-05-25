@@ -24,8 +24,32 @@ const QueryViewer = ({ query }) => {
                 <p className="modal-neo-title modal-viewer-title">TAGS</p>
                 {query.tags.length > 0 ? 
                 <>
-                    {query.tags.map((tag) =>  <a key={crypto.randomUUID()} className="modal-view-neo-text model-viewer-tag"> {tag.toString()} |</a>
-                    )}
+                    <div style={{float: 'none'}} className="neo-checkbox">
+                                <div className="neo-checkbox__1">
+                                    <input id="heuristictag" name="heuristictag" type="checkbox" disabled
+                                    checked={query.tags[0]} value={query.tags[0]}/>
+                                    <label htmlFor="heuristictag">
+                                    <i className="fa-brands fa-mandalorian"></i></label>
+                                </div>
+                                <div className="neo-checkbox__2">
+                                    <input id="mediatag" name="mediatag" type="checkbox"
+                                    checked={query.tags[1]} value={query.tags[1]}/>
+                                    <label htmlFor="mediatag">
+                                    <i className="fa-solid fa-icons"></i></label>
+                                </div>
+                                <div className="neo-checkbox__2">
+                                    <input id="codetag" name="codetag"  type="checkbox"
+                                    checked={query.tags[2]} value={query.tags[2]}/>
+                                    <label htmlFor="codetag">
+                                    <i className="fa-solid fa-code"></i></label>
+                                </div>
+                                <div className="neo-checkbox__2">
+                                    <input id="mechatag" name="mechatag" type="checkbox"
+                                    checked={query.tags[3]} value={query.tags[3]}/>
+                                    <label htmlFor="mechatag">
+                                    <i className="fa-solid fa-robot"></i></label>
+                                </div>
+                            </div>
                 </> 
                 : 
                 <><p className="modal-viewer-boolean">No Tags Found</p></>}
@@ -34,7 +58,7 @@ const QueryViewer = ({ query }) => {
         <Row style={{marginTop: '3px', marginBottom: '3px'}}>
             <Col size={12}>
                 <p className="modal-neo-title modal-viewer-title">CREATED ON</p>
-                {query.createdOn ? <><p className="modal-neo-date modal-viewer-date">{query.createdOn}</p></> : <><p className="modal-viewer-text">Not Provided</p></>}
+                {query.createdOn ? <><p className="modal-neo-date modal-viewer-date">{new Date(query.createdOn).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'})}</p></> : <><p className="modal-viewer-text">Not Provided</p></>}
             </Col>
         </Row>
         {query.isEdited ? 
@@ -50,7 +74,7 @@ const QueryViewer = ({ query }) => {
             </Col>
             <Col size={3}>
                 <p className="modal-neo-title modal-viewer-title">EDITED ON</p>
-                <p className="modal-neo-date modal-viewer-date">{query.editedOn}</p>
+                <p className="modal-neo-date modal-viewer-date">{new Date(query.editedOn).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'})}</p>
             </Col>
         </Row> 
         </> 

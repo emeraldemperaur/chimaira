@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import Col from "react-bootstrap/esm/Col";
@@ -7,13 +8,17 @@ import Form from 'react-bootstrap/esm/Form';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { getDateTime } from "../../utils/chronometer";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchQueries } from "../../store/actions/querymodel.actions";
 
 const ContextEditor = ({ context, toggleOpen, handleSubmit }) => {
     const [ isQCMD, setIsQCMD ] = useState(false);
+    const queryModels = useSelector((state) => state.queries)
+    const queryDispatch = useDispatch();
     let validationSchemaObject;
    
     useEffect(() => {
-
+         queryDispatch(fetchQueries({order:'ASC', sortby:'id'}));
     }, [context, context.id, isQCMD]);
 
     const contextSchema = (isQCMD) => {
@@ -101,9 +106,17 @@ const ContextEditor = ({ context, toggleOpen, handleSubmit }) => {
                         <p className="modal-neo-title modal-viewer-title">CATEGORY</p>
                         <Form.Select id="contextcategory" name="contextcategory" onChange={handleChange}
                         onBlur={handleBlur} value={values.contextcategory} style={{marginLeft: '0px', width: '250px'}} className="form__input" size="lg">
-                                                <option>Select Category</option>
-                                                <option>Large select 1</option>
-                                                <option>Large select 2</option>
+                                                <option key={0} value={''}>Select Category</option>
+                                                <option key={1} value={'Ethereal'} >Ethereal</option>
+                                                <option key={2} value={'Document'}>Document</option>
+                                                <option key={3} value={'RAW Image'}>RAW Image</option>
+                                                <option key={4} value={'Video'}>Video</option>
+                                                <option key={5} value={'URL'}>URL</option>
+                                                <option key={6} value={'Code'}>Code</option>
+                                                <option key={7} value={'Person'}>Person</option>
+                                                <option key={8} value={'Persona'}>Persona</option>
+                                                <option key={9} value={'Object'}>Object</option>
+                                                <option key={10} value={'Query CMD'}>Query CMD</option>
                         </Form.Select>
                         <a className="neo-form-error">{errors.contextcategory && touched.contextcategory && errors.contextcategory}</a>
                     </Col>
@@ -134,9 +147,11 @@ const ContextEditor = ({ context, toggleOpen, handleSubmit }) => {
                             <p className="modal-neo-title modal-viewer-title">{`QUERY COMMAND`}</p>
                             <Form.Select id="contextquerymodel" name="contextquerymodel" 
                             onChange={handleChange} value={values.contextquerymodel} onBlur={handleBlur} style={{marginLeft: '0px', width: '400px'}} className="form__input" size="lg">
-                                                        <option>Select Query Command</option>
-                                                        <option>Large select 1</option>
-                                                        <option>Large select 2</option>
+                                                        <option key={0} value={''}>Select Query Command</option>
+                                                         { queryModels.data.queries.map( query => {
+                                                               if (query.type == "CQMD") return <option  key={query.id} value={query.id}>{query.name}</option>
+                                                            })
+                                                         }
                             </Form.Select>
                             <a className="neo-form-error">{errors.contextquerymodel && touched.contextquerymodel && errors.contextquerymodel}</a>
                             </Col>
@@ -161,7 +176,7 @@ const ContextEditor = ({ context, toggleOpen, handleSubmit }) => {
                     </Col>
                     
                 </Row> 
-                {context.category === "CODE" ? 
+                {values.contextcategory === "Code" ? 
                 <>
                 <Row>
                     <Col size={12}>

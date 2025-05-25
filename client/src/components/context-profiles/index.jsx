@@ -19,6 +19,7 @@ const ContextProfiles = ({users}) => {
     const [isOpen, setIsOpen] = useState(false);
     const contextProfiles = useSelector((state) => state.contexts)
     const contextDispatch = useDispatch();
+    const [searchValue, setSearchValue] = useState('');
     document.body.style.background = `radial-gradient(#ffffff, #dadada)`;
     useEffect(()=> {
         document.body.style.background = `radial-gradient(#ffffff, #dadada)`;
@@ -34,18 +35,33 @@ const ContextProfiles = ({users}) => {
         toggleOpen();
        }
 
+    const detectSearchInput = (event) => {
+        setSearchValue(event.target.value);
+    }
 
     const onActionClick = () =>{
         setIsOpen(true);
         console.log('On Action clicked -- Context Profiles')
     }
+
+    const filteredContexts = contextProfiles.data.contexts.filter((context) => context.name.toLocaleLowerCase().includes(searchValue.trim().toLocaleLowerCase()));
+
     return(
         <> 
         <TitleRibbon title='Context Profiles'  username={users.data.firstName}/>
-        <RecordsCount recordsCount={contextProfiles.data.contexts.length}/>
+        <Row>
+            <Col size={6}>
+                <RecordsCount recordsCount={filteredContexts.length}/>
+            </Col>
+            <Col style={{marginTop: '33px'}} size={6}>
+                <input id='context-search' style={{width: '300px', height: '50px', float: 'right',  marginRight: '33px'}} name='context-search' type="text" className="form__input" onChange={detectSearchInput}
+                        value={searchValue} placeholder='Search...' />
+            </Col>
+        </Row>
+        
         <Row>
             <Col style={{paddingLeft: '33px', paddingRight: '33px'}} size={12}>
-            <NeoCard component={<><ContextTable contextProfileList={contextProfiles.data.contexts}/></>}/>
+            <NeoCard component={<><ContextTable contextProfileList={filteredContexts}/></>}/>
             </Col>
         </Row>
         <ContextModal isEdit={false} size="fullscreen" mode={4} toggleOpen={toggleOpen} isOpen={isOpen} setIsOpen={setIsOpen} context={{}}

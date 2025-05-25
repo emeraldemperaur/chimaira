@@ -1,5 +1,5 @@
 import { MDBBadge, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
-import developerLogo from '../../assets/me-dev-logo-black.png';
+import codeIcon from './icons/query-icon.png';
 import PropTypes from "prop-types";
 import './query.style.css'
 import QueryModal from './query.modal';
@@ -8,6 +8,8 @@ import { useState } from 'react';
 import QueryEditor from './query.editor';
 import { renderToastNotification } from '../artisan/vinci';
 import QueryViewer from './query.viewer';
+import Col from 'react-bootstrap/esm/Col';
+import Row from 'react-bootstrap/esm/Row';
 
 
 
@@ -54,9 +56,9 @@ const QueryTable = ({ queryModelList, user }) => {
                                             <td>
                                                 <div className='d-flex align-items-center'>
                                                 <img
-                                                    src={developerLogo}
-                                                    alt=''
-                                                    style={{ width: '69px', height: '69px' }}
+                                                    src={codeIcon}
+                                                    alt='Query Model Icon'
+                                                    style={{ width: '60px', height: '60px' }}
                                                     className='rounded-circle'
                                                 />
                                                 <div className='ms-3'>
@@ -68,18 +70,28 @@ const QueryTable = ({ queryModelList, user }) => {
                                                 <p className='rolodex-form-region-text fw-normal mb-1'>{queryModel.type}</p>
                                             </td>
                                             <td>
+                                            <Row>  
+                                            <Col>
                                             {queryModel.tags[0]  ?
-                                            <><MDBBadge className='query-table-badge' color='info' pill><i className="fa-brands fa-mandalorian"></i> Heuristic</MDBBadge><br/></>
+                                            <><MDBBadge className='query-table-badge' color='info' pill><i className="fa-brands fa-mandalorian"></i> Heuristic</MDBBadge></>
                                             :null}
+                                            </Col>  
+                                            <Col>
                                             {queryModel.tags[1]  ?
-                                            <><MDBBadge className='query-table-badge' color='info' pill><i className="fa-solid fa-icons"></i> Multimedia</MDBBadge><br/></>
+                                            <><MDBBadge className='query-table-badge' color='info' pill><i className="fa-solid fa-icons"></i> Multimedia</MDBBadge></>
                                             :null}
+                                            </Col>
+                                            <Col>
                                             {queryModel.tags[2] ?
-                                            <><MDBBadge className='query-table-badge' color='info' pill><i className="fa-solid fa-code"></i> Code</MDBBadge><br/></>
-                                            :null} 
+                                            <><MDBBadge className='query-table-badge' color='info' pill><i className="fa-solid fa-code"></i> Code</MDBBadge></>
+                                            :null}
+                                            </Col>
+                                            <Col>
                                             {queryModel.tags[3] ?
-                                            <><MDBBadge className='query-table-badge' color='info' pill><i className="fa-solid fa-robot"></i> Automation</MDBBadge><br/></>
-                                            :null}   
+                                            <><MDBBadge className='query-table-badge' color='info' pill><i className="fa-solid fa-robot"></i> Automation</MDBBadge></>
+                                            :null} 
+                                            </Col> 
+                                            </Row>  
                                             </td>
                                             <td>
                                                 <div className="btn btn__modal" onClick={() => {
@@ -108,7 +120,7 @@ const QueryTable = ({ queryModelList, user }) => {
                                             <tr>
                                              <th scope='col'>&nbsp;</th>
                                              <th scope='col'>&nbsp;</th>
-                                             <th scope='col'>&nbsp;</th>
+                                             <th scope='col'><a className='no-records-found'>No Records Found</a></th>
                                              <th scope='col'>&nbsp;</th>
                                              <th scope='col'>&nbsp;</th>
                                              <th scope='col'>&nbsp;</th>

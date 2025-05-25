@@ -42,7 +42,7 @@ const ChimeraOutput = () => {
                     <p className='mechatron-output-head'><i className="fa-solid fa-microchip"></i> RAG OUTPUT</p>
                 </div>
                 <textarea disabled id='mechatron-output' style={{ minHeight: '8rem'}} type="text" className="form__output"
-                value={'>_ This is the test output console'} placeholder=">_"/>
+                value={''} placeholder="RAG response output console..."/>
             </Col>
         </Row>
         </>

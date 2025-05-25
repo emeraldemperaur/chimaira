@@ -18,7 +18,8 @@ import { fetchQueries } from "../../store/actions/querymodel.actions";
 
 const QueryModels = ({users}) => {
     const [isOpen, setIsOpen] = useState(false);
-    const queryModels = useSelector((state) => state.queries)
+    const queryModels = useSelector((state) => state.queries);
+    const [searchValue, setSearchValue] = useState('');
     const queryDispatch = useDispatch();
     document.body.style.background = `radial-gradient(#ffffff, #dadada)`;
     useEffect(()=> {
@@ -34,19 +35,34 @@ const QueryModels = ({users}) => {
             renderToastNotification("SUCCESS", `Created new Query Model: '${query.name}'`, undefined, 3000);
             toggleOpen();
            }
-
+    
+    const detectSearchInput = (event) => {
+        setSearchValue(event.target.value);
+    }
 
     const onActionClick = () =>{
         setIsOpen(true);
         console.log('On Action clicked -- Query Models')
     }
+
+    const filteredQueries = queryModels.data.queries.filter((query) => query.name.toLocaleLowerCase().includes(searchValue.trim().toLocaleLowerCase()))
+
     return(
         <>
         <TitleRibbon title='Query Models'  username={users.data.firstName}/>
-        <RecordsCount recordsCount={queryModels.data.queries.length}/>
+        <Row>
+            <Col size={6}>
+                <RecordsCount recordsCount={filteredQueries.length}/>
+            </Col>
+            <Col style={{marginTop: '33px'}} size={6}>
+                <input id='query-search' style={{width: '300px', height: '50px', float: 'right',  marginRight: '33px'}} name='query-search' type="text" className="form__input" onChange={detectSearchInput}
+                        value={searchValue} placeholder='Search...' />
+            </Col>
+        </Row>
+        
         <Row>
             <Col style={{paddingLeft: '33px', paddingRight: '33px'}} size={12}>
-                <NeoCard component={<><QueryTable user={users.data} queryModelList={queryModels.data.queries}/></>}/>
+                <NeoCard component={<><QueryTable user={users.data} queryModelList={filteredQueries}/></>}/>
              </Col>
         </Row>
         <QueryModal isEdit={false} size="fullscreen" mode={4} toggleOpen={toggleOpen} isOpen={isOpen} setIsOpen={setIsOpen} query={{}}

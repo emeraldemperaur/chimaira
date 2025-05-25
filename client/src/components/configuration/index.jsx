@@ -17,6 +17,7 @@ import ConfigurationEditor from "./configuration.editor";
 
 const Configuration = ({users}) => {
     const [isOpen, setIsOpen] = useState(false);
+    const [searchValue, setSearchValue] = useState('');
     const configurationProfiles = useSelector((state) => state.configurations)
     const configurationDispatch = useDispatch();
     document.body.style.background = `radial-gradient(#ffffff, #dadada)`;
@@ -33,18 +34,32 @@ const Configuration = ({users}) => {
             toggleOpen();
            }
     
+    const detectSearchInput = (event) => {
+        setSearchValue(event.target.value);
+    }
     
     const onActionClick = () =>{
         setIsOpen(true);
         console.log('On Action clicked -- Settings')
     }
+
+    const filteredConfigurations = configurationProfiles.data.configurations.filter((configuration) => configuration.name.toLocaleLowerCase().includes(searchValue.trim().toLocaleLowerCase()));
+
     return(
         <>
         <TitleRibbon title='Settings' username={users.data.firstName}/>
-        <RecordsCount recordTitle="Records" recordsCount={configurationProfiles.data.configurations.length}/>
+        <Row>
+            <Col size={6}>
+                 <RecordsCount recordTitle="Records" recordsCount={filteredConfigurations.length}/>
+            </Col>
+            <Col style={{marginTop: '33px'}}  size={6}>
+                    <input id='configuration-search' style={{width: '300px', height: '50px', float: 'right',  marginRight: '33px'}} name='configuration-search' type="text" className="form__input" onChange={detectSearchInput}
+                    value={searchValue} placeholder='Search...' />
+            </Col>
+        </Row>
         <Row>
             <Col style={{paddingLeft: '33px', paddingRight: '33px'}} size={12}>
-                <NeoCard component={<><ConfigurationTable configurationList={configurationProfiles.data.configurations}/></>}/>
+                <NeoCard component={<><ConfigurationTable configurationList={filteredConfigurations}/></>}/>
             </Col>
         </Row>
         <ConfigurationModal mode={4} size="fullscreen" toggleOpen={toggleOpen} isOpen={isOpen} setIsOpen={setIsOpen} configuration={{}}
