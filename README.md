@@ -2,7 +2,7 @@
 ## Agentic RAG (Retrieval-Augmented Generation) Web Application
 
 ### Overview
-<p align="justify">Chím<em>ai</em>ra is a RAG (Retrieval-Augmented Generation) architecture based web application designed to provide an autheticated end user with an AI augmented productivity tool for managing reusable contexts and generative AI responses (RAG Artifacts) in tandem with accomplishing specialized tasks via AI Agents; cleverly utilizing Langchain and Huggingface to facilitate a user-friendly integration of local, edge and cloud hosted large language models (LLMs) with the extensible N8N workflow automation platform for agentic response actions.</p>
+<p align="justify">Chím<em>ai</em>ra is a RAG (Retrieval-Augmented Generation) architecture based web application designed to provide an autheticated end user with an AI augmented productivity tool for managing reusable contexts and generative AI responses (RAG Artifacts) in tandem with accomplishing specialized tasks via AI Agents; cleverly utilizing Langchain framework and Huggingface: Transformer & Pipelines to facilitate a user-friendly integration of local, edge and cloud hosted large language models (LLMs) with the extensible N8N workflow automation platform for agentic response actions.</p>
 
 ![alt text](/illiad/authenticationscreenshot.png)
 
