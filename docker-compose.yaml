@@ -1,0 +1,39 @@
+services:
+  chimeraapiservice:
+    container_name: chimera_api_container 
+    build: 
+      context: ./
+      dockerfile: Dockerfile.dev 
+    restart: always
+    ports:
+      - 3001:3001
+    env_file:
+      - ./.env
+    environment:
+      - DB_TYPE=sqlite
+      - DB_HOST=localhost
+      - DB_PORT=5432
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=96@Cerberus
+      - DB_NAME=chimera
+      - DB_CODEX=lalilulelo
+      - SERVER_PORT=3001
+      - SMTP_CONFIG='default'
+      - EMAIL_PASSWORD='gpzQfmnK8ryRT2FyP2'
+      - EMAIL_ADDRESS='tiana75@ethereal.email'
+      - DSN_EMAIL_ADDRESS='tiana75@ethereal.email'
+      - SMTP_HOST='smtp.ethereal.email'
+      - SMTP_BASE_URL=http://localhost:3001/
+      - SMTP_DOMAIN=http://localhost:3001/
+      - CLIENT_ORIGIN=http://localhost:5173
+
+  chimeraclientservice:
+    container_name: chimera_client_container 
+    build: 
+      context: ./client
+      dockerfile: Dockerfile.dev 
+    restart: always
+    ports:
+      - 5173:5173
+    depends_on:
+      - chimeraapiservice
