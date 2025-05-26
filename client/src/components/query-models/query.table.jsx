@@ -10,6 +10,8 @@ import { renderToastNotification } from '../artisan/vinci';
 import QueryViewer from './query.viewer';
 import Col from 'react-bootstrap/esm/Col';
 import Row from 'react-bootstrap/esm/Row';
+import { useDispatch } from 'react-redux';
+import { deleteQueryById, updateQueryById } from '../../store/actions/querymodel.actions';
 
 
 
@@ -21,17 +23,20 @@ const QueryTable = ({ queryModelList, user }) => {
     const toggleDeleteOpen = () => setIsDeleteOpen(!isDeleteOpen);
     const toggleEditOpen = () => setIsEditOpen(!isEditOpen);
     const toggleViewOpen = () => setIsViewOpen(!isViewOpen);
+    const queryDispatch = useDispatch();
 
      const onQueryDelete = async (query) => {
-     console.log(`Deleted Query Model Record: ${query.name}`);
-     renderToastNotification("SUCCESS", `Deleted '${query.name}' model from the database`, undefined, 3000);
-     toggleDeleteOpen();
+        queryDispatch(deleteQueryById({query}));
+        console.log(`Deleted Query Model Record: ${query.name}`);
+        renderToastNotification("SUCCESS", `Deleted '${query.name}' model from the database`, undefined, 3000);
+        toggleDeleteOpen();
     }
 
     const onQueryUpdate = async (query) => {
-    console.log(`Updated Query Model Record: ${query.name}`);
-    renderToastNotification("SUCCESS", `Updated Model: '${query.name}'`, undefined, 3000);
-    toggleEditOpen();
+        queryDispatch(updateQueryById({query}));
+        console.log(`Updated Query Model Record: ${query.name}`);
+        renderToastNotification("SUCCESS", `Updated Model: '${query.name}'`, undefined, 3000);
+        toggleEditOpen();
    }
 
    

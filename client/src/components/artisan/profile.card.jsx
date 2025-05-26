@@ -12,6 +12,7 @@ const AIProfileCard = ({agentIndex, name, icon, description, imgSrc }) => {
 
     useEffect(() => {
          if(index == localStorage.getItem("active-agent")){ setIsSelected(true); }
+         document.getElementById("console-agent").textContent = fetchActiveAgent();
     }, [index, isSelected, agenticName, agenticIcon, agenticDescription]);
 
     const onSelectHandler = () => {
@@ -56,8 +57,14 @@ const AIProfileCard = ({agentIndex, name, icon, description, imgSrc }) => {
     <>
         <div style={{display: 'flex', margin: 'auto'}}  onClick={() => onSelectHandler()}>
 		<div className={isSelected ? "ticket-container-active main-container" : "main-container"}>
+            
 			<div className="poster-container">
-				<a onClick={() => {window.scrollTo(0, document.getElementById('mechatron').offsetTop-96)}}><img src={imgSrc} className="poster" /></a>
+				<div style={{position: 'relative', textAlign: 'center', color: 'white'}} onClick={() => {window.scrollTo(0, document.getElementById('mechatron').offsetTop-96)}}>
+                    <img src={imgSrc} className="poster"/>
+                    <div style={{position: 'absolute', top: '40%', left: '40%', bottom: '40%', right: '40%', marginLeft: '69px'}}>
+                        <i style={{fontSize: '44px'}} className={icon}></i>
+                        </div>
+                    </div>
 			</div>
 			<div className={isSelected ? "ticket-container-active ticket-container" : "ticket-container"} >
 				<div className="ticket__content">

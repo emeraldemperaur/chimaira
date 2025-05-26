@@ -11,7 +11,7 @@ import Col from "react-bootstrap/esm/Col";
 import RecordsCount from "../artisan/records.count";
 import ContextModal from "./context.modal";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchContexts } from "../../store/actions/contextprofile.actions";
+import { createContext, fetchContexts } from "../../store/actions/contextprofile.actions";
 import ContextEditor from "./context.editor";
 import { renderToastNotification } from "../artisan/vinci";
 
@@ -30,6 +30,7 @@ const ContextProfiles = ({users}) => {
     const toggleOpen = () => setIsOpen(!isOpen);
 
     const onContextCreate = async (context) => {
+        contextDispatch(createContext({context}));
         console.log(`Created Context Profile Record: ${context.name}`);
         renderToastNotification("SUCCESS", `Created new Context profile record: '${context.name}'`, undefined, 3000);
         toggleOpen();
@@ -65,7 +66,7 @@ const ContextProfiles = ({users}) => {
             </Col>
         </Row>
         <ContextModal isEdit={false} size="fullscreen" mode={4} toggleOpen={toggleOpen} isOpen={isOpen} setIsOpen={setIsOpen} context={{}}
-         contextBody={<ContextEditor handleSubmit={onContextCreate} toggleOpen={toggleOpen} context={{}}/>}/>
+         contextBody={<ContextEditor isEdit={false} handleSubmit={onContextCreate} toggleOpen={toggleOpen} context={{}}/>}/>
         <FloatingAction icon={<i className="fa-solid fa-plus"></i>} onClickFunction={onActionClick}/>
         <Footer/>
         </>

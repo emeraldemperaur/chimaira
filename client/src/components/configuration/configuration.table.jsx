@@ -8,6 +8,8 @@ import { useState } from 'react';
 import ConfigurationEditor from './configuration.editor';
 import { renderToastNotification } from '../artisan/vinci';
 import ConfigurationViewer from './configuration.viewer';
+import { useDispatch } from 'react-redux';
+import { deleteConfigurationById, updateConfigurationById } from '../../store/actions/settings.actions';
 
 const ConfigurationTable = ({ configurationList }) => {
      const [isDeleteOpen, setIsDeleteOpen] = useState(false);
@@ -17,18 +19,20 @@ const ConfigurationTable = ({ configurationList }) => {
      const toggleDeleteOpen = () => setIsDeleteOpen(!isDeleteOpen);
      const toggleEditOpen = () => setIsEditOpen(!isEditOpen);
      const toggleViewOpen = () => setIsViewOpen(!isViewOpen);
-
+     const configurationDispatch = useDispatch();
 
      const onConfigurationDelete = async (configuration) => {
-     console.log(`Deleted Configuration Profile Record: ${configuration.name}`);
-     renderToastNotification("SUCCESS", `Deleted '${configuration.name}' configuration preset from the database`, undefined, 3000);
-     toggleDeleteOpen();
+        configurationDispatch(deleteConfigurationById({configuration}));
+        console.log(`Deleted Configuration Profile Record: ${configuration.name}`);
+        renderToastNotification("SUCCESS", `Deleted '${configuration.name}' configuration preset from the database`, undefined, 3000);
+        toggleDeleteOpen();
        }
 
     const onConfigurationUpdate = async (configuration) => {
-    console.log(`Updated Configuration Profile Record: ${configuration.name}`);
-    renderToastNotification("SUCCESS", `Updated '${configuration.name}' configuration preset`, undefined, 3000);
-    toggleEditOpen();
+        configurationDispatch(updateConfigurationById({configuration}));
+        console.log(`Updated Configuration Profile Record: ${configuration.name}`);
+        renderToastNotification("SUCCESS", `Updated '${configuration.name}' configuration preset`, undefined, 3000);
+        toggleEditOpen();
    }
    
     return(

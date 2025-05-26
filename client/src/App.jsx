@@ -18,6 +18,7 @@ import Virgil from './components/artisan/virgil'
 import RAGArtifacts from './components/rag-artifacts';
 import ContextProfiles from './components/context-profiles';
 import QueryModels from './components/query-models';
+import Footer from './components/artisan/footer';
 
 function App() {
   const location = useLocation();
@@ -56,6 +57,8 @@ function App() {
   
   return (
    <>
+   <div className='mobile'><p className='mobile-msg'>Please view on Desktop or Tablet for optimal experience</p><Footer/></div>
+   <div className='desktop'>
    {hideMenu ? <></> : <HeaderNavigation users={userstore}/>}
    <ToastContainer style={{zIndex: 999999}} stacked/>
    <Routes>
@@ -69,6 +72,7 @@ function App() {
     <Route path='documentation' element={<Virgil><Documentation users={userstore}/></Virgil>}/>
     <Route path='logout' element={<Authentication users={userstore}/>}/>
    </Routes>
+   </div>
    </>
   )
 }

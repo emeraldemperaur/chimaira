@@ -11,7 +11,7 @@ import Col from "react-bootstrap/esm/Col";
 import ConfigurationTable from "./configuration.table";
 import ConfigurationModal from "./configuration.modal";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchConfigurations } from "../../store/actions/settings.actions";
+import { createConfiguration, fetchConfigurations } from "../../store/actions/settings.actions";
 import { renderToastNotification } from "../artisan/vinci";
 import ConfigurationEditor from "./configuration.editor";
 
@@ -29,10 +29,11 @@ const Configuration = ({users}) => {
     const toggleOpen = () => setIsOpen(!isOpen);
     
     const onConfigurationCreate = async (configuration) => {
-            console.log(`Created Configuration Profile Record: ${configuration.name}`);
-            renderToastNotification("SUCCESS", `Created new Configuration profile: '${configuration.name}'`, undefined, 3000);
-            toggleOpen();
-           }
+        configurationDispatch(createConfiguration({configuration}));
+        console.log(`Created Configuration Profile Record: ${configuration.name}`);
+        renderToastNotification("SUCCESS", `Created new Configuration profile: '${configuration.name}'`, undefined, 3000);
+        toggleOpen();
+    }
     
     const detectSearchInput = (event) => {
         setSearchValue(event.target.value);

@@ -8,6 +8,8 @@ import { useEffect, useState } from 'react';
 import ContextEditor from './context.editor';
 import { renderToastNotification } from '../artisan/vinci';
 import ContextViewer from './context.viewer';
+import { useDispatch } from 'react-redux';
+import { deleteContextById, updateContextById } from '../../store/actions/contextprofile.actions';
 
 
 const ContextTable = ({ contextProfileList }) => {
@@ -18,6 +20,7 @@ const ContextTable = ({ contextProfileList }) => {
    const toggleDeleteOpen = () => setIsDeleteOpen(!isDeleteOpen);
    const toggleEditOpen = () => setIsEditOpen(!isEditOpen);
    const toggleViewOpen = () => setIsViewOpen(!isViewOpen);
+   const contextDispatch = useDispatch();
 
    useEffect(()=> {
            console.log(`DATA TABLE CHECK: ${JSON.stringify(contextProfileList)}`)
@@ -25,12 +28,14 @@ const ContextTable = ({ contextProfileList }) => {
        }, [contextProfileList]);
 
    const onContextDelete = async (context) => {
+    contextDispatch(deleteContextById({context}));
     console.log(`Deleted Context Profile Record: ${context.name}`);
     renderToastNotification("SUCCESS", `Deleted '${context.name}' context from the database`, undefined, 3000);
     toggleDeleteOpen();
    }
 
    const onContextUpdate = async (context) => {
+    contextDispatch(updateContextById({context}));
     console.log(`Updated Context Profile Record: ${context.name}`);
     renderToastNotification("SUCCESS", `Updated Context: '${context.name}'`, undefined, 3000);
     toggleEditOpen();

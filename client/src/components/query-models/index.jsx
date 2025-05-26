@@ -13,7 +13,7 @@ import QueryModal from "./query.modal";
 import QueryEditor from "./query.editor";
 import { renderToastNotification } from "../artisan/vinci";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchQueries } from "../../store/actions/querymodel.actions";
+import { createQuery, fetchQueries } from "../../store/actions/querymodel.actions";
 
 
 const QueryModels = ({users}) => {
@@ -31,10 +31,11 @@ const QueryModels = ({users}) => {
     const toggleOpen = () => setIsOpen(!isOpen);
 
     const onQueryCreate = async (query) => {
-            console.log(`Created Context Profile Record: ${query.name}`);
-            renderToastNotification("SUCCESS", `Created new Query Model: '${query.name}'`, undefined, 3000);
-            toggleOpen();
-           }
+        queryDispatch(createQuery({query}));
+        console.log(`Created Context Profile Record: ${query.name}`);
+        renderToastNotification("SUCCESS", `Created new Query Model: '${query.name}'`, undefined, 3000);
+        toggleOpen();
+    }
     
     const detectSearchInput = (event) => {
         setSearchValue(event.target.value);

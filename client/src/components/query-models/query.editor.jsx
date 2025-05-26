@@ -39,12 +39,16 @@ const QueryEditor = ({ query, toggleOpen, handleSubmit, isEdit=false, user={} })
                 validationSchema={validationSchema}
                 onSubmit={ (values) => {
                     query = { 
-                        id: query.id || undefined,
-                        name: values.modelname,
-                        type: values.modeltype,
-                        tags: [values.heuristictag, values.mediatag, values.codetag, values.mechatag],
-                        jsonQueryDefinition: values.queryjsondefinition,
-                        createdOn: query.createdOn || getDateTime(),
+                        name: values.modelname ? values.modelname : document.getElementById("modelname").value,
+                        type: values.modeltype ? values.modeltype : document.getElementById("modeltype").value,
+                        tags: [
+                            values.heuristictag ? values.heuristictag : document.getElementById("heuristictag").checked, 
+                            values.mediatag ? values.mediatag : document.getElementById("mediatag").checked, 
+                            values.codetag ? values.codetag : document.getElementById("codetag").checked, 
+                            values.mechatag ? values.mechatag : document.getElementById("mechatag").checked
+                        ],
+
+                        jsonQueryDefinition: values.queryjsondefinition ? values.queryjsondefinition : document.getElementById("queryjsondefinition").value,
                         isEdited: isEdit ? true : false,
                         editedBy: isEdit ? user.uuid : null,
                         editedOn: isEdit ? getDateTime() : null
@@ -127,7 +131,12 @@ const QueryEditor = ({ query, toggleOpen, handleSubmit, isEdit=false, user={} })
                                     <div className="btn btn__modal" onClick={toggleOpen}><p className="neo-modal-button">CANCEL <i className="fa-solid fa-xmark"></i></p></div>
                             </Col>
                             <Col size={3}>
-                                    <button style={{backgroundColor: 'transparent', border: 'unset'}} width="max-content" type="submit"><div className="btn btn__modal"><p className="neo-modal-button">EDIT <i className="fa-solid fa-pencil"></i></p></div></button>
+                                    <button style={{backgroundColor: 'transparent', border: 'unset'}} width="max-content" type="submit"><div className="btn btn__modal">
+                                    {isEdit == true ? 
+                                    <><p className="neo-modal-button">EDIT <i className="fa-solid fa-pencil"></i></p></>
+                                    : 
+                                    <><p className="neo-modal-button">CREATE <i className="fa-solid fa-plus"></i></p></>}
+                                        </div></button>
                             </Col>
                     </Row>
                     </Container>
@@ -142,7 +151,7 @@ const QueryEditor = ({ query, toggleOpen, handleSubmit, isEdit=false, user={} })
 }
 
 QueryEditor.propTypes = {
-    query: PropTypes.object.isRequired,
+    query: PropTypes.object,
     toggleOpen: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     isEdit: PropTypes.bool,

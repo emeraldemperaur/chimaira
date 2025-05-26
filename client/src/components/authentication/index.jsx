@@ -36,7 +36,7 @@ const Authentication = ({users}) => {
 
 	const initFormik = useFormik({
 		enableReinitialize: false,
-		initialValues: { emailSignIn: 'egwim.emeka@gmail.com', passwordSignIn: '30@Enterprise', 
+		initialValues: { emailSignIn: 'egwim.emeka@gmail.com', passwordSignIn: 'lalilulelo', 
 			emailSignUp: 'egwim.emeka@gmail.com', passwordSignUp: '30@Enterprise', confirmpasswordSignUp: '30@Enterprise'
 		 },
 		validationSchema: schemaDefinition(signIn),

@@ -7,15 +7,15 @@ import Row from "react-bootstrap/esm/Row";
 import Form from 'react-bootstrap/esm/Form';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { getDateTime } from "../../utils/chronometer";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchQueries } from "../../store/actions/querymodel.actions";
 
-const ContextEditor = ({ context, toggleOpen, handleSubmit }) => {
+const ContextEditor = ({ context, toggleOpen, handleSubmit, isEdit=false }) => {
     const [ isQCMD, setIsQCMD ] = useState(false);
     const queryModels = useSelector((state) => state.queries)
     const queryDispatch = useDispatch();
     let validationSchemaObject;
+
    
     useEffect(() => {
          queryDispatch(fetchQueries({order:'ASC', sortby:'id'}));
@@ -67,20 +67,20 @@ const ContextEditor = ({ context, toggleOpen, handleSubmit }) => {
 
         validationSchema={contextSchema(isQCMD)}
         onSubmit={ (values) => {
+            setTimeout(() => {
             context = { 
-                id: context.id || undefined,
                 name: values.contextname,
-                category: values.category,
-                prologue: values.contextprologue,
-                isQueryCommand: values.isquerycmd,
-                queryCommand: values.contextquerymodel,
+                category: values.contextcategory,
+                prologue: values.contextname,
+                isQueryCommand: values.isquerycmd ? values.isquerycmd : false,
+                queryCommand: values.contextquerymodel || 1 ,
                 documentUrl: values.contextdocumenturl,
                 targetUrl: values.contexttargeturl,
-                codeSnippet: values.contextcodesnippet,
-                createdOn: context.createdOn || getDateTime(),
+                codeSnippet: values.contextcategory == 'Code' ? values.contextcodesnippet : '' ,
             }
             onSubmitAction(context)
             console.log(`Submitted Context Form: ${JSON.stringify(context)}`);
+            }, 1111); 
        }}
        
         >
@@ -194,7 +194,11 @@ const ContextEditor = ({ context, toggleOpen, handleSubmit }) => {
                                 <div className="btn btn__modal" onClick={toggleOpen}><p className="neo-modal-button">CANCEL <i className="fa-solid fa-xmark"></i></p></div>
                             </Col>
                             <Col size={3}>
-                               <button style={{backgroundColor: 'transparent', border: 'unset'}} width="max-content" type="submit"><div className="btn btn__modal"><p className="neo-modal-button">EDIT <i className="fa-solid fa-pencil"></i></p></div></button>
+                               <button style={{backgroundColor: 'transparent', border: 'unset'}} width="max-content" type="submit"><div className="btn btn__modal">
+                                {isEdit == true ? 
+                                <><p className="neo-modal-button">EDIT <i className="fa-solid fa-pencil"></i></p></>
+                                : 
+                                <><p className="neo-modal-button">CREATE <i className="fa-solid fa-plus"></i></p></>}</div></button>
                             </Col>
                 </Row>
                 </Container>
@@ -210,9 +214,10 @@ const ContextEditor = ({ context, toggleOpen, handleSubmit }) => {
 }
 
 ContextEditor.propTypes = {
-    context: PropTypes.object.isRequired,
+    context: PropTypes.object,
     toggleOpen: PropTypes.func.isRequired,
-    handleSubmit: PropTypes.func.isRequired
+    handleSubmit: PropTypes.func.isRequired,
+    isEdit: PropTypes.bool
 }
 
 export default ContextEditor;

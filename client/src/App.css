@@ -1,0 +1,37 @@
+
+    div.desktop{
+        display: none !important;
+    }
+    div.mobile{
+        display: none !important;
+        overflow: hidden !important;
+    }
+
+    .mobile-msg{
+        justify-self: center;
+        margin-top: 200px;
+        text-align: justify;
+        font-family: 'Oswald';
+        letter-spacing: 0.13em;
+        font-weight: 400;
+        margin-left: 6px;
+        margin-right: 6px;
+        word-wrap: break-word;
+    }
+    
+    @media all and (orientation: landscape) and (min-width: 768px) {
+      div.desktop {display:block !important;}
+      div.mobile {display:none !important;}
+    }
+
+    @media all and (orientation: landscape) and (max-width: 768px) {
+      div.desktop {display:none !important;}
+      div.mobile {display:block !important;}
+    }
+
+    @media all and (orientation: portrait ) {
+      div.desktop {display:none !important;}
+      div.mobile {display:block !important;}
+    }
+    
+   

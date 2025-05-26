@@ -6,9 +6,8 @@ import Row from "react-bootstrap/esm/Row";
 import Form from 'react-bootstrap/esm/Form';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { getDateTime } from "../../utils/chronometer";
 
-const ConfigurationEditor = ({ configuration, toggleOpen, handleSubmit }) => {
+const ConfigurationEditor = ({ configuration, toggleOpen, handleSubmit, isEdit=false }) => {
     
     useEffect(() => {
 
@@ -42,12 +41,10 @@ const ConfigurationEditor = ({ configuration, toggleOpen, handleSubmit }) => {
                 validationSchema={validationSchema}
                 onSubmit={ (values) => {
                             configuration = { 
-                                id: configuration.id || undefined,
-                                name: values.configurationname,
-                                provider: values.configurationprovider,
-                                key: values.configurationkey,
-                                sourceUrl: values.configurationsourceurl,
-                                createdOn: configuration.createdOn || getDateTime(),
+                                name: values.configurationname ? values.configurationname : document.getElementById("configurationname"),
+                                provider: values.configurationprovider ? values.configurationprovider : document.getElementById("configurationprovider"),
+                                key: values.configurationkey ? values.configurationkey : document.getElementById("configurationkey"),
+                                sourceUrl: values.configurationsourceurl ? values.configurationsourceurl : document.getElementById("configurationsourceurl")
                             }
                             onSubmitAction(configuration)
                             console.log(`Submitted Configuration Profile Form: ${JSON.stringify(configuration)}`);
@@ -113,7 +110,12 @@ const ConfigurationEditor = ({ configuration, toggleOpen, handleSubmit }) => {
                                         <div className="btn btn__modal" onClick={toggleOpen}><p className="neo-modal-button">CANCEL <i className="fa-solid fa-xmark"></i></p></div>
                                     </Col>
                                     <Col size={3}>
-                                        <button style={{backgroundColor: 'transparent', border: 'unset'}} width="max-content" type="submit"><div className="btn btn__modal"><p className="neo-modal-button">EDIT <i className="fa-solid fa-pencil"></i></p></div></button>
+                                        <button style={{backgroundColor: 'transparent', border: 'unset'}} width="max-content" type="submit"><div className="btn btn__modal">
+                                             {isEdit == true ? 
+                                                <><p className="neo-modal-button">EDIT <i className="fa-solid fa-pencil"></i></p></>
+                                                : 
+                                                <><p className="neo-modal-button">CREATE <i className="fa-solid fa-plus"></i></p></>}
+                                            </div></button>
                                     </Col>
                 </Row>
             </Container>
@@ -127,9 +129,10 @@ const ConfigurationEditor = ({ configuration, toggleOpen, handleSubmit }) => {
 }
 
 ConfigurationEditor.propTypes = {
-    configuration: PropTypes.object.isRequired,
+    configuration: PropTypes.object,
     toggleOpen: PropTypes.func.isRequired,
-    handleSubmit: PropTypes.func.isRequired
+    handleSubmit: PropTypes.func.isRequired,
+    isEdit: PropTypes.bool
 }
 
 export default ConfigurationEditor;
