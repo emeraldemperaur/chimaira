@@ -41,7 +41,8 @@ export const signInUser = createAsyncThunk(
         // show success notification
         dispatch(successGlobal(`Authentication successful`));
         console.log(`Signed In ${emailSignIn} with cookie ${getAuthorizationCookie()}`);
-        localStorage.setItem("cookie", getAuthorizationCookie());
+        let cookie = browser.cookies.get({ name: "x-access-token", url: "https://chimaira-client.sliplane.app"});
+        localStorage.setItem("cookie", cookie);
         return { data: httpRequest.data.user, auth: true }
         }catch(error){
         // show success notification
