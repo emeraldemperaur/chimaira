@@ -28,8 +28,8 @@ const authController = {
             secure: false,
             sameSite: 'lax',
             domain: 'chimaira-client.sliplane.app'}
-            
-            res.cookie('x-access-token', token).send({user, token})
+            user.token = token
+            res.cookie('x-access-token', token, options).send({user, token})
         }catch(error){
             next(error)
         }
