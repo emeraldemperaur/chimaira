@@ -42,6 +42,7 @@ export const signInUser = createAsyncThunk(
         dispatch(successGlobal(`Authentication successful`));
         console.log(`Signed In ${emailSignIn}`)
         sessionStorage.setItem('cookie', httpRequest.data.user.token);
+        console.log(`\nSign In User ${JSON.stringify(httpRequest.data.user)}\n`);
         console.log(`\nSign In Token ${httpRequest.data.user.token}\n`);
         return { data: httpRequest.data.user, auth: true }
         }catch(error){
