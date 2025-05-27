@@ -7,8 +7,8 @@ const contextProfileRouter = express.Router();
 
 //ContextProfile CRUD
 contextProfileRouter.route('/context')
-.post(auth('createAny', 'context'), expressValidator.initContextValidator, contextProfileController.createcontextprofile)
-.get(auth('readAny', 'context'), contextProfileController.fetchcontextprofiles)
+.post( expressValidator.initContextValidator, contextProfileController.createcontextprofile)
+.get(contextProfileController.fetchcontextprofiles)
 
 contextProfileRouter.route('/page')
 .get(auth('readAny', 'context'), contextProfileController.fetchcontextprofilepages)

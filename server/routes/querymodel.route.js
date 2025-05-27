@@ -7,8 +7,8 @@ const queryModelRouter = express.Router();
 
 //Query Model CRUD
 queryModelRouter.route('/query')
-.post(auth('createAny', 'query'), expressValidator.initQueryValidator, queryModelController.createquerymodel)
-.get(auth('readAny', 'query'), queryModelController.fetchquerymodels)
+.post( expressValidator.initQueryValidator, queryModelController.createquerymodel)
+.get( queryModelController.fetchquerymodels)
 
 queryModelRouter.route('/page')
 .get(auth('readAny', 'query'), queryModelController.fetchquerymodelpages)

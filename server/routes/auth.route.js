@@ -8,7 +8,7 @@ const authRouter = express.Router();
 //User Authentication
 authRouter.post('/register', expressValidator.initUserValidator, authController.register);
 authRouter.post('/signin', authController.signin);
-authRouter.get('/isauth', auth(), authController.isauth);
+authRouter.get('/isauth',  authController.isauth);
 authRouter.post('/setrole',  auth('createAny', 'test'), authController.setrole);
 
 
