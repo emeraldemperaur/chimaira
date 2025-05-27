@@ -40,7 +40,7 @@ appServer.use(passport.initialize());
 passport.use('jwt', jwtStrategy);
 
 //CORS Middleware
-appServer.use(cors({ origin: '*' }));
+appServer.use(cors({credentials: true,  origin: 'https://chimaira-client.sliplane.app' }));
 
 //Route Handler
 appServer.use('/api', appRoutes.router);
