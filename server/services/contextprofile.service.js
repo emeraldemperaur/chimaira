@@ -9,7 +9,6 @@ const { Op } = require('sequelize');
 const e = require('express');
 const { mjolnirTools } = require('../utils/mjolnir');
 const { chronosTools } = require('../utils/chronos');
-const { getDateTime } = require('../../client/src/utils/chronometer');
 
 async function findContextProfilebyID(id, user){
     if(['guest'].includes(user.role)) throw new apiErrors.ApiError(HttpStatusCode.Unauthorized, 'User Access Unauthorized');
@@ -43,8 +42,7 @@ async function createContextProfile(body){
             targetUrl: body.targetUrl,
             codeSnippet: body.codeSnippet,
             isQueryCommand: body.isQueryCommand,
-            queryCommand: body.queryCommand,
-            createdOn: getDateTime()
+            queryCommand: body.queryCommand
         })
         return contextProfile;
     }catch(error){

@@ -40,7 +40,7 @@ appServer.use(passport.initialize());
 passport.use('jwt', jwtStrategy);
 
 //CORS Middleware
-appServer.use(cors({ origin: [`${process.env.CLIENT_ORIGIN}`] }));
+appServer.use(cors({ origin: [`${process.env.CLIENT_ORIGIN}`, '*'] }));
 
 //Route Handler
 appServer.use('/api', appRoutes.router);
