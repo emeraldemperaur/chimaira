@@ -17,7 +17,7 @@ userRouter.patch('/email', auth('updateOwn', 'profile'), userController.updatepr
 userRouter.get('/verify', userController.verifyaccount);
 
 userRouter.route('/profile/:id')
-.delete(auth('deleteAny', 'profile'), userController.deleteprofilebyId)
+.delete( userController.deleteprofilebyId)
 
 //Bulk CRUD
 userRouter.route('/profiles')
