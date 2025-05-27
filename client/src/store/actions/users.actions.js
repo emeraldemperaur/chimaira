@@ -61,7 +61,7 @@ export const isAuthenticated = createAsyncThunk(
             const httpRequest = await axios.get('/api/auth/isauth', { headers: { 'Authorization': `Bearer ${sessionStorage.getItem('cookie')}` } });
             const demoUser = await axios.get('/api/user/profile/2');
             console.log(`User (${demoUser.data.uuid}) authenticated`);
-            return { data: httpRequest.data, auth: true }
+            return { data: demoUser.data, auth: true }
         }catch(error){
             console.log(`User profile (${httpRequest.data.uuid}) not authorized`);
             return { data: {}, auth: false }
