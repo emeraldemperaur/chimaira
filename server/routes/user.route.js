@@ -5,9 +5,9 @@ const userRouter = express.Router();
 
 
 //User CRUD
-userRouter.route('/profile')
-.get(auth('readOwn', 'profile'), userController.fetchprofile)
-.patch(auth('updateOwn', 'profile'), userController.updateprofile);
+userRouter.route('/profile/:id').patch( userController.updateprofile);
+userRouter.route('/profile/:id').get( userController.fetchprofile)
+
 
 userRouter.route('/page')
 .get(auth('readAny', 'profile'), userController.fetchuserprofilepages)
