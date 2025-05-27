@@ -19,8 +19,11 @@ import RAGArtifacts from './components/rag-artifacts';
 import ContextProfiles from './components/context-profiles';
 import QueryModels from './components/query-models';
 import Footer from './components/artisan/footer';
+import axios from 'axios';
 
 function App() {
+  const baseAPIUrl = 'http://127.0.0.1:3001';
+  axios.defaults.baseURL = baseAPIUrl;
   const location = useLocation();
   const hideMenu = ['/', '/login', '/logout'].includes(location.pathname);
   const notifications = useSelector( state => state.notifications);

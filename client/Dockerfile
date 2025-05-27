@@ -6,8 +6,10 @@ COPY vite.config.js ./
 COPY src ./src
 COPY public ./public
 RUN ls -a
-RUN npm install && npm install -g nodemon
+RUN npm install
+RUN npm i -g serve
+RUN npm run build
 
-EXPOSE 5173
+EXPOSE 3000
 
-CMD ["npm", "run", "dev"]
+CMD [ "npm", "run", "preview" ]
