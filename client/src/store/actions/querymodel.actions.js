@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { errorGlobal } from '../reducers/notifications.reducer';
@@ -9,8 +8,7 @@ export const fetchQueries = createAsyncThunk(
     'query/fetchQueries',
     async ({order='ASC', sortby='id'}, {dispatch}) => {
         try{
-            let cookie = browser.cookies.get({ name: "x-access-token", url: "https://chimaira-client.sliplane.app"});
-            const httpRequest = await axios.get(`/api/query/query?order=${order}&sortby=${sortby}`, { headers: { 'Authorization': `Bearer ${cookie}` } });
+            const httpRequest = await axios.get(`/api/query/query?order=${order}&sortby=${sortby}`, { headers: { 'Authorization': `Bearer ${getAuthorizationCookie()}` } });
             return { queries:[...httpRequest.data] }
 
         }catch(error){

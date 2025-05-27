@@ -8,9 +8,7 @@ export const fetchContexts = createAsyncThunk(
     'context/fetchContexts',
     async ({order='ASC', sortby='id'}, {dispatch}) => {
         try{
-
-            //let cookie = browser.cookies.get({ name: "x-access-token", url: "https://chimaira-client.sliplane.app"});
-            const httpRequest = await axios.get(`/api/context/context?order=${order}&sortby=${sortby}`);
+            const httpRequest = await axios.get(`/api/context/context?order=${order}&sortby=${sortby}`, { headers: { 'Authorization': `Bearer ${getAuthorizationCookie()}` } });
             return {contexts:[...httpRequest.data] }
 
         }catch(error){

@@ -40,11 +40,7 @@ export const signInUser = createAsyncThunk(
             });
         // show success notification
         dispatch(successGlobal(`Authentication successful`));
-        console.log(`Signed In ${emailSignIn} with cookie ${browser.cookies.get({ name: "x-access-token", url: "https://chimaira-client.sliplane.app"})}`);
-        let cookie = browser.cookies.get({ name: "x-access-token", url: "https://chimaira-client.sliplane.app"});
-        localStorage.setItem("cookie", cookie);
-        let siCookie = localStorage.getItem("cookie");
-        console.log(`SI Browser Cookie: ${siCookie}`);
+        console.log(`Signed In ${emailSignIn}`)
         return { data: httpRequest.data.user, auth: true }
         }catch(error){
         // show success notification
@@ -59,12 +55,7 @@ export const isAuthenticated = createAsyncThunk(
     'users/isAuthenticated',
     async()=>{
         try{
-           
-            let cookie = browser.cookies.get({ name: "x-access-token", url: "https://chimaira-client.sliplane.app"});
-            localStorage.setItem("cookie", cookie);
-            let iaCookie = localStorage.getItem("cookie");
-            console.log(`IA Browser Cookie: ${iaCookie}`);
-            const httpRequest = await axios.get('/api/auth/isauth', { headers: { 'Authorization': `Bearer ${browser.cookies.get({ name: "x-access-token", url: "https://chimaira-client.sliplane.app"})}` } });
+            const httpRequest = await axios.get('/api/auth/isauth', { headers: { 'Authorization': `Bearer ${getAuthorizationCookie()}` } });
             console.log(`User (${httpRequest.data.uuid}) authenticated`);
             return { data: httpRequest.data, auth: true }
         }catch(error){

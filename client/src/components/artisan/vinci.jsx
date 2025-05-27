@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 import Cookies from 'universal-cookie';
-const cookie = new Cookies('x-access-token', { path: '/' });
+const cookie = new Cookies('x-access-token', { domain: 'https://chimaira-client.sliplane.app', path: '/' });
 
 export const renderToastNotification = (type, message, position='top-right', autoClose=1000) => {
     switch(type){
