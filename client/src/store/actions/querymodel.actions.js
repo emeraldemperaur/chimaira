@@ -8,7 +8,8 @@ export const fetchQueries = createAsyncThunk(
     'query/fetchQueries',
     async ({order='ASC', sortby='id'}, {dispatch}) => {
         try{
-            const httpRequest = await axios.get(`/api/query/query?order=${order}&sortby=${sortby}`, { headers: { 'Authorization': `Bearer ${getAuthorizationCookie()}` } });
+            let cookie = localStorage.getItem("cookie");
+            const httpRequest = await axios.get(`/api/query/query?order=${order}&sortby=${sortby}`, { headers: { 'Authorization': `Bearer ${cookie}` } });
             return { queries:[...httpRequest.data] }
 
         }catch(error){

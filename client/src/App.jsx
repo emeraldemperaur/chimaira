@@ -9,7 +9,7 @@ import Dashboard from './components/dashboard'
 import Profile from './components/profile'
 import Documentation from './components/documentation'
 import Configuration from './components/configuration'
-import { getAuthorizationCookie, renderToastNotification } from './components/artisan/vinci'
+import { renderToastNotification } from './components/artisan/vinci'
 import { ToastContainer } from 'react-toastify'
 import { useDispatch, useSelector } from 'react-redux'
 import { clearNotifications } from './store/reducers/notifications.reducer'
@@ -25,7 +25,6 @@ function App() {
   const baseAPIUrl = 'https://chimaira.sliplane.app';
   axios.defaults.baseURL = baseAPIUrl;
   axios.defaults.withCredentials = true;
-  axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthorizationCookie()}`;
   const location = useLocation();
   const hideMenu = ['/', '/login', '/logout'].includes(location.pathname);
   const notifications = useSelector( state => state.notifications);

@@ -40,7 +40,8 @@ export const signInUser = createAsyncThunk(
             });
         // show success notification
         dispatch(successGlobal(`Authentication successful`));
-        console.log(`Signed In ${emailSignIn}`)
+        console.log(`Signed In ${emailSignIn} with cookie ${getAuthorizationCookie()}`);
+        localStorage.setItem("cookie", getAuthorizationCookie());
         return { data: httpRequest.data.user, auth: true }
         }catch(error){
         // show success notification
