@@ -41,6 +41,8 @@ export const signInUser = createAsyncThunk(
         // show success notification
         dispatch(successGlobal(`Authentication successful`));
         console.log(`Signed In ${emailSignIn}`)
+        sessionStorage.setItem('cookie', httpRequest.data.user.token);
+        console.log(`\nSign In Token ${httpRequest.data.user.token}\n`);
         return { data: httpRequest.data.user, auth: true }
         }catch(error){
         // show success notification
@@ -55,7 +57,7 @@ export const isAuthenticated = createAsyncThunk(
     'users/isAuthenticated',
     async()=>{
         try{
-            const httpRequest = await axios.get('/api/auth/isauth', { headers: { 'Authorization': `Bearer ${getAuthorizationCookie()}` } });
+            const httpRequest = await axios.get('/api/auth/isauth', { headers: { 'Authorization': `Bearer ${sessionStorage.getItem('cookie')}` } });
             console.log(`User (${httpRequest.data.uuid}) authenticated`);
             return { data: httpRequest.data, auth: true }
         }catch(error){

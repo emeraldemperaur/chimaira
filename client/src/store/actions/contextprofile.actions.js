@@ -8,7 +8,7 @@ export const fetchContexts = createAsyncThunk(
     'context/fetchContexts',
     async ({order='ASC', sortby='id'}, {dispatch}) => {
         try{
-            const httpRequest = await axios.get(`/api/context/context?order=${order}&sortby=${sortby}`, { headers: { 'Authorization': `Bearer ${getAuthorizationCookie()}` } });
+            const httpRequest = await axios.get(`/api/context/context?order=${order}&sortby=${sortby}`, { headers: { 'Authorization': `Bearer ${sessionStorage.getItem('cookie')}` } });
             return {contexts:[...httpRequest.data] }
 
         }catch(error){

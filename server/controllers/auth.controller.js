@@ -23,6 +23,11 @@ const authController = {
             const { email, password } = req.body;
             const user = await servicesIndex._authServices.signInWithUIDAndPassword(email, password);
             const token = servicesIndex._authServices.genAuthToken(user);
+            const options = {
+            httpOnly: true ,
+            secure: false,
+            sameSite: 'lax',
+            domain: 'chimaira-client.sliplane.app'}
             
             res.cookie('x-access-token', token).send({user, token})
         }catch(error){
