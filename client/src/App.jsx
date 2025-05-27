@@ -22,7 +22,7 @@ import Footer from './components/artisan/footer';
 import axios from 'axios';
 
 function App() {
-  const baseAPIUrl = 'http://127.0.0.1:3001';
+  const baseAPIUrl = 'https://chimaira.sliplane.app';
   axios.defaults.baseURL = baseAPIUrl;
   const location = useLocation();
   const hideMenu = ['/', '/login', '/logout'].includes(location.pathname);
