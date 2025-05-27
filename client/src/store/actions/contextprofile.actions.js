@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { errorGlobal } from '../reducers/notifications.reducer';
