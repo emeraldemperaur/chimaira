@@ -21,6 +21,7 @@ contextProfileRouter.route('/context/:id')
 contextProfileRouter.route('/context/:propertyName/:propertyValue')
 .get(auth('readAny', 'context'), contextProfileController.findcontextprofilesbyProperty)
 
+
 //Bulk CRUD
 contextProfileRouter.route('/context')
 .post(auth('createAny', 'context'), contextProfileController.bulkcreatecontextprofiles)
