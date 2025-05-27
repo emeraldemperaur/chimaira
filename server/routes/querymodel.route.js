@@ -14,9 +14,9 @@ queryModelRouter.route('/page')
 .get(auth('readAny', 'query'), queryModelController.fetchquerymodelpages)
 
 queryModelRouter.route('/query/:id')
-.get(auth('readAny', 'query'), queryModelController.findquerymodelbyId)
-.patch(auth('updateAny', 'query'), queryModelController.updatequerymodelbyId)
-.delete(auth('deleteAny', 'query'), queryModelController.deletequerymodelbyId)
+.get( queryModelController.findquerymodelbyId)
+.patch(queryModelController.updatequerymodelbyId)
+.delete(queryModelController.deletequerymodelbyId)
 
 
 queryModelRouter.route('/query/:propertyName/:propertyValue')

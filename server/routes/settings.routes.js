@@ -6,16 +6,16 @@ const configurationRouter = express.Router();
 
 //ModelS CRUD
 configurationRouter.route('/config')
-.post(auth('createAny', 'config'), expressValidator.initConfigurationValidator, configurationController.createconfiguration)
-.get(auth('readAny', 'config'), configurationController.fetchconfigurations)
+.post( expressValidator.initConfigurationValidator, configurationController.createconfiguration)
+.get( configurationController.fetchconfigurations)
 
 configurationRouter.route('/page')
 .get(auth('readAny', 'config'), configurationController.fetchconfigurationspages)
 
 configurationRouter.route('/config/:id')
 .get(auth('readAny', 'config'), configurationController.findconfigurationbyId)
-.patch(auth('updateAny', 'config'), configurationController.updateconfigurationbyId)
-.delete(auth('deleteAny', 'config'), configurationController.deleteconfigurationbyId)
+.patch( configurationController.updateconfigurationbyId)
+.delete( configurationController.deleteconfigurationbyId)
 
 configurationRouter.route('/config/:propertyName/:propertyValue')
 .get(auth('readAny', 'config'), configurationController.findconfigurationsbyProperty)

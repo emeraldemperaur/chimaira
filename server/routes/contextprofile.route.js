@@ -14,9 +14,9 @@ contextProfileRouter.route('/page')
 .get(auth('readAny', 'context'), contextProfileController.fetchcontextprofilepages)
 
 contextProfileRouter.route('/context/:id')
-.get(auth('readAny', 'context'), contextProfileController.findcontextprofilebyId)
-.patch(auth('updateAny', 'context'), contextProfileController.updatecontextprofilebyId)
-.delete(auth('deleteAny', 'context'), contextProfileController.deletecontextprofilebyId)
+.get( contextProfileController.findcontextprofilebyId)
+.patch( contextProfileController.updatecontextprofilebyId)
+.delete( contextProfileController.deletecontextprofilebyId)
 
 contextProfileRouter.route('/context/:propertyName/:propertyValue')
 .get(auth('readAny', 'context'), contextProfileController.findcontextprofilesbyProperty)
