@@ -24,6 +24,7 @@ import axios from 'axios';
 function App() {
   const baseAPIUrl = 'https://chimaira.sliplane.app';
   axios.defaults.baseURL = baseAPIUrl;
+  axios.defaults.withCredentials = true;
   const location = useLocation();
   const hideMenu = ['/', '/login', '/logout'].includes(location.pathname);
   const notifications = useSelector( state => state.notifications);
